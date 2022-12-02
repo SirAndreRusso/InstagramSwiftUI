@@ -17,6 +17,7 @@ struct PostGridView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: width, height: width)
+                    .clipped()
             }
         })
     }

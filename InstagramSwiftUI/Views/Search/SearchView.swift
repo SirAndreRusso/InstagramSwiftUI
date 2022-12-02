@@ -13,7 +13,7 @@ struct SearchView: View {
         ScrollView {
             SearchBar(text: $searchText)
                 .padding()
-            PostGridView()
+            UserListView()
         }
     }
 }
