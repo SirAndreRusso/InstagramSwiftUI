@@ -8,37 +8,21 @@
 import SwiftUI
 
 struct UserStatsView: View {
+    var value: Int
+    var title: String
     var body: some View {
-        HStack(spacing: 10) {
             VStack {
-                Text("1")
+                Text("\(value)")
                     .font(.system(size: 15, weight: .semibold))
-                Text("Posts")
+                Text(title)
                     .font(.system(size: 15))
             }
             .frame(width: 70)
-            
-            VStack {
-                Text("2")
-                    .font(.system(size: 15, weight: .semibold))
-                Text("Folowers")
-                    .font(.system(size: 15))
-            }
-            .frame(width: 70)
-            
-            VStack {
-                Text("3")
-                    .font(.system(size: 15, weight: .semibold))
-                Text("Folowing")
-                    .font(.system(size: 15))
-            }
-            .frame(width: 70)
-        }
     }
 }
 
 struct UserStateView_Previews: PreviewProvider {
     static var previews: some View {
-        UserStatsView()
+        UserStatsView(value: 1, title: "Posts")
     }
 }

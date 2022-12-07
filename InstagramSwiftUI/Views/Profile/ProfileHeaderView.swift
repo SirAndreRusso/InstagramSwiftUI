@@ -17,7 +17,9 @@ struct ProfileHeaderView: View {
                     .frame(width: 95, height: 95)
                     .clipShape(Circle())
                 Spacer()
-                UserStatsView()
+                UserStatsView(value: 1, title: "Posts")
+                UserStatsView(value: 1, title: "Followers")
+                UserStatsView(value: 1, title: "Following")
             }
             .padding(.horizontal)
             Text("Kenny McCormick")
@@ -29,17 +31,7 @@ struct ProfileHeaderView: View {
             
             HStack {
                 Spacer()
-                Button {
-                    
-                } label: {
-                    Text("Edit profile")
-                        .font(.system(size: 15, weight: .semibold))
-                        .frame(width: 360, height: 32)
-                        .foregroundColor(.black)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 3)
-                                .stroke(Color.gray, lineWidth: 1))
-                }
+                ProfileActionButtonView()
                 Spacer()
             }
             .padding(.top, 8)
