@@ -6,32 +6,50 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct UploadPostView: View {
-    @State private var selectedImage: UIImage?
+    @State private var selectedImage: PhotosPickerItem? = nil
+    //    @State var photoPickerPresented = true
+    //    @State var selectedImageData: Data?
     @State var postImage: Image?
     @State var captionText = ""
     var body: some View {
         VStack {
-            if postImage != nil {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 180, height: 180)
-                        .foregroundColor(.black)
-                        .clipped()
-                }
-                Text("Select a photo")
-                    .font(.title)
-            } else {
+            if postImage == nil {
+                
+                PhotosPicker(
+                    selection: $selectedImage,
+                    matching: .images,
+                    photoLibrary: .shared()) {
+                        VStack {
+                            Image(systemName: "plus.circle")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 180, height: 180)
+                                .foregroundColor(.black)
+                                .clipped()
+                            Text("Select a photo")
+                                .font(.title)
+                                .tint(.black)
+                        }
+                    }
+                    .onChange(of: selectedImage) { newItem in
+                        Task {
+                            // Retrieve selected asset in the form of Data
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                guard let uiImage = UIImage(data: data) else { return }
+                                postImage = Image(uiImage: uiImage)
+                            }
+                        }
+                    }
+            } else if let image = postImage {
                 HStack(alignment: .top) {
-                   Image("Kenny")
+                    image
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100)
+                        .clipped()
                     TextField("Enter your caption...", text: $captionText)
                 }
                 .padding()
@@ -46,7 +64,7 @@ struct UploadPostView: View {
                         .foregroundColor(.white)
                         .cornerRadius(5)
                 }
-                
+                        
                 Spacer()
             }
         }
