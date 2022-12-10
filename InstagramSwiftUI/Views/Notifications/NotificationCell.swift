@@ -11,7 +11,7 @@ struct NotificationCell: View {
     @State private var showPostImage = true
     var body: some View {
         HStack {
-            Image("Kenny")
+            Image("kenny")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 40, height: 40)
@@ -24,7 +24,7 @@ struct NotificationCell: View {
             Spacer()
             
             if showPostImage {
-                Image("Kenny")
+                Image("kenny")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 40, height: 40)

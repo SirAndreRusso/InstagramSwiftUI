@@ -10,7 +10,7 @@ import SwiftUI
 struct UserCell: View {
     var body: some View {
         HStack {
-            Image("Kenny")
+            Image("kenny")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 48, height: 48)
