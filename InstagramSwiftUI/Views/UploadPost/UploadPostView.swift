@@ -23,16 +23,22 @@ struct UploadPostView: View {
                     matching: .images,
                     photoLibrary: .shared()) {
                         VStack {
-                            Image(systemName: "plus.circle")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 180, height: 180)
-                                .foregroundColor(.black)
-                                .clipped()
+                            ZStack {
+                                Color(.white)
+                                LinearGradient(colors: [.purple, .red, .orange], startPoint: .leading, endPoint: .trailing)
+                                    .mask(Image(systemName: "plus.circle")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 180, height: 180)
+                                        .clipped())
+                            }
+                            .frame(height: 180)
                             Text("Select a photo")
                                 .font(.title)
                                 .tint(.black)
+                            
                         }
+                        
                     }
                     .onChange(of: selectedImage) { newItem in
                         Task {
@@ -64,7 +70,7 @@ struct UploadPostView: View {
                         .foregroundColor(.white)
                         .cornerRadius(5)
                 }
-                        
+                
                 Spacer()
             }
         }

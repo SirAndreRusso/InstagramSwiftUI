@@ -19,6 +19,7 @@ struct LoginView: View {
                 LinearGradient(gradient: Gradient(colors: [.purple, .red, .orange]), startPoint: .top, endPoint: .bottom)
                     .opacity(0.8)
                     .ignoresSafeArea()
+                
                 VStack {
                     Image("instagramLogo")
                         .resizable()
@@ -71,16 +72,14 @@ struct LoginView: View {
                     }
                     
                     Spacer()
-                    HStack {
-                        Text("Don't have an account yet?")
-                            .font(.system(size: 14))
-                        Button {
-                            
-                        } label: {
+                    NavigationLink(destination: RegistrationView().navigationBarHidden(true), label: {
+                        HStack {
+                            Text("Don't have an account yet?")
+                                .font(.system(size: 14))
                             Text("Sign up")
                                 .font(.system(size: 14, weight: .semibold))
                         }
-                    }
+                    })
                     .foregroundColor(.white)
                     .padding(.bottom)
                 }
