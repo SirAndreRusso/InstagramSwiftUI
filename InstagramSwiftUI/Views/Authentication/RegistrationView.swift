@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct RegistrationView: View {
-    
+    @State private var selectedImage: PhotosPickerItem? = nil
+    @State private var postImage: Image?
     @State private var email = ""
     @State private var fullname = ""
     @State private var username = ""
@@ -21,22 +23,47 @@ struct RegistrationView: View {
                 .opacity(0.8)
                 .ignoresSafeArea()
             VStack {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "plus.circle")
+                // Image picker
+                if postImage == nil {
+                    PhotosPicker(
+                        selection: $selectedImage,
+                        matching: .images,
+                        photoLibrary: .shared()) {
+                            VStack {
+                                Image(systemName: "plus.circle")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 150, height: 150)
+                                            .clipped()
+                                            .foregroundColor(.white)
+                                            .opacity(0.8)
+                           
+                                Text("Select a photo")
+                                    .font(.title)
+                                    .tint(.white)
+                            }
+                        }
+                        .onChange(of: selectedImage) { newItem in
+                            Task {
+                                // Retrieve selected asset in the form of Data
+                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                    guard let uiImage = UIImage(data: data) else { return }
+                                    postImage = Image(uiImage: uiImage)
+                                }
+                            }
+                        }
+                    // Selected image
+                } else if let image = postImage {
+                    image
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .clipped()
-                        .foregroundColor(.white)
-                        .opacity(0.8)
+                        .scaledToFill()
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())
                 }
-                .padding(.vertical, 32)
 
                 
                 VStack(spacing: 20) {
-                    // email field
+                    // Email field
                     CustomTextfield(text: $email, placeholder: Text("Email"), imageName: "envelope")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
@@ -44,7 +71,7 @@ struct RegistrationView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                     
-                    // username
+                    // Username
                     CustomTextfield(text: $email, placeholder: Text("Username"), imageName: "person")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
@@ -52,7 +79,7 @@ struct RegistrationView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                     
-                    // username
+                    // Fullname
                     CustomTextfield(text: $email, placeholder: Text("Full name"), imageName: "person.fill")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
@@ -60,7 +87,7 @@ struct RegistrationView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                     
-                    //password field
+                    // Password field
                     CustomSecureField(text: $password, placeholder: Text("Password"), imageName: "lock")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
@@ -69,7 +96,7 @@ struct RegistrationView: View {
                         .padding(.horizontal, 32)
                 }
                 
-                //sign up
+                // Sign up
                 Button {
                             
                 } label: {
@@ -80,8 +107,11 @@ struct RegistrationView: View {
                         .background(Color(.purple).opacity(0.7))
                         .clipShape(Capsule())
                 }
+                .padding(.top)
                 
                 Spacer()
+                
+                //Sign in
                 Button {
                     mode.wrappedValue.dismiss()
                 } label: {

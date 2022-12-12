@@ -21,14 +21,19 @@ struct LoginView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    Image("instagramLogo")
-                        .resizable()
-                        .scaledToFill()
+                    Color(.white)
+                        .mask {
+                            Image("instagramLogo")
+                                .resizable()
+                                .scaledToFill()
+                        }
                         .frame(width: 230, height: 60)
                         .padding(.top, 60)
+                        .padding(.bottom)
+                   
                     
                     VStack(spacing: 20) {
-                        // email field
+                        // Email field
                         CustomTextfield(text: $email, placeholder: Text("Email"), imageName: "envelope")
                             .padding()
                             .background(Color(.init(white: 1, alpha: 0.15)))
@@ -36,7 +41,7 @@ struct LoginView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 32)
                         
-                        //password field
+                        // Password field
                         CustomSecureField(text: $password, placeholder: Text("Password"), imageName: "lock")
                             .padding()
                             .background(Color(.init(white: 1, alpha: 0.15)))
@@ -45,7 +50,7 @@ struct LoginView: View {
                             .padding(.horizontal, 32)
                     }
                     
-                    //forgot password
+                    // Forgot password
                     HStack {
                         Spacer()
                         Button {
@@ -59,7 +64,7 @@ struct LoginView: View {
                         }
                     }
                     
-                    //sign in
+                    // Sign in
                     Button {
                                 
                     } label: {
@@ -70,8 +75,11 @@ struct LoginView: View {
                             .background(Color(.purple).opacity(0.7))
                             .clipShape(Capsule())
                     }
+                    .padding(.top)
                     
                     Spacer()
+                    
+                    // Sign up
                     NavigationLink(destination: RegistrationView().navigationBarHidden(true), label: {
                         HStack {
                             Text("Don't have an account yet?")

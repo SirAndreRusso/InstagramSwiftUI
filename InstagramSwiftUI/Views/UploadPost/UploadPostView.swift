@@ -10,9 +10,7 @@ import PhotosUI
 
 struct UploadPostView: View {
     @State private var selectedImage: PhotosPickerItem? = nil
-    //    @State var photoPickerPresented = true
-    //    @State var selectedImageData: Data?
-    @State var postImage: Image?
+    @State private var postImage: Image?
     @State var captionText = ""
     var body: some View {
         VStack {
