@@ -73,7 +73,7 @@ struct RegistrationView: View {
                         .padding(.horizontal, 32)
                     
                     // Username
-                    CustomTextfield(text: $email, placeholder: Text("Username"), imageName: "person")
+                    CustomTextfield(text: $username, placeholder: Text("Username"), imageName: "person")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
                         .cornerRadius(10)
@@ -81,7 +81,7 @@ struct RegistrationView: View {
                         .padding(.horizontal, 32)
                     
                     // Fullname
-                    CustomTextfield(text: $email, placeholder: Text("Full name"), imageName: "person.fill")
+                    CustomTextfield(text: $fullname, placeholder: Text("Full name"), imageName: "person.fill")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
                         .cornerRadius(10)
@@ -99,7 +99,7 @@ struct RegistrationView: View {
                 
                 // Sign up
                 Button {
-                    viewModel.register()
+                    viewModel.register(withEmail: email, password: password)
                 } label: {
                         Text("Sign up")
                         .font(.headline)
