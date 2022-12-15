@@ -16,6 +16,7 @@ struct RegistrationView: View {
     @State private var username = ""
     @State private var password = ""
     @Environment(\.presentationMode) var mode
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         ZStack {
@@ -98,7 +99,7 @@ struct RegistrationView: View {
                 
                 // Sign up
                 Button {
-                            
+                    viewModel.register()
                 } label: {
                         Text("Sign up")
                         .font(.headline)
