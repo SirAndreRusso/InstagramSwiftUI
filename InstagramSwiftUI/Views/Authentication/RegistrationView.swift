@@ -10,7 +10,7 @@ import PhotosUI
 
 struct RegistrationView: View {
     @State private var selectedImage: PhotosPickerItem? = nil
-    @State private var postImage: Image?
+    @State private var postImage: UIImage?
     @State private var email = ""
     @State private var fullname = ""
     @State private var username = ""
@@ -49,12 +49,12 @@ struct RegistrationView: View {
                                 // Retrieve selected asset in the form of Data
                                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                     guard let uiImage = UIImage(data: data) else { return }
-                                    postImage = Image(uiImage: uiImage)
+                                    postImage = uiImage
                                 }
                             }
                         }
                     // Selected image
-                } else if let image = postImage {
+                } else if  let image = Image(uiImage: postImage!) {
                     image
                         .resizable()
                         .scaledToFill()
@@ -99,7 +99,7 @@ struct RegistrationView: View {
                 
                 // Sign up
                 Button {
-                    viewModel.register(withEmail: email, password: password)
+                        viewModel.register(withEmail: email, password: password, image: postImage, fullname: fullname, username: username)
                 } label: {
                         Text("Sign up")
                         .font(.headline)
