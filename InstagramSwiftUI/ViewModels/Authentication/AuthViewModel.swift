@@ -15,9 +15,19 @@ class AuthViewModel: ObservableObject {
         userSession = Auth.auth().currentUser
     }
     
-    func login() {
-        print("login")
+    func login(withEmail email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password, completion: { result, error in
+            if let error = error {
+                print("DEBUG: Login failed \(error.localizedDescription)")
+                return
+            }
+            guard let user = result?.user else { return }
+            self.userSession = user
+            print("login")
+        })
+        
     }
+                           
     func register(withEmail email: String, password: String, image: UIImage?, fullname: String, username: String) {
         guard let image = image else { return }
         ImageUoloader.uploadImage(image: image) { imageUrl in
@@ -43,6 +53,7 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
+                           
     func signOut() {
         do {
             try Auth.auth().signOut()
