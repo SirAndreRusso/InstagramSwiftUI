@@ -72,7 +72,12 @@ class AuthViewModel: ObservableObject {
                 print("DEBUG: failed to fetch user \(error.localizedDescription)")
                 return
             }
-            
+            do {
+                let user = try snapShot?.data(as: User.self)
+                print("\(user?.email)")
+            } catch {
+                print("DEBUG: Failed to decode user \(error.localizedDescription)")
+            }
         }
     }
     func resetPassword() {
