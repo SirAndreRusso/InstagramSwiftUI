@@ -13,6 +13,7 @@ class AuthViewModel: ObservableObject {
     //    static let shared = AuthViewModel()
     init() {
         userSession = Auth.auth().currentUser
+        fetchUser()
     }
     
     func login(withEmail email: String, password: String) {
@@ -42,7 +43,7 @@ class AuthViewModel: ObservableObject {
                             "fullname" : fullname,
                             "profileImageURL" : imageUrl,
                             "uid" : user.uid]
-                Firestore.firestore().collection("users").document(user.uid).setData(data) { error in
+                COLLECTION_USERS.document(user.uid).setData(data) { error in
                     if let error = error {
                         print("DEBUG: Can't upload user data to firestore" + error.localizedDescription)
                         return
@@ -65,7 +66,14 @@ class AuthViewModel: ObservableObject {
         
     }
     func fetchUser() {
-        
+        guard let uid = userSession?.uid else { return }
+        COLLECTION_USERS.document(uid).getDocument { snapShot, error in
+            if let error = error {
+                print("DEBUG: failed to fetch user \(error.localizedDescription)")
+                return
+            }
+            
+        }
     }
     func resetPassword() {
         
