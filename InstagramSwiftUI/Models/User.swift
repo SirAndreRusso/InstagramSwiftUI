@@ -5,7 +5,7 @@
 //  Created by Андрей Русин on 18.12.2022.
 //
 import FirebaseFirestoreSwift
-struct User: Decodable {
+struct User: Decodable, Identifiable {
     let username: String
     let fullname: String
     let email: String
