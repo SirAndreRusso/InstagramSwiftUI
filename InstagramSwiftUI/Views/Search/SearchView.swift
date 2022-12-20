@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct SearchView: View {
-    init(viewModel: SearchViewModel) {
-        self.viewModel = viewModel
-    }
+//    init(viewModel: SearchViewModel) {
+//        self.viewModel = viewModel
+//    }
     @State var searchText = ""
     @State var inSearchMode = false
-    @ObservedObject var viewModel: SearchViewModel
+    // try to find out better way to instantiate viewmodel
+    @ObservedObject var viewModel =  SearchViewModel()
     var body: some View {
         ScrollView {
             SearchBar(text: $searchText, isEditing: $inSearchMode)
@@ -29,8 +30,4 @@ struct SearchView: View {
     }
 }
 
-//struct SearchView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SearchView()
-//    }
-//}
+
