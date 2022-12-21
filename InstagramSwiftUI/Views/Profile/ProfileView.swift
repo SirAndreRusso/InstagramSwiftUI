@@ -8,20 +8,21 @@
 import SwiftUI
 
 struct ProfileView: View {
-    let User: User
+    @ObservedObject var viewModel: ProfileViewModel
+    let user: User
+    init(user: User) {
+        self.user = user
+        // Search for better place to initialize viewModels
+        self.viewModel = ProfileViewModel(user: user)
+    }
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                ProfileHeaderView(user: User)
+                ProfileHeaderView(viewModel: viewModel)
                 PostGridView()
             }
             .padding(.top)
         }
     }
 }
-//
-//struct ProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileView()
-//    }
-//}
+
