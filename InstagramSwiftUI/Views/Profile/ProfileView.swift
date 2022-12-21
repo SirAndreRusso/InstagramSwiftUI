@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct ProfileView: View {
+    let User: User
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                ProfileHeaderView()
+                ProfileHeaderView(user: User)
                 PostGridView()
             }
             .padding(.top)
         }
     }
 }
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
-}
+//
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView()
+//    }
+//}
