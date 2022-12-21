@@ -10,6 +10,7 @@ import Firebase
 
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
     //    static let shared = AuthViewModel()
     init() {
         userSession = Auth.auth().currentUser
@@ -24,6 +25,7 @@ class AuthViewModel: ObservableObject {
             }
             guard let user = result?.user else { return }
             self.userSession = user
+            self.fetchUser()
             print("login")
         })
         
@@ -49,6 +51,7 @@ class AuthViewModel: ObservableObject {
                         return
                     }
                     self.userSession = user
+                    self.fetchUser()
                     print("User data uploaded")
                 }
             }
@@ -74,7 +77,7 @@ class AuthViewModel: ObservableObject {
             }
             do {
                 let user = try snapShot?.data(as: User.self)
-                print("\(user?.email)")
+                self.currentUser = user
             } catch {
                 print("DEBUG: Failed to decode user \(error.localizedDescription)")
             }
