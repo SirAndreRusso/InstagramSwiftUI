@@ -22,11 +22,32 @@ class UserService {
             }
     }
     
-    static func unFollow() {
-        
+    static func unFollow(uid: String, completion: @escaping ((Error?) -> Void)) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_FOLLOWING
+            .document(currentUid)
+            .collection("user-following")
+            .document(uid)
+            .delete { _ in
+                COLLECTION_FOLLOWERS
+                    .document()
+                    .collection("followers")
+                    .document(currentUid)
+                    .delete(completion: completion)
+            }
     }
     
-    static func checkIfUserIsFollowed() {
-        
+    static func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool)-> Void) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_FOLLOWING
+            .document(currentUid)
+            .collection("user-following")
+            .document(uid)
+            .getDocument { snapShot, error in
+                guard
+                    error == nil,
+                    let isFollowed = snapShot?.exists else { return }
+                completion(isFollowed)
+            }
     }
 }
