@@ -13,7 +13,15 @@ class ProfileViewModel: ObservableObject {
     }
     
     func follow() {
-       print("DEBUG: follow \(user)")
+        guard let uid = user.id else { return }
+        UserService.follow(uid: uid) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                print("DEBUG: Failed to follow \(self.user.username)" + error.localizedDescription)
+            } else {
+                print("DEBUG: Successfully folowed the user \(self.user.username)")
+            }
+        }
     }
     
     func unFollow() {
