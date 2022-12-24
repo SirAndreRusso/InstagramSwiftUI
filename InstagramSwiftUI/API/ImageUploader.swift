@@ -9,11 +9,26 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class ImageUoloader {
-    static func uploadImage(image: UIImage, completion: @escaping(String) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else {return}
+enum uploadType {
+    case profileImage
+    case post
+    
+    var filePath: StorageReference {
         let filename = NSUUID().uuidString
-        let ref = Storage.storage().reference(withPath: "/profile_images/\(filename)")
+        switch self {
+        case .profileImage:
+           return Storage.storage().reference(withPath: "/profile_images/\(filename)")
+        case .post:
+           return Storage.storage().reference(withPath: "/post_images/\(filename)")
+        }
+    }
+}
+
+class ImageUploader {
+    static func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {return}
+        
+        let ref = type.filePath
         ref.putData(imageData) { _ , error in
             if let error = error {
                 print("DEBUG: Failed to upload image" + error.localizedDescription)

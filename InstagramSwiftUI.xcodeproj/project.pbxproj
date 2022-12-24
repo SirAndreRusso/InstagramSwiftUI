@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */; };
 		B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D8F29321119005EEEF4 /* FeedCell.swift */; };
 		B43A5D9229337847005EEEF4 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D9129337847005EEEF4 /* SearchBar.swift */; };
 		B45043BF293A611F00BB26F2 /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45043BE293A611F00BB26F2 /* PostGridView.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostViewModel.swift; sourceTree = "<group>"; };
 		B43A5D8F29321119005EEEF4 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		B43A5D9129337847005EEEF4 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		B45043BE293A611F00BB26F2 /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
@@ -249,8 +251,7 @@
 				B4E26EC8293102540032DD14 /* Notifications */,
 				B4E26EC72931024A0032DD14 /* Feed */,
 				B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */,
-				B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */,
-				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
+				B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -375,6 +376,7 @@
 		B4E26EC9293102640032DD14 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -382,6 +384,7 @@
 		B4E26ECA2931028B0032DD14 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				B45043D42944A9C700BB26F2 /* ResetPasswordView.swift in Sources */,
 				B45043C6293B9B8000BB26F2 /* UIApplication + Extension.swift in Sources */,
 				B4E26ED02931036D0032DD14 /* CommentsView.swift in Sources */,
+				B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */,
 				B4E26E8B2930FFDB0032DD14 /* InstagramSwiftUIApp.swift in Sources */,
 				B45043C3293A651600BB26F2 /* UserCell.swift in Sources */,
 				B48A7DA32953607B007EE0A8 /* UserService.swift in Sources */,

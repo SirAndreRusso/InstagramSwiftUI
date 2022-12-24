@@ -9,8 +9,15 @@ import SwiftUI
 import PhotosUI
 
 struct UploadPostView: View {
+    // find better way to initialize
+    init (user: User) {
+        self.viewModel = UploadPostViewModel(user: user)
+    }
+    @ObservedObject var viewModel: UploadPostViewModel
+    
     @State private var selectedImage: PhotosPickerItem? = nil
     @State private var postImage: Image?
+    @State private var postUIImage: UIImage?
     @State var captionText = ""
     var body: some View {
         VStack {
@@ -43,6 +50,7 @@ struct UploadPostView: View {
                             // Retrieve selected asset in the form of Data
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                 guard let uiImage = UIImage(data: data) else { return }
+                                postUIImage = uiImage
                                 postImage = Image(uiImage: uiImage)
                             }
                         }
@@ -59,7 +67,8 @@ struct UploadPostView: View {
                 .padding()
                 
                 Button {
-                    
+                    guard let image = postUIImage else { return }
+                    viewModel.uploadPost(caption: captionText, image: image)
                 } label: {
                     Text("Share")
                         .font(.system(size: 16, weight: .semibold))
@@ -75,8 +84,3 @@ struct UploadPostView: View {
     }
 }
 
-struct UploadPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        UploadPostView()
-    }
-}
