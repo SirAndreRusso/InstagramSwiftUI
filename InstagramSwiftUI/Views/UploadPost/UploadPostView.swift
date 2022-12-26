@@ -70,25 +70,41 @@ struct UploadPostView: View {
                 }
                 .padding()
                 
-                Button {
-                    guard let image = postUIImage else { return }
-                    viewModel.uploadPost(caption: captionText, image: image) { error in
-                        if let error = error {
-                            print("DEBUG: Failed to upload post" + error.localizedDescription)
-                            return
+                HStack(spacing: 16) {
+                    Button {
+                        guard let image = postUIImage else { return }
+                        viewModel.uploadPost(caption: captionText, image: image) { error in
+                            if let error = error {
+                                print("DEBUG: Failed to upload post" + error.localizedDescription)
+                                return
+                            }
+                            captionText = ""
+                            postImage = nil
+                            postUIImage = nil
+                            tabIndex = 0
                         }
+                    } label: {
+                        Text("Share")
+                            .font(.system(size: 16, weight: .semibold))
+                            .frame(width: 172, height: 50)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(5)
+                    }
+                    
+                    Button {
                         captionText = ""
                         postImage = nil
                         postUIImage = nil
-                        tabIndex = 0
+                        
+                    } label: {
+                        Text("Cancel")
+                            .font(.system(size: 16, weight: .semibold))
+                            .frame(width: 172, height: 50)
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(5)
                     }
-                } label: {
-                    Text("Share")
-                        .font(.system(size: 16, weight: .semibold))
-                        .frame(width: 360, height: 50)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(5)
                 }
                 
                 Spacer()
