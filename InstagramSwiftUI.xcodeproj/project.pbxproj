@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */; };
+		B4329E33295A3C8000067C3E /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E32295A3C8000067C3E /* TextArea.swift */; };
 		B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D8F29321119005EEEF4 /* FeedCell.swift */; };
 		B43A5D9229337847005EEEF4 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D9129337847005EEEF4 /* SearchBar.swift */; };
 		B45043BF293A611F00BB26F2 /* PostGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45043BE293A611F00BB26F2 /* PostGridView.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostViewModel.swift; sourceTree = "<group>"; };
+		B4329E32295A3C8000067C3E /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
 		B43A5D8F29321119005EEEF4 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		B43A5D9129337847005EEEF4 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		B45043BE293A611F00BB26F2 /* PostGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGridView.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				B45043D52944AF3200BB26F2 /* CustomTextfield.swift */,
 				B45043D72944AF4600BB26F2 /* CustomSecureField.swift */,
 				B48A7D9A294F6177007EE0A8 /* Constants.swift */,
+				B4329E32295A3C8000067C3E /* TextArea.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				B4E26ED02931036D0032DD14 /* CommentsView.swift in Sources */,
 				B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */,
 				B4E26E8B2930FFDB0032DD14 /* InstagramSwiftUIApp.swift in Sources */,
+				B4329E33295A3C8000067C3E /* TextArea.swift in Sources */,
 				B45043C3293A651600BB26F2 /* UserCell.swift in Sources */,
 				B48A7DA32953607B007EE0A8 /* UserService.swift in Sources */,
 				B45043C8293FBCDD00BB26F2 /* NotificationCell.swift in Sources */,
