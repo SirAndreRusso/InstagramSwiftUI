@@ -9,12 +9,14 @@ import SwiftUI
 import PhotosUI
 
 struct UploadPostView: View {
-    // find better way to initialize
-    init (user: User) {
+//     find better way to initialize
+
+    init (user: User, tabIndex: Binding<Int>) {
         self.viewModel = UploadPostViewModel(user: user)
+        self._tabIndex = tabIndex
     }
     @ObservedObject var viewModel: UploadPostViewModel
-    
+    @Binding var tabIndex: Int
     @State private var selectedImage: PhotosPickerItem? = nil
     @State private var postImage: Image?
     @State private var postUIImage: UIImage?
@@ -68,7 +70,16 @@ struct UploadPostView: View {
                 
                 Button {
                     guard let image = postUIImage else { return }
-                    viewModel.uploadPost(caption: captionText, image: image)
+                    viewModel.uploadPost(caption: captionText, image: image) { error in
+                        if let error = error {
+                            print("DEBUG: Failed to upload post" + error.localizedDescription)
+                            return
+                        }
+                        captionText = ""
+                        postImage = nil
+                        postUIImage = nil
+                        tabIndex = 0
+                    }
                 } label: {
                     Text("Share")
                         .font(.system(size: 16, weight: .semibold))

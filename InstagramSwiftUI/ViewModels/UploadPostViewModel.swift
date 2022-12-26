@@ -14,7 +14,7 @@ class UploadPostViewModel: ObservableObject {
         self.user = user
     }
     var user : User
-    func uploadPost(caption: String, image: UIImage) {
+    func uploadPost(caption: String, image: UIImage, completion:  ((Error?) -> Void)?) {
 //        guard let user = authViewModel.currentUser else { return }
         ImageUploader.uploadImage(image: image, type: .post) { [weak self] imageURL in
             guard let self = self else { return }
@@ -25,13 +25,9 @@ class UploadPostViewModel: ObservableObject {
                         "ownerUid" : self.user.id ?? "",
                         "ownerImageURL" : self.user.profileImageURL,
                         "ownerUsername" : self.user.username] as [String : Any]
-            COLLECTION_POSTS.addDocument(data: data) { error in
-                    if let error = error {
-                    print("DEBUG: Failed to upload post data" + error.localizedDescription)
-                    return
-                }
-                print("DEBUG: Successfully uploaded the post")
-            }
+            
+            COLLECTION_POSTS.addDocument(data: data, completion: completion)
+
         }
         
     }
