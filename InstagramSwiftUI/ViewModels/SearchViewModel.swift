@@ -20,7 +20,6 @@ class SearchViewModel: ObservableObject {
             }
             guard let documents = snapShot?.documents else { return }
             self.users = documents.compactMap({ try? $0.data(as: User.self)})
-            print(self.users)
         }
     }
     

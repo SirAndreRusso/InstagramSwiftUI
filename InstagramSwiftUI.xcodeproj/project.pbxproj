@@ -54,6 +54,8 @@
 		B4E26ED6293103D30032DD14 /* UploadPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E26ED5293103D30032DD14 /* UploadPostView.swift */; };
 		B4E26ED8293104050032DD14 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E26ED7293104050032DD14 /* NotificationsView.swift */; };
 		B4E26EDA293107CC0032DD14 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B4E26ED9293107CC0032DD14 /* .gitignore */; };
+		B4FAA1E9295B7EEC00273965 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1E8295B7EEC00273965 /* Post.swift */; };
+		B4FAA1EB295B812C00273965 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1EA295B812C00273965 /* FeedViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		B4E26ED5293103D30032DD14 /* UploadPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostView.swift; sourceTree = "<group>"; };
 		B4E26ED7293104050032DD14 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		B4E26ED9293107CC0032DD14 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		B4FAA1E8295B7EEC00273965 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		B4FAA1EA295B812C00273965 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 				B4E26EB6293100650032DD14 /* Views */,
 				B4E26EB4293100460032DD14 /* Models */,
 				B4E26E8A2930FFDB0032DD14 /* InstagramSwiftUIApp.swift */,
+				B4FAA1E8295B7EEC00273965 /* Post.swift */,
 				B4E26E8E2930FFDC0032DD14 /* Assets.xcassets */,
 				B4E26E902930FFDC0032DD14 /* Preview Content */,
 			);
@@ -248,10 +253,9 @@
 		B4E26EB72931006D0032DD14 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				B4E26ECA2931028B0032DD14 /* Profile */,
-				B4E26EC9293102640032DD14 /* Authentication */,
-				B4E26EC8293102540032DD14 /* Notifications */,
-				B4E26EC72931024A0032DD14 /* Feed */,
+				B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */,
+				B4FAA1EA295B812C00273965 /* FeedViewModel.swift */,
+				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
 				B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */,
 				B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */,
 			);
@@ -360,36 +364,6 @@
 				B45043C2293A651600BB26F2 /* UserCell.swift */,
 			);
 			path = Items;
-			sourceTree = "<group>";
-		};
-		B4E26EC72931024A0032DD14 /* Feed */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Feed;
-			sourceTree = "<group>";
-		};
-		B4E26EC8293102540032DD14 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
-		B4E26EC9293102640032DD14 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		B4E26ECA2931028B0032DD14 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -537,6 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4FAA1EB295B812C00273965 /* FeedViewModel.swift in Sources */,
 				B4E26ECE293103460032DD14 /* FeedView.swift in Sources */,
 				B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */,
 				B4E26ED8293104050032DD14 /* NotificationsView.swift in Sources */,
@@ -558,6 +533,7 @@
 				B4E26ED2293103820032DD14 /* SearchView.swift in Sources */,
 				B4E26ED6293103D30032DD14 /* UploadPostView.swift in Sources */,
 				B45043D82944AF4600BB26F2 /* CustomSecureField.swift in Sources */,
+				B4FAA1E9295B7EEC00273965 /* Post.swift in Sources */,
 				B48A7D9F294F9DAC007EE0A8 /* SearchViewModel.swift in Sources */,
 				B45043BF293A611F00BB26F2 /* PostGridView.swift in Sources */,
 				B4E26ED4293103B50032DD14 /* ProfileView.swift in Sources */,
