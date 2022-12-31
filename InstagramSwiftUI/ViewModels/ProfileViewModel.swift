@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 class ProfileViewModel: ObservableObject {
    @Published var user: User
     init(user: User) {

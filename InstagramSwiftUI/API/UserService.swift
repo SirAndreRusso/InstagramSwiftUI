@@ -6,6 +6,7 @@
 //
 
 import Firebase
+
 class UserService {
     static func follow(uid: String, completion: @escaping ((Error?) -> Void)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
