@@ -18,6 +18,7 @@ class FeedCellViewModel: ObservableObject {
     
     init(post: Post) {
         self.post = post
+        checkIfUserLikedPost()
     }
     
     func like() {
@@ -46,11 +47,43 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func unLike() {
-        print("unLike")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let postId = post.id else { return }
+        guard post.likes > 0 else { return }
+        COLLECTION_POSTS.document(postId)
+            .collection("post-likes")
+            .document(uid)
+            .delete { error in
+                if let error = error {
+                    print("DEBUG: Failed to delete data from post-likes collection" + error.localizedDescription)
+                }
+                COLLECTION_USERS.document(uid)
+                    .collection("user-likes")
+                    .document(postId)
+                    .delete { [weak self] error in
+                        if let error = error {
+                            print("DEBUG: Failed to delete data from user-likes collection" + error.localizedDescription)
+                        }
+                        guard let self = self else { return }
+                        COLLECTION_POSTS.document(postId).updateData(["likes" : self.post.likes - 1])
+                        self.post.didLike = false
+                        self.post.likes -= 1
+                    }
+            }
     }
     
     func checkIfUserLikedPost() {
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let postId = post.id else { return }
+        COLLECTION_USERS.document(uid)
+            .collection("user-likes")
+            .document(postId)
+            .getDocument { snapShot, error in
+                if let error = error {
+                    print("DEBUG: Failed to check if user liked a post" + error.localizedDescription)
+                }
+                guard let didLike = snapShot?.exists else { return }
+                self.post.didLike = didLike
+            }
     }
-    
 }
