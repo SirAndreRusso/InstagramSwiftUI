@@ -13,7 +13,7 @@ struct Post: Identifiable, Decodable {
     let ownerUid: String
     let ownerUsername: String
     let caption: String
-    let likes: Int
+    var likes: Int
     let imageURL: String
     let ownerImageURL: String
     let timeStamp: Timestamp
