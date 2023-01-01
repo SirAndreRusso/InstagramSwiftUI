@@ -57,6 +57,7 @@
 		B4FAA1E9295B7EEC00273965 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1E8295B7EEC00273965 /* Post.swift */; };
 		B4FAA1EB295B812C00273965 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1EA295B812C00273965 /* FeedViewModel.swift */; };
 		B4FAA1EF2960B00700273965 /* PostGreedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1EE2960B00700273965 /* PostGreedViewModel.swift */; };
+		B4FAA1F129618B7300273965 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F029618B7300273965 /* FeedCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		B4FAA1E8295B7EEC00273965 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B4FAA1EA295B812C00273965 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		B4FAA1EE2960B00700273965 /* PostGreedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGreedViewModel.swift; sourceTree = "<group>"; };
+		B4FAA1F029618B7300273965 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +198,6 @@
 				B4E26EB6293100650032DD14 /* Views */,
 				B4E26EB4293100460032DD14 /* Models */,
 				B4E26E8A2930FFDB0032DD14 /* InstagramSwiftUIApp.swift */,
-				B4FAA1E8295B7EEC00273965 /* Post.swift */,
 				B4E26E8E2930FFDC0032DD14 /* Assets.xcassets */,
 				B4E26E902930FFDC0032DD14 /* Preview Content */,
 			);
@@ -232,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				B48A7D9C294F979A007EE0A8 /* User.swift */,
+				B4FAA1E8295B7EEC00273965 /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -257,6 +259,7 @@
 			children = (
 				B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */,
 				B4FAA1EA295B812C00273965 /* FeedViewModel.swift */,
+				B4FAA1F029618B7300273965 /* FeedCellViewModel.swift */,
 				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
 				B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */,
 				B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */,
@@ -537,6 +540,7 @@
 				B4FAA1EF2960B00700273965 /* PostGreedViewModel.swift in Sources */,
 				B4E26ED6293103D30032DD14 /* UploadPostView.swift in Sources */,
 				B45043D82944AF4600BB26F2 /* CustomSecureField.swift in Sources */,
+				B4FAA1F129618B7300273965 /* FeedCellViewModel.swift in Sources */,
 				B4FAA1E9295B7EEC00273965 /* Post.swift in Sources */,
 				B48A7D9F294F9DAC007EE0A8 /* SearchViewModel.swift in Sources */,
 				B45043BF293A611F00BB26F2 /* PostGridView.swift in Sources */,
