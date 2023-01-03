@@ -9,7 +9,16 @@ import SwiftUI
 
 struct CommentsView: View {
     var body: some View {
-        Text("Comments")
+        VStack {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 24) {
+                    ForEach(0 ..< 10) { _ in
+                        CommentCell()
+                    }
+                }
+            }
+            .padding(.top)
+        }
     }
 }
 
