@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SearchView: View {
-//    init(viewModel: SearchViewModel) {
-//        self.viewModel = viewModel
-//    }
+    init(user: User) {
+        self.viewModel = SearchViewModel()
+        self.user = user
+    }
+    private let user: User
     @State var searchText = ""
     @State var inSearchMode = false
-    // try to find out better way to instantiate viewmodel
-    @ObservedObject var viewModel =  SearchViewModel()
+    @ObservedObject var viewModel : SearchViewModel
     var body: some View {
         ScrollView {
             SearchBar(text: $searchText, isEditing: $inSearchMode)
@@ -23,7 +24,7 @@ struct SearchView: View {
                 if inSearchMode {
                     UserListView(viewModel: viewModel, searchText: $searchText)
                 } else {
-                    PostGridView(config: .search)
+                    PostGridView(config: .search, user: user)
                 }
             }
         }

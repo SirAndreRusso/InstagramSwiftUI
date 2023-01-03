@@ -8,7 +8,21 @@
 import SwiftUI
 
 struct CommentsView: View {
-    @State var commentText: String
+    
+    
+    @State var commentText = ""
+    @ObservedObject var viewModel: CommentViewModel
+    
+    init(post: Post, user: User) {
+        self.viewModel  = CommentViewModel(post: post, user: user)
+        
+    }
+    
+//    init(commentText: String, viewModel: CommentViewModel) {
+//        self.commentText = commentText
+//        self.viewModel = viewModel
+//    }
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -21,14 +35,11 @@ struct CommentsView: View {
             .padding(.top)
             
             InputView(inputText: $commentText) {
-                print("Some action")
+                viewModel.uploadComment(commentText: commentText)
+                commentText = ""
             }
         }
     }
 }
 
-struct CommentsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommentsView()
-    }
-}
+

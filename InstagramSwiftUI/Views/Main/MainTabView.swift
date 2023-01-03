@@ -14,14 +14,14 @@ struct MainTabView: View {
     var body: some View {
         NavigationView {
             TabView(selection: $selectedIndex) {
-                FeedView()
+                FeedView(user: user)
                     .onTapGesture {
                         selectedIndex = 0
                     }
                     .tabItem {
                         Image(systemName: "house")
                     }.tag(0)
-                SearchView()
+                SearchView(user: user)
                     .onTapGesture {
                         selectedIndex = 1
                     }

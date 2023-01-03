@@ -70,7 +70,9 @@ class AuthViewModel: ObservableObject {
     }
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-        COLLECTION_USERS.document(uid).getDocument { snapShot, error in
+        COLLECTION_USERS
+            .document(uid)
+            .getDocument { snapShot, error in
             if let error = error {
                 print("DEBUG: failed to fetch user \(error.localizedDescription)")
                 return
