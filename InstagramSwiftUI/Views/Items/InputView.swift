@@ -28,17 +28,10 @@ struct InputView: View {
                         .bold()
                         .foregroundColor(.black)
                 }
-
             }
+            .padding(.bottom, 8)
+            .padding(.horizontal)
         }
-        .padding(.bottom, 8)
-        .padding(.horizontal)
-        
     }
 }
 
-//struct InputViewPreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        InputView(inputText: "")
-//    }
-//}

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CommentsView: View {
     
-    
     @State var commentText = ""
     @ObservedObject var viewModel: CommentViewModel
     
@@ -18,17 +17,12 @@ struct CommentsView: View {
         
     }
     
-//    init(commentText: String, viewModel: CommentViewModel) {
-//        self.commentText = commentText
-//        self.viewModel = viewModel
-//    }
-    
     var body: some View {
         VStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24) {
-                    ForEach(0 ..< 10) { _ in
-                        CommentCell()
+                    ForEach(viewModel.comments) { comment in
+                        CommentCell(comment: comment)
                     }
                 }
             }
