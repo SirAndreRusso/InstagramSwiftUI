@@ -62,6 +62,7 @@
 		B4FAA1F529648BB900273965 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F429648BB900273965 /* CommentCell.swift */; };
 		B4FAA1F729648BDA00273965 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F629648BDA00273965 /* CommentViewModel.swift */; };
 		B4FAA1F9296492CD00273965 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F8296492CD00273965 /* InputView.swift */; };
+		B4FAA1FB29673EF200273965 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1FA29673EF200273965 /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,7 @@
 		B4FAA1F429648BB900273965 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		B4FAA1F629648BDA00273965 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		B4FAA1F8296492CD00273965 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		B4FAA1FA29673EF200273965 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 				B48A7D9C294F979A007EE0A8 /* User.swift */,
 				B4FAA1F229648B9100273965 /* Comment.swift */,
 				B4FAA1E8295B7EEC00273965 /* Post.swift */,
+				B4FAA1FA29673EF200273965 /* Notification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				B4FAA1F9296492CD00273965 /* InputView.swift in Sources */,
 				B45043D02944A99800BB26F2 /* LoginView.swift in Sources */,
 				B45043D62944AF3200BB26F2 /* CustomTextfield.swift in Sources */,
+				B4FAA1FB29673EF200273965 /* Notification.swift in Sources */,
 				B4FAA1F329648B9100273965 /* Comment.swift in Sources */,
 				B45043C1293A650C00BB26F2 /* UserListView.swift in Sources */,
 				B48A7D9B294F6177007EE0A8 /* Constants.swift in Sources */,
