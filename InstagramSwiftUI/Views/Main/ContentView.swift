@@ -17,7 +17,8 @@ struct ContentView: View {
                 LoginView()
             } else {
                 if let user = viewModel.currentUser {
-                    MainTabView(user: user, selectedIndex: $selectedIndex)
+                    let vmFactory = VMFactoty(user: user)
+                    MainTabView(vmFactory: vmFactory, selectedIndex: $selectedIndex)
                 }
             }
         }

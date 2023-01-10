@@ -8,41 +8,41 @@
 import SwiftUI
 
 struct MainTabView: View {
+    var vmFactory: VMFactoty
     @EnvironmentObject var viewModel: AuthViewModel
-    let user: User
     @Binding var selectedIndex: Int
     var body: some View {
         NavigationView {
             TabView(selection: $selectedIndex) {
-                FeedView(user: user)
+                FeedView(viewModel: vmFactory.makeFeedViewModel())
                     .onTapGesture {
                         selectedIndex = 0
                     }
                     .tabItem {
                         Image(systemName: "house")
                     }.tag(0)
-                SearchView(user: user)
+                SearchView(viewModel: vmFactory.makeSearchViewModel(), vmFactory: vmFactory)
                     .onTapGesture {
                         selectedIndex = 1
                     }
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                     }.tag(1)
-                UploadPostView(user: user, tabIndex: $selectedIndex)
+                UploadPostView(viewModel: vmFactory.makeUploadPostViewModel(), tabIndex: $selectedIndex)
                     .onTapGesture {
                         selectedIndex = 2
                     }
                     .tabItem {
                         Image(systemName: "plus.square")
                     }.tag(2)
-                NotificationsView()
+                NotificationsView(viewModel: vmFactory.makeNotificationsViewModel())
                     .onTapGesture {
                         selectedIndex = 3
                     }
                     .tabItem {
                         Image(systemName: "heart")
                     }.tag(3)
-                ProfileView(user: user)
+                ProfileView(viewModel: vmFactory.makeProfileViewModel(), vmFactory: vmFactory)
                     .onTapGesture {
                         selectedIndex = 4
                     }

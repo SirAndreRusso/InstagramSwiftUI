@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct FeedView: View {
-  
-    private let user: User
+    
     @ObservedObject var viewModel: FeedViewModel
     
-    init(user: User) {
-        viewModel = FeedViewModel()
-        self.user = user
+    init(viewModel: FeedViewModel) {
+        self.viewModel = viewModel
+        
     }
   
     var body: some View {
@@ -22,7 +21,7 @@ struct FeedView: View {
             LazyVStack(spacing: 32) {
                 ForEach(viewModel.posts) { post in
                     FeedCell(viewModel: FeedCellViewModel(post: post),
-                             user: user)
+                             user: viewModel.user)
                 }
             }
             .padding(.top)

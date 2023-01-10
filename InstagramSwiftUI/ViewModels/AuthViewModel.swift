@@ -9,10 +9,12 @@ import SwiftUI
 import Firebase
 
 class AuthViewModel: ObservableObject {
+    var imageUploader: ImageUploaderService
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     //    static let shared = AuthViewModel()
-    init() {
+    init(imageUploader: ImageUploaderService) {
+        self.imageUploader = imageUploader
         userSession = Auth.auth().currentUser
         fetchUser()
     }
@@ -27,13 +29,12 @@ class AuthViewModel: ObservableObject {
             self.userSession = user
             self.fetchUser()
             print("login")
-        })
-        
+        }) 
     }
                            
     func register(withEmail email: String, password: String, image: UIImage?, fullname: String, username: String) {
         guard let image = image else { return }
-        ImageUploader.uploadImage(image: image, type: .profileImage) { imageUrl in
+        imageUploader.uploadImage(image: image, type: .profileImage) { imageUrl in
             Auth.auth().createUser(withEmail: email, password: password) { result, error in
                 if let error = error {
                     print(error.localizedDescription)
@@ -65,9 +66,8 @@ class AuthViewModel: ObservableObject {
         } catch {
             print(error.localizedDescription)
         }
-        
-        
     }
+    
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
         COLLECTION_USERS
@@ -85,6 +85,7 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
+    
     func resetPassword() {
         
     }

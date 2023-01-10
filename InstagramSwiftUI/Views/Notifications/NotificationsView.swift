@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct NotificationsView: View {
+    
+    @ObservedObject var viewModel: NotificationsViewModel
+    init(viewModel: NotificationsViewModel) {
+        self.viewModel = viewModel
+    }
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
@@ -20,8 +25,3 @@ struct NotificationsView: View {
     }
 }
 
-struct NotificationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationsView()
-    }
-}

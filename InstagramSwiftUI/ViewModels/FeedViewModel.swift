@@ -8,8 +8,10 @@
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
-    init() {
-       fetchPosts()
+    @Published var user: User
+    init(user: User) {
+        self.user = user
+        fetchPosts()
     }
     @Published var posts = [Post]()
     

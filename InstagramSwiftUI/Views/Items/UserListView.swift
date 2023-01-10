@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UserListView: View {
+    let vmFactory: VMFactoty
     @ObservedObject var viewModel: SearchViewModel
     @Binding var searchText: String
     var users: [User] {
@@ -18,7 +19,7 @@ struct UserListView: View {
             LazyVStack(spacing: 20) {
                 ForEach(users) { user in
                     NavigationLink {
-                        ProfileView(user: user)
+                        ProfileView(viewModel: vmFactory.makeProfileViewModel(), vmFactory: vmFactory)
                     } label: {
                         UserCell(user: user)
                             .padding(.leading)

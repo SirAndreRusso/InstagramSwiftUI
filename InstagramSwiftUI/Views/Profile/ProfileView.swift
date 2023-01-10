@@ -9,17 +9,16 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var viewModel: ProfileViewModel
-    let user: User
-    init(user: User) {
-        self.user = user
-        // Search for better place to initialize viewModels
-        self.viewModel = ProfileViewModel(user: user)
+    private let vmFactory: VMFactoty
+    init(viewModel: ProfileViewModel, vmFactory: VMFactoty) {
+        self.vmFactory = vmFactory
+        self.viewModel = viewModel
     }
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
                 ProfileHeaderView(viewModel: viewModel)
-                PostGridView(config: .profile(user.id ?? ""), user: user)
+                PostGridView(config: .profile(viewModel.user.id ?? ""), vmFactory: vmFactory)
             }
             .padding(.top)
         }

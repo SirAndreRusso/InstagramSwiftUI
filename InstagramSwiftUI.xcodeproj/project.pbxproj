@@ -33,7 +33,7 @@
 		B45043E82947D55A00BB26F2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B45043E72947D55A00BB26F2 /* Kingfisher */; };
 		B45043EA2947D6FE00BB26F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45043E92947D6FE00BB26F2 /* GoogleService-Info.plist */; };
 		B48A7D97294B9B7B007EE0A8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */; };
-		B48A7D99294C7B13007EE0A8 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */; };
+		B48A7D99294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */; };
 		B48A7D9B294F6177007EE0A8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9A294F6177007EE0A8 /* Constants.swift */; };
 		B48A7D9D294F979A007EE0A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9C294F979A007EE0A8 /* User.swift */; };
 		B48A7D9F294F9DAC007EE0A8 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */; };
@@ -63,6 +63,11 @@
 		B4FAA1F729648BDA00273965 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F629648BDA00273965 /* CommentViewModel.swift */; };
 		B4FAA1F9296492CD00273965 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1F8296492CD00273965 /* InputView.swift */; };
 		B4FAA1FB29673EF200273965 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1FA29673EF200273965 /* Notification.swift */; };
+		B4FAA1FD2967436500273965 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1FC2967436500273965 /* NotificationsViewModel.swift */; };
+		B4FAA1FF296B4DF300273965 /* NotificationSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */; };
+		B4FAA201296C55B400273965 /* ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA200296C55B400273965 /* ServiceFactory.swift */; };
+		B4FAA203296C59B800273965 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA202296C59B800273965 /* AuthService.swift */; };
+		B4FAA205296C7B2E00273965 /* VMFactoty.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA204296C7B2E00273965 /* VMFactoty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +107,7 @@
 		B45043D72944AF4600BB26F2 /* CustomSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureField.swift; sourceTree = "<group>"; };
 		B45043E92947D6FE00BB26F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
+		B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploaderServiceImpl.swift; sourceTree = "<group>"; };
 		B48A7D9A294F6177007EE0A8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B48A7D9C294F979A007EE0A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -135,6 +140,11 @@
 		B4FAA1F629648BDA00273965 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		B4FAA1F8296492CD00273965 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		B4FAA1FA29673EF200273965 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B4FAA1FC2967436500273965 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
+		B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSevice.swift; sourceTree = "<group>"; };
+		B4FAA200296C55B400273965 /* ServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceFactory.swift; sourceTree = "<group>"; };
+		B4FAA202296C59B800273965 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B4FAA204296C7B2E00273965 /* VMFactoty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMFactoty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +287,7 @@
 				B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */,
 				B4FAA1EE2960B00700273965 /* PostGreedViewModel.swift */,
 				B4FAA1F629648BDA00273965 /* CommentViewModel.swift */,
+				B4FAA1FC2967436500273965 /* NotificationsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -284,8 +295,12 @@
 		B4E26EB8293100750032DD14 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */,
+				B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */,
+				B4FAA202296C59B800273965 /* AuthService.swift */,
 				B48A7DA22953607B007EE0A8 /* UserService.swift */,
+				B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */,
+				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
+				B4FAA204296C7B2E00273965 /* VMFactoty.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -532,14 +547,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4FAA1FD2967436500273965 /* NotificationsViewModel.swift in Sources */,
+				B4FAA203296C59B800273965 /* AuthService.swift in Sources */,
 				B4FAA1EB295B812C00273965 /* FeedViewModel.swift in Sources */,
 				B4E26ECE293103460032DD14 /* FeedView.swift in Sources */,
 				B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */,
 				B4E26ED8293104050032DD14 /* NotificationsView.swift in Sources */,
 				B45043D22944A9A400BB26F2 /* RegistrationView.swift in Sources */,
 				B45043CC2940E45300BB26F2 /* UserStatsView.swift in Sources */,
-				B48A7D99294C7B13007EE0A8 /* ImageUploader.swift in Sources */,
+				B48A7D99294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift in Sources */,
 				B4E26EBE293101520032DD14 /* ContentView.swift in Sources */,
+				B4FAA205296C7B2E00273965 /* VMFactoty.swift in Sources */,
 				B4FAA1F729648BDA00273965 /* CommentViewModel.swift in Sources */,
 				B45043CA293FC72700BB26F2 /* ProfileHeaderView.swift in Sources */,
 				B45043D42944A9C700BB26F2 /* ResetPasswordView.swift in Sources */,
@@ -556,6 +574,7 @@
 				B4FAA1EF2960B00700273965 /* PostGreedViewModel.swift in Sources */,
 				B4E26ED6293103D30032DD14 /* UploadPostView.swift in Sources */,
 				B45043D82944AF4600BB26F2 /* CustomSecureField.swift in Sources */,
+				B4FAA1FF296B4DF300273965 /* NotificationSevice.swift in Sources */,
 				B4FAA1F129618B7300273965 /* FeedCellViewModel.swift in Sources */,
 				B4FAA1E9295B7EEC00273965 /* Post.swift in Sources */,
 				B48A7D9F294F9DAC007EE0A8 /* SearchViewModel.swift in Sources */,
@@ -565,6 +584,7 @@
 				B48A7D9D294F979A007EE0A8 /* User.swift in Sources */,
 				B43A5D9229337847005EEEF4 /* SearchBar.swift in Sources */,
 				B48A7D97294B9B7B007EE0A8 /* AuthViewModel.swift in Sources */,
+				B4FAA201296C55B400273965 /* ServiceFactory.swift in Sources */,
 				B48A7DA12953585C007EE0A8 /* ProfileViewModel.swift in Sources */,
 				B4E26ECC2931030A0032DD14 /* MainTabView.swift in Sources */,
 				B4FAA1F9296492CD00273965 /* InputView.swift in Sources */,

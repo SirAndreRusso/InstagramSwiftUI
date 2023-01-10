@@ -9,6 +9,10 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
+protocol ImageUploaderService {
+    func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void)
+}
+
 enum uploadType {
     case profileImage
     case post
@@ -24,8 +28,8 @@ enum uploadType {
     }
 }
 
-class ImageUploader {
-    static func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void) {
+class ImageUploaderServiceImpl: ImageUploaderService {
+        func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {return}
         
         let ref = type.filePath

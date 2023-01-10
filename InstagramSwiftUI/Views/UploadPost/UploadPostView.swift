@@ -11,8 +11,8 @@ import PhotosUI
 struct UploadPostView: View {
 //     find better way to initialize
 
-    init (user: User, tabIndex: Binding<Int>) {
-        self.viewModel = UploadPostViewModel(user: user)
+    init (viewModel: UploadPostViewModel, tabIndex: Binding<Int>) {
+        self.viewModel = viewModel
         self._tabIndex = tabIndex
     }
     @ObservedObject var viewModel: UploadPostViewModel
@@ -43,9 +43,7 @@ struct UploadPostView: View {
                             Text("Select a photo")
                                 .font(.title)
                                 .tint(.black)
-                            
                         }
-                        
                     }
                     .onChange(of: selectedImage) { newItem in
                         Task {
@@ -106,7 +104,6 @@ struct UploadPostView: View {
                             .cornerRadius(5)
                     }
                 }
-                
                 Spacer()
             }
         }

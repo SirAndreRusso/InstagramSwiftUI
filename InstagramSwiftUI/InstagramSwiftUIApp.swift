@@ -19,12 +19,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct InstagramSwiftUIApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-//    init() {
-//        FirebaseApp.configure()
-//    }
+
     var body: some Scene {
+        var authViewModel = AuthViewModel(imageUploader: ImageUploaderServiceImpl())
         WindowGroup {
-            ContentView().environmentObject(AuthViewModel())
+            ContentView().environmentObject(authViewModel)
         }
     }
 }

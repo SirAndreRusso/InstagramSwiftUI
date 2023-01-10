@@ -10,13 +10,16 @@ import Firebase
 
 class UploadPostViewModel: ObservableObject {
     // find out if we can use viewmodel inside viewmodel
-    init (user: User) {
+    init (user: User, imageUploader: ImageUploaderService) {
         self.user = user
+        self.imageUploader = imageUploader
     }
     var user : User
+    var imageUploader: ImageUploaderService
+    
     func uploadPost(caption: String, image: UIImage, completion:  ((Error?) -> Void)?) {
         //        guard let user = authViewModel.currentUser else { return }
-        ImageUploader.uploadImage(image: image, type: .post) { [weak self] imageURL in
+        imageUploader.uploadImage(image: image, type: .post) { [weak self] imageURL in
             guard let self = self else { return }
             let data: [String : Any] = ["caption" : caption,
                                         "timeStamp": Timestamp(date: Date()),
