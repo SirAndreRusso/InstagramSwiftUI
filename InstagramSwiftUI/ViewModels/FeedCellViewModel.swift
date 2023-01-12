@@ -11,13 +11,15 @@ import Firebase
 class FeedCellViewModel: ObservableObject {
     
     @Published var post: Post
+    @Published var user: User
     var likeString: String {
         let label = post.likes == 1 ? "like" : "likes"
         return "\(post.likes) \(label)"
     }
     
-    init(post: Post) {
+    init(post: Post, user: User) {
         self.post = post
+        self.user = user
         checkIfUserLikedPost()
     }
     

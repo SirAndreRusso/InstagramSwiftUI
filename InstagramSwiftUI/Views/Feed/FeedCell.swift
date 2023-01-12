@@ -10,15 +10,12 @@ import Kingfisher
 
 struct FeedCell: View {
     
-    private let user: User
-    
     @ObservedObject var viewModel : FeedCellViewModel
     
     var didLike: Bool { return viewModel.post.didLike ?? false}
     
-    init(viewModel: FeedCellViewModel, user: User) {
+    init(viewModel: FeedCellViewModel) {
         self.viewModel = viewModel
-        self.user = user
     }
     
     var body: some View {
@@ -54,7 +51,7 @@ struct FeedCell: View {
                 }
                
                 NavigationLink {
-                    CommentsView(post: viewModel.post, user: user)
+                    CommentsView(post: viewModel.post, user: viewModel.user)
                 } label: {
                     Image(systemName: "bubble.right")
                         .resizable()

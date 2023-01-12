@@ -8,9 +8,10 @@
 class VMFactoty {
     
     let user: User
-    
-    init(user: User) {
+    let serviceFactory: ServiceFactory
+    init(user: User, serviceFactory: ServiceFactory) {
         self.user = user
+        self.serviceFactory = serviceFactory
     }
     
     
@@ -29,10 +30,15 @@ class VMFactoty {
     }
     
     func makeNotificationsViewModel() -> NotificationsViewModel {
-        return NotificationsViewModel(user: user)
+        return NotificationsViewModel(user: user,
+                                      notificationsService: serviceFactory.makeNotificationService())
     }
     
-    func makeProfileViewModel() -> ProfileViewModel {
-        return ProfileViewModel(user: user)
+    func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
+        if let user = user {
+            return ProfileViewModel(user: user)
+        }
+        return ProfileViewModel(user: self.user)
     }
+    
 }
