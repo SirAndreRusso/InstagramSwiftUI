@@ -9,24 +9,24 @@ class VMFactoty {
     
     let user: User
     let serviceFactory: ServiceFactory
+    
     init(user: User, serviceFactory: ServiceFactory) {
         self.user = user
         self.serviceFactory = serviceFactory
     }
     
-    
     func makeUploadPostViewModel() -> UploadPostViewModel {
-        let imageUploader = ImageUploaderServiceImpl()
+        let imageUploader = serviceFactory.makeImageUploader()
         return UploadPostViewModel(user: user, imageUploader: imageUploader)
     }
     
     func makeFeedViewModel() -> FeedViewModel {
         
-        return FeedViewModel(user: user)
+        FeedViewModel(user: user)
     }
     
     func makeSearchViewModel() -> SearchViewModel {
-        return SearchViewModel()
+        SearchViewModel()
     }
     
     func makeNotificationsViewModel() -> NotificationsViewModel {
@@ -36,9 +36,10 @@ class VMFactoty {
     
     func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
         if let user = user {
-            return ProfileViewModel(user: user)
+            return ProfileViewModel(user: user, followingService: serviceFactory.makeFollowingService())
         }
-        return ProfileViewModel(user: self.user)
+        
+        return ProfileViewModel(user: self.user, followingService: serviceFactory.makeFollowingService())
     }
     
 }

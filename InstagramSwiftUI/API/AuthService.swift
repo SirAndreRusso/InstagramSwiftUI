@@ -10,28 +10,29 @@ import FirebaseAuth
 import Firebase
 
 protocol AuthService {
-    var imageUploader: ImageUploaderService {get set}
+    
+    var imageUploader: ImageUploader {get set}
+    
     func login(withEmail email: String,
                password: String,
                completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
-    
     func register(withEmail email: String,
                   password: String,
                   image: UIImage?,
                   fullname: String,
                   username: String,
                   completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
-    
     func signOut(completion: @escaping () -> Void)
-    
     func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void)
     func resetPassword()
+    
 }
 
-class AuthServiceImpl: AuthService {
-    var imageUploader: ImageUploaderService
+class DefaultAuthService: AuthService {
     
-    init(imageUploader: ImageUploaderService) {
+    var imageUploader: ImageUploader
+    
+    init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader
     }
     

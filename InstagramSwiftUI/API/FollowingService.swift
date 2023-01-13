@@ -1,5 +1,5 @@
 //
-//  UserService.swift
+//  FollowingService.swift
 //  InstagramSwiftUI
 //
 //  Created by Андрей Русин on 21.12.2022.
@@ -7,8 +7,17 @@
 
 import Firebase
 
-class UserService {
-    static func follow(uid: String, completion: @escaping ((Error?) -> Void)) {
+protocol FollowingService {
+    
+    func follow(uid: String, completion: @escaping ((Error?) -> Void))
+    func unFollow(uid: String, completion: @escaping ((Error?) -> Void))
+    func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool)-> Void)
+    
+}
+
+class DefaultFollowingService: FollowingService {
+    
+    func follow(uid: String, completion: @escaping ((Error?) -> Void)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         COLLECTION_FOLLOWING
             .document(currentUid)
@@ -23,7 +32,7 @@ class UserService {
             }
     }
     
-    static func unFollow(uid: String, completion: @escaping ((Error?) -> Void)) {
+    func unFollow(uid: String, completion: @escaping ((Error?) -> Void)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         COLLECTION_FOLLOWING
             .document(currentUid)
@@ -38,7 +47,7 @@ class UserService {
             }
     }
     
-    static func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool)-> Void) {
+    func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool)-> Void) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         COLLECTION_FOLLOWING
             .document(currentUid)
@@ -51,4 +60,5 @@ class UserService {
                 completion(isFollowed)
             }
     }
+    
 }

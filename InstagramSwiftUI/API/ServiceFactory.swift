@@ -18,15 +18,15 @@ class ServiceFactory {
         
     }
     
-    func makeImageUploaderService() {
-        
+    func makeImageUploader() -> ImageUploader {
+        DefaultImageUploader()
     }
     
-    func makeUserService() {
-        
+    func makeFollowingService() -> FollowingService {
+        DefaultFollowingService()
     }
     
     func makeNotificationService() -> NotificationService {
-        return NotificationServiceImpl(user: user)
+        DefaultNotificationService(user: user)
     }
 }

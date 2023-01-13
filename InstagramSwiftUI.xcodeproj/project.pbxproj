@@ -33,12 +33,12 @@
 		B45043E82947D55A00BB26F2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B45043E72947D55A00BB26F2 /* Kingfisher */; };
 		B45043EA2947D6FE00BB26F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45043E92947D6FE00BB26F2 /* GoogleService-Info.plist */; };
 		B48A7D97294B9B7B007EE0A8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */; };
-		B48A7D99294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */; };
+		B48A7D99294C7B13007EE0A8 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */; };
 		B48A7D9B294F6177007EE0A8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9A294F6177007EE0A8 /* Constants.swift */; };
 		B48A7D9D294F979A007EE0A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9C294F979A007EE0A8 /* User.swift */; };
 		B48A7D9F294F9DAC007EE0A8 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */; };
 		B48A7DA12953585C007EE0A8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */; };
-		B48A7DA32953607B007EE0A8 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7DA22953607B007EE0A8 /* UserService.swift */; };
+		B48A7DA32953607B007EE0A8 /* FollowingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48A7DA22953607B007EE0A8 /* FollowingService.swift */; };
 		B4E26E8B2930FFDB0032DD14 /* InstagramSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E26E8A2930FFDB0032DD14 /* InstagramSwiftUIApp.swift */; };
 		B4E26E8F2930FFDC0032DD14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4E26E8E2930FFDC0032DD14 /* Assets.xcassets */; };
 		B4E26E922930FFDC0032DD14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4E26E912930FFDC0032DD14 /* Preview Assets.xcassets */; };
@@ -107,12 +107,12 @@
 		B45043D72944AF4600BB26F2 /* CustomSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureField.swift; sourceTree = "<group>"; };
 		B45043E92947D6FE00BB26F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B48A7D96294B9B7B007EE0A8 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploaderServiceImpl.swift; sourceTree = "<group>"; };
+		B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		B48A7D9A294F6177007EE0A8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B48A7D9C294F979A007EE0A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		B48A7DA22953607B007EE0A8 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		B48A7DA22953607B007EE0A8 /* FollowingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingService.swift; sourceTree = "<group>"; };
 		B4E26E872930FFDB0032DD14 /* InstagramSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4E26E8A2930FFDB0032DD14 /* InstagramSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramSwiftUIApp.swift; sourceTree = "<group>"; };
 		B4E26E8E2930FFDC0032DD14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -295,9 +295,9 @@
 		B4E26EB8293100750032DD14 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				B48A7D98294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift */,
 				B4FAA202296C59B800273965 /* AuthService.swift */,
-				B48A7DA22953607B007EE0A8 /* UserService.swift */,
+				B48A7DA22953607B007EE0A8 /* FollowingService.swift */,
+				B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */,
 				B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */,
 				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
 				B4FAA204296C7B2E00273965 /* VMFactoty.swift */,
@@ -555,7 +555,7 @@
 				B4E26ED8293104050032DD14 /* NotificationsView.swift in Sources */,
 				B45043D22944A9A400BB26F2 /* RegistrationView.swift in Sources */,
 				B45043CC2940E45300BB26F2 /* UserStatsView.swift in Sources */,
-				B48A7D99294C7B13007EE0A8 /* ImageUploaderServiceImpl.swift in Sources */,
+				B48A7D99294C7B13007EE0A8 /* ImageUploader.swift in Sources */,
 				B4E26EBE293101520032DD14 /* ContentView.swift in Sources */,
 				B4FAA205296C7B2E00273965 /* VMFactoty.swift in Sources */,
 				B4FAA1F729648BDA00273965 /* CommentViewModel.swift in Sources */,
@@ -567,7 +567,7 @@
 				B4E26E8B2930FFDB0032DD14 /* InstagramSwiftUIApp.swift in Sources */,
 				B4329E33295A3C8000067C3E /* TextArea.swift in Sources */,
 				B45043C3293A651600BB26F2 /* UserCell.swift in Sources */,
-				B48A7DA32953607B007EE0A8 /* UserService.swift in Sources */,
+				B48A7DA32953607B007EE0A8 /* FollowingService.swift in Sources */,
 				B45043C8293FBCDD00BB26F2 /* NotificationCell.swift in Sources */,
 				B45043CE2940FE0100BB26F2 /* ProfileActionButtonView.swift in Sources */,
 				B4E26ED2293103820032DD14 /* SearchView.swift in Sources */,

@@ -21,7 +21,7 @@ struct InstagramSwiftUIApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
-        let authViewModel = AuthViewModel(authService: AuthServiceImpl(imageUploader: ImageUploaderServiceImpl()))
+        let authViewModel = AuthViewModel(authService: DefaultAuthService(imageUploader: DefaultImageUploader()))
         WindowGroup {
             ContentView().environmentObject(authViewModel)
         }

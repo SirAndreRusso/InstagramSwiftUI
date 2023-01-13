@@ -13,7 +13,7 @@ protocol NotificationService {
     func uploadNotification(toUid: String, type: NotificationType, post: Post?)
 }
 
-class NotificationServiceImpl: NotificationService {
+class DefaultNotificationService: NotificationService {
     let user: User
     init(user: User) {
         self.user = user
