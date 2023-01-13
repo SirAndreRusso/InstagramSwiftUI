@@ -16,10 +16,12 @@ class FeedCellViewModel: ObservableObject {
         let label = post.likes == 1 ? "like" : "likes"
         return "\(post.likes) \(label)"
     }
+    var notificationService: NotificationService
     
-    init(post: Post, user: User) {
+    init(post: Post, user: User, notificationService: NotificationService) {
         self.post = post
         self.user = user
+        self.notificationService = notificationService
         checkIfUserLikedPost()
     }
     
@@ -46,6 +48,10 @@ class FeedCellViewModel: ObservableObject {
                         COLLECTION_POSTS
                             .document(postId)
                             .updateData(["likes" : self.post.likes + 1])
+                        
+                        self.notificationService.uploadNotification(toUid: self.post.ownerUid,
+                                                                    type: .like,
+                                                                    post: self.post)
                         self.post.didLike = true
                         self.post.likes += 1
                     }
@@ -76,6 +82,7 @@ class FeedCellViewModel: ObservableObject {
                         COLLECTION_POSTS
                             .document(postId)
                             .updateData(["likes" : self.post.likes - 1])
+            
                         self.post.didLike = false
                         self.post.likes -= 1
                     }

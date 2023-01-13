@@ -11,10 +11,14 @@ class ProfileViewModel: ObservableObject {
     
    @Published var user: User
     let followingService: FollowingService
+    let notificationService: NotificationService
     
-    init(user: User, followingService: FollowingService) {
+    init(user: User,
+         followingService: FollowingService,
+         notificationService: NotificationService) {
         self.user = user
         self.followingService = followingService
+        self.notificationService = notificationService
         checkIfUserIsfollowed()
     }
     
@@ -25,6 +29,7 @@ class ProfileViewModel: ObservableObject {
             if let error = error {
                 print("DEBUG: Failed to follow \(self.user.username)" + error.localizedDescription)
             } else {
+                self.notificationService.uploadNotification(toUid: uid, type: .follow, post: nil)
                 self.user.isFolowed = true
                 print("DEBUG: Successfully folowed the user \(self.user.username)")
             }

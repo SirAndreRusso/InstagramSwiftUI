@@ -8,15 +8,20 @@
 import SwiftUI
 import Firebase
 
-class CommentViewModel: ObservableObject {
+class CommentsViewModel: ObservableObject {
+    
     @Published var comments = [Comment]()
     private let post: Post
     private let user: User
-    init(post: Post, user: User) {
+    let notificationService: NotificationService
+    
+    init(post: Post, user: User, notificationService: NotificationService) {
         self.post = post
         self.user = user
+        self.notificationService = notificationService
         fetchComments()
     }
+    
     func uploadComment(commentText: String) {
         guard let uid = user.id else { return }
         guard let postId = post.id else { return }
@@ -34,6 +39,9 @@ class CommentViewModel: ObservableObject {
                 if let error = error {
                     print("DEBUG: Failed to upload comment" + error.localizedDescription)
                 }
+                self.notificationService.uploadNotification(toUid: self.post.ownerUid,
+                                                            type: .comment,
+                                                            post: self.post)
             }
     }
     
@@ -43,6 +51,7 @@ class CommentViewModel: ObservableObject {
             .document(postId)
             .collection("post-comments")
             .order(by: "timestamp", descending: true)
+        
         query.addSnapshotListener { snapshot, error in
             if let error = error {
                 print("DEBUG: Failed to add snapshot listener" + error.localizedDescription)

@@ -22,7 +22,7 @@ class VMFactoty {
     
     func makeFeedViewModel() -> FeedViewModel {
         
-        FeedViewModel(user: user)
+        FeedViewModel(user: user, notificationService: serviceFactory.makeNotificationService())
     }
     
     func makeSearchViewModel() -> SearchViewModel {
@@ -30,16 +30,26 @@ class VMFactoty {
     }
     
     func makeNotificationsViewModel() -> NotificationsViewModel {
-        return NotificationsViewModel(user: user,
+        NotificationsViewModel(user: user,
                                       notificationsService: serviceFactory.makeNotificationService())
     }
     
     func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
         if let user = user {
-            return ProfileViewModel(user: user, followingService: serviceFactory.makeFollowingService())
+            return ProfileViewModel(user: user,
+                                    followingService: serviceFactory.makeFollowingService(),
+                                    notificationService: serviceFactory.makeNotificationService())
         }
         
-        return ProfileViewModel(user: self.user, followingService: serviceFactory.makeFollowingService())
+        return ProfileViewModel(user: self.user,
+                                followingService: serviceFactory.makeFollowingService(),
+                                notificationService: serviceFactory.makeNotificationService())
+    }
+    
+    func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel {
+        CommentsViewModel(post: post,
+                         user: user,
+                         notificationService: serviceFactory.makeNotificationService())
     }
     
 }

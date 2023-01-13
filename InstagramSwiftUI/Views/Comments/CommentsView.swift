@@ -10,11 +10,10 @@ import SwiftUI
 struct CommentsView: View {
     
     @State var commentText = ""
-    @ObservedObject var viewModel: CommentViewModel
+    @ObservedObject var viewModel: CommentsViewModel
     
-    init(post: Post, user: User) {
-        self.viewModel  = CommentViewModel(post: post, user: user)
-        
+    init(viewModel: CommentsViewModel) {
+        self.viewModel  = viewModel
     }
     
     var body: some View {

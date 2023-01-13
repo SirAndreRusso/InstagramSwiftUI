@@ -22,12 +22,11 @@ class DefaultNotificationService: NotificationService {
         
     }
     
-    func uploadNotification(toUid: String, type: NotificationType, post: Post? = nil) {
-        guard let uid = user.id else { return }
+    func uploadNotification(toUid uid: String, type: NotificationType, post: Post? = nil) {
         var data: [String: Any] = [
             "timestamp": Timestamp(date: Date()),
             "username": user.username,
-            "uid": uid,
+            "uid": user.id ?? "",
             "profileImageURL": user.profileImageURL,
             "type": type.rawValue,
         ]

@@ -8,9 +8,13 @@
 import SwiftUI
 
 class FeedViewModel: ObservableObject {
+    
     @Published var user: User
-    init(user: User) {
+    let notificationService: NotificationService
+    
+    init(user: User, notificationService: NotificationService) {
         self.user = user
+        self.notificationService = notificationService
         fetchPosts()
     }
     @Published var posts = [Post]()
