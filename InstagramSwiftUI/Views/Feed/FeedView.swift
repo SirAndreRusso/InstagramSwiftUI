@@ -24,7 +24,8 @@ struct FeedView: View {
                 ForEach(viewModel.posts) { post in
                     FeedCell(viewModel: FeedCellViewModel(post: post,
                                                           user: viewModel.user,
-                                                          notificationService: viewModel.notificationService),
+                                                          notificationService: viewModel.notificationService,
+                                                          likeService: viewModel.likeService),
                              vmfactory: vmFactory)
                 }
             }

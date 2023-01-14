@@ -17,91 +17,39 @@ class FeedCellViewModel: ObservableObject {
         return "\(post.likes) \(label)"
     }
     var notificationService: NotificationService
+    var likeService: LikeService
     
-    init(post: Post, user: User, notificationService: NotificationService) {
+    init(post: Post, user: User, notificationService: NotificationService, likeService: LikeService) {
         self.post = post
         self.user = user
         self.notificationService = notificationService
+        self.likeService = likeService
         checkIfUserLikedPost()
     }
     
     func like() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let postId = post.id else { return }
-        COLLECTION_POSTS
-            .document(postId)
-            .collection("post-likes")
-            .document(uid)
-            .setData([:]) { error in
-                if let error = error {
-                    print("DEBUG: Failed to set data in post-likes collection" + error.localizedDescription)
-                }
-                COLLECTION_USERS
-                    .document(uid)
-                    .collection("user-likes")
-                    .document(postId)
-                    .setData([:]) { [weak self] error in
-                        if let error = error {
-                            print("DEBUG: Failed to set data in user-likes collection" + error.localizedDescription)
-                        }
-                        guard let self = self else { return }
-                        COLLECTION_POSTS
-                            .document(postId)
-                            .updateData(["likes" : self.post.likes + 1])
-                        
-                        self.notificationService.uploadNotification(toUid: self.post.ownerUid,
-                                                                    type: .like,
-                                                                    post: self.post)
-                        self.post.didLike = true
-                        self.post.likes += 1
-                    }
-            }
+        likeService.like(post: post) {
+            self.notificationService.uploadNotification(toUid: self.post.ownerUid,
+                                                        type: .like,
+                                                        post: self.post)
+            self.post.didLike = true
+            self.post.likes += 1
+        }
     }
+    
+    
     
     func unLike() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let postId = post.id else { return }
-        guard post.likes > 0 else { return }
-        COLLECTION_POSTS
-            .document(postId)
-            .collection("post-likes")
-            .document(uid)
-            .delete { error in
-                if let error = error {
-                    print("DEBUG: Failed to delete data from post-likes collection" + error.localizedDescription)
-                }
-                COLLECTION_USERS
-                    .document(uid)
-                    .collection("user-likes")
-                    .document(postId)
-                    .delete { [weak self] error in
-                        if let error = error {
-                            print("DEBUG: Failed to delete data from user-likes collection" + error.localizedDescription)
-                        }
-                        guard let self = self else { return }
-                        COLLECTION_POSTS
-                            .document(postId)
-                            .updateData(["likes" : self.post.likes - 1])
-            
-                        self.post.didLike = false
-                        self.post.likes -= 1
-                    }
-            }
+        likeService.unLike(post: post) {
+            self.post.didLike = false
+            self.post.likes -= 1
+        }
     }
     
+    
     func checkIfUserLikedPost() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let postId = post.id else { return }
-        COLLECTION_USERS
-            .document(uid)
-            .collection("user-likes")
-            .document(postId)
-            .getDocument { snapShot, error in
-                if let error = error {
-                    print("DEBUG: Failed to check if user liked a post" + error.localizedDescription)
-                }
-                guard let didLike = snapShot?.exists else { return }
-                self.post.didLike = didLike
-            }
+        self.likeService.checkIfUserLikedPost(post: post) { didLike in
+            self.post.didLike = didLike
+        }
     }
 }

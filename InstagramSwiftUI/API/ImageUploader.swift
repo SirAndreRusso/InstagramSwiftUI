@@ -10,7 +10,9 @@ import Firebase
 import FirebaseStorage
 
 protocol ImageUploader {
+    
     func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void)
+    
 }
 
 enum uploadType {
@@ -48,6 +50,7 @@ class DefaultImageUploader: ImageUploader {
                         return
                     } else {
                         guard let imageURL = url?.absoluteString else { return }
+                        
                         completion(imageURL)
                     }
                 }

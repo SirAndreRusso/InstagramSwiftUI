@@ -10,14 +10,17 @@ import SwiftUI
 class FeedViewModel: ObservableObject {
     
     @Published var user: User
+    @Published var posts = [Post]()
     let notificationService: NotificationService
+    let likeService: LikeService
     
-    init(user: User, notificationService: NotificationService) {
+    init(user: User, notificationService: NotificationService, likeService: LikeService) {
         self.user = user
         self.notificationService = notificationService
+        self.likeService = likeService
         fetchPosts()
     }
-    @Published var posts = [Post]()
+    
     
     func fetchPosts() {
         COLLECTION_POSTS.getDocuments { snapShot, error in

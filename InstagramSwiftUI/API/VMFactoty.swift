@@ -21,35 +21,42 @@ class VMFactoty {
     }
     
     func makeFeedViewModel() -> FeedViewModel {
-        
-        FeedViewModel(user: user, notificationService: serviceFactory.makeNotificationService())
+        let notificationService = serviceFactory.makeNotificationService()
+        let likeService = serviceFactory.makeLikeService()
+        return FeedViewModel(user: user,
+                             notificationService: notificationService, likeService: likeService)
     }
+    
     
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel()
     }
     
     func makeNotificationsViewModel() -> NotificationsViewModel {
-        NotificationsViewModel(user: user,
-                                      notificationsService: serviceFactory.makeNotificationService())
+        let notificationService = serviceFactory.makeNotificationService()
+        return NotificationsViewModel(user: user, notificationsService: notificationService)
     }
     
     func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
+        let followingService = serviceFactory.makeFollowingService()
+        let notificationService = serviceFactory.makeNotificationService()
+        
         if let user = user {
             return ProfileViewModel(user: user,
-                                    followingService: serviceFactory.makeFollowingService(),
-                                    notificationService: serviceFactory.makeNotificationService())
+                                    followingService: followingService,
+                                    notificationService: notificationService)
         }
         
         return ProfileViewModel(user: self.user,
-                                followingService: serviceFactory.makeFollowingService(),
-                                notificationService: serviceFactory.makeNotificationService())
+                                followingService: followingService,
+                                notificationService: notificationService)
     }
     
     func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel {
-        CommentsViewModel(post: post,
+        let notificationService = serviceFactory.makeNotificationService()
+        return CommentsViewModel(post: post,
                          user: user,
-                         notificationService: serviceFactory.makeNotificationService())
+                         notificationService: notificationService)
     }
     
 }

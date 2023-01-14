@@ -29,4 +29,8 @@ class ServiceFactory {
     func makeNotificationService() -> NotificationService {
         DefaultNotificationService(user: user)
     }
+    
+    func makeLikeService() -> LikeService {
+        DefaultLikeService()
+    }
 }

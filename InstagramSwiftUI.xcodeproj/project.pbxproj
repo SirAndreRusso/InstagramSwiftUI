@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B42CA69F297207A0000C1D09 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA69E297207A0000C1D09 /* LikeService.swift */; };
 		B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */; };
 		B4329E33295A3C8000067C3E /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E32295A3C8000067C3E /* TextArea.swift */; };
 		B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D8F29321119005EEEF4 /* FeedCell.swift */; };
@@ -88,6 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B42CA69E297207A0000C1D09 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
 		B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostViewModel.swift; sourceTree = "<group>"; };
 		B4329E32295A3C8000067C3E /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
 		B43A5D8F29321119005EEEF4 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				B4FAA202296C59B800273965 /* AuthService.swift */,
 				B48A7DA22953607B007EE0A8 /* FollowingService.swift */,
 				B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */,
+				B42CA69E297207A0000C1D09 /* LikeService.swift */,
 				B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */,
 				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
 				B4FAA204296C7B2E00273965 /* VMFactoty.swift */,
@@ -581,6 +584,7 @@
 				B4FAA1F529648BB900273965 /* CommentCell.swift in Sources */,
 				B45043BF293A611F00BB26F2 /* PostGridView.swift in Sources */,
 				B4E26ED4293103B50032DD14 /* ProfileView.swift in Sources */,
+				B42CA69F297207A0000C1D09 /* LikeService.swift in Sources */,
 				B48A7D9D294F979A007EE0A8 /* User.swift in Sources */,
 				B43A5D9229337847005EEEF4 /* SearchBar.swift in Sources */,
 				B48A7D97294B9B7B007EE0A8 /* AuthViewModel.swift in Sources */,

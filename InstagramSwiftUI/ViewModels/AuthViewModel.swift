@@ -40,7 +40,6 @@ class AuthViewModel: ObservableObject {
                   image: UIImage?,
                   fullname: String,
                   username: String) {
-      
         authService.register(withEmail: email,
                              password: password,
                              image: image,
@@ -69,7 +68,6 @@ class AuthViewModel: ObservableObject {
         guard let uid = userSession?.uid else { return }
         authService.fetchUser(uid: uid) { result in
             switch result {
-                
             case .success(let user):
                 self.currentUser = user
                 print("User fetched")
@@ -83,4 +81,5 @@ class AuthViewModel: ObservableObject {
     func resetPassword() {
         
     }
+    
 }

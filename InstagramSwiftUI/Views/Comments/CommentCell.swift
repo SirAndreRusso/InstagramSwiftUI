@@ -19,7 +19,9 @@ struct CommentCell: View {
                 .clipShape(Circle())
             
             Text(comment.username)
-                .font(.system(size: 14, weight: .semibold)) +
+                .font(.system(size: 14, weight: .semibold))
+                .padding(.trailing, -2)
+            
             Text(comment.commentText)
                 .font(.system(size: 14))
             
