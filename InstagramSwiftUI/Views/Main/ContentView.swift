@@ -21,7 +21,7 @@ struct ContentView: View {
                     let vmFactory = VMFactoty(user: user, serviceFactory: serviceFacroty)
                     let postsService = serviceFacroty.makePostsService()
                     
-                    MainTabView(vmFactory: vmFactory, postsService: postsService, selectedIndex: $selectedIndex)
+                    MainTabView(vmFactory: vmFactory, postService: postsService, selectedIndex: $selectedIndex)
                 }
             }
         }

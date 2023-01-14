@@ -17,9 +17,9 @@ struct PostGridView: View {
     private let items = [GridItem(), GridItem(), GridItem()]
     private let width = UIScreen.main.bounds.width / 3
     
-    init(config: PostGreedConfiguration, vmFactory: VMFactoty, postsService: PostService) {
+    init(config: PostGreedConfiguration, vmFactory: VMFactoty, postService: PostService) {
         self.config = config
-        self.viewModel = PostGreedViewModel(config: config, postsService: postsService)
+        self.viewModel = PostGreedViewModel(config: config, postService: postService)
         self.vmFactory = vmFactory
     }
     

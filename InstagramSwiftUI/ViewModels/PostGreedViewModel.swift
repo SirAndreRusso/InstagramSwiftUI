@@ -15,12 +15,12 @@ enum PostGreedConfiguration {
 class PostGreedViewModel: ObservableObject {
     
   @Published var posts = [Post]()
-    let postsService: PostService
+    let postService: PostService
     let config: PostGreedConfiguration
     
-    init(config: PostGreedConfiguration, postsService: PostService) {
+    init(config: PostGreedConfiguration, postService: PostService) {
         self.config = config
-        self.postsService = postsService
+        self.postService = postService
         fetchPosts(forConfig: config)
     }
     
@@ -35,13 +35,13 @@ class PostGreedViewModel: ObservableObject {
     }
     
     func fetchSearchPosts() {
-        postsService.fetchSearchPosts { posts in
+        postService.fetchSearchPosts { posts in
             self.posts = posts
         }
     }
     
     func fetchUserPosts(forUid uid: String) {
-        postsService.fetchUserPosts(forUid: uid) { posts in
+        postService.fetchUserPosts(forUid: uid) { posts in
             self.posts = posts
         }
     }

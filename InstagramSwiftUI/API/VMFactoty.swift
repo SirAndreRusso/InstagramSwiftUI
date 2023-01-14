@@ -31,7 +31,8 @@ class VMFactoty {
     }
     
     func makeSearchViewModel() -> SearchViewModel {
-        SearchViewModel()
+        let userService = serviceFactory.makeUserService()
+        return SearchViewModel(userService: userService)
     }
     
     func makeNotificationsViewModel() -> NotificationsViewModel {

@@ -15,6 +15,7 @@ protocol ServiceFactory {
     func makeNotificationService() -> NotificationService
     func makeLikeService() -> LikeService
     func makePostsService() -> PostService
+    func makeUserService() -> UserService
     
 }
 
@@ -48,6 +49,10 @@ class DefaultServiceFactory: ServiceFactory {
     
     func makePostsService() -> PostService {
         DefaultPostService(imageUploader: makeImageUploader())
+    }
+    
+    func makeUserService() -> UserService {
+        DefaultUserService()
     }
     
 }

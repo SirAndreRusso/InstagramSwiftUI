@@ -10,25 +10,20 @@ import SwiftUI
 class SearchViewModel: ObservableObject {
     
     @Published var users = [User]()
-    
-    init() {
+    let userService: UserService
+    init(userService: UserService) {
+        self.userService = userService
         fetchUsers()
     }
     
     func  fetchUsers() {
-        COLLECTION_USERS.getDocuments { snapShot, error in
-            if let error = error {
-                print("DEBUG: Failed to fetch users \(error.localizedDescription)")
-                return
-            }
-            guard let documents = snapShot?.documents else { return }
-            self.users = documents.compactMap({ try? $0.data(as: User.self)})
+        userService.fetchUsers { users in
+            self.users = users
         }
     }
 
     func filteredUsers(_ query: String) -> [User] {
-        let lowercasedQuery = query.lowercased()
-        return users.filter({ $0.fullname.lowercased().contains(lowercasedQuery) ||  $0.username.contains(lowercasedQuery)})
+        userService.filteredUsers(users: users, query)
     }
     
 }

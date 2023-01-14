@@ -6,20 +6,19 @@
 //
 
 import SwiftUI
-import Firebase
 
 class UploadPostViewModel: ObservableObject {
     
     var user : User
-    var postsService: PostService
+    var postService: PostService
     
     init (user: User, postsService: PostService) {
         self.user = user
-        self.postsService = postsService
+        self.postService = postsService
     }
     
     func uploadPost(caption: String, image: UIImage, completion:  ((Error?) -> Void)?) {
-        postsService.uploadPost(user: user, caption: caption, image: image, completion: completion)
+        postService.uploadPost(user: user, caption: caption, image: image, completion: completion)
     }
     
 }

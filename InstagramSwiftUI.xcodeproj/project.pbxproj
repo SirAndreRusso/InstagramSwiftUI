@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B42CA69F297207A0000C1D09 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA69E297207A0000C1D09 /* LikeService.swift */; };
 		B42CA6A129733EC5000C1D09 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA6A029733EC5000C1D09 /* PostService.swift */; };
+		B42CA6A329735AC8000C1D09 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA6A229735AC8000C1D09 /* UserService.swift */; };
 		B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */; };
 		B4329E33295A3C8000067C3E /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E32295A3C8000067C3E /* TextArea.swift */; };
 		B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D8F29321119005EEEF4 /* FeedCell.swift */; };
@@ -92,6 +93,7 @@
 /* Begin PBXFileReference section */
 		B42CA69E297207A0000C1D09 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
 		B42CA6A029733EC5000C1D09 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		B42CA6A229735AC8000C1D09 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostViewModel.swift; sourceTree = "<group>"; };
 		B4329E32295A3C8000067C3E /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
 		B43A5D8F29321119005EEEF4 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
 				B4FAA204296C7B2E00273965 /* VMFactoty.swift */,
 				B42CA6A029733EC5000C1D09 /* PostService.swift */,
+				B42CA6A229735AC8000C1D09 /* UserService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				B45043CE2940FE0100BB26F2 /* ProfileActionButtonView.swift in Sources */,
 				B4E26ED2293103820032DD14 /* SearchView.swift in Sources */,
 				B4FAA1EF2960B00700273965 /* PostGreedViewModel.swift in Sources */,
+				B42CA6A329735AC8000C1D09 /* UserService.swift in Sources */,
 				B4E26ED6293103D30032DD14 /* UploadPostView.swift in Sources */,
 				B45043D82944AF4600BB26F2 /* CustomSecureField.swift in Sources */,
 				B4FAA1FF296B4DF300273965 /* NotificationSevice.swift in Sources */,

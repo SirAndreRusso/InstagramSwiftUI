@@ -11,13 +11,13 @@ struct ProfileView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
     let vmFactory: VMFactoty
-    let postsService: PostService
+    let postService: PostService
    
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
                 ProfileHeaderView(viewModel: viewModel)
-                PostGridView(config: .profile(viewModel.user.id ?? ""), vmFactory: vmFactory, postsService: postsService)
+                PostGridView(config: .profile(viewModel.user.id ?? ""), vmFactory: vmFactory, postService: postService)
             }
             .padding(.top)
         }
