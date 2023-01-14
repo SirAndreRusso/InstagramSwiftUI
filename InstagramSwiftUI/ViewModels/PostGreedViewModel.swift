@@ -15,10 +15,12 @@ enum PostGreedConfiguration {
 class PostGreedViewModel: ObservableObject {
     
   @Published var posts = [Post]()
+    let postsService: PostService
     let config: PostGreedConfiguration
     
-    init(config: PostGreedConfiguration) {
+    init(config: PostGreedConfiguration, postsService: PostService) {
         self.config = config
+        self.postsService = postsService
         fetchPosts(forConfig: config)
     }
     
@@ -33,26 +35,14 @@ class PostGreedViewModel: ObservableObject {
     }
     
     func fetchSearchPosts() {
-        COLLECTION_POSTS.getDocuments { snapShot, error in
-            if let error = error {
-                print("DEBUG: Failed to fetch search page posts \(error.localizedDescription)")
-                return
-            }
-            guard let documents = snapShot?.documents else { return }
-            self.posts = documents.compactMap({ try? $0.data(as: Post.self)})
-            print(self.posts)
+        postsService.fetchSearchPosts { posts in
+            self.posts = posts
         }
     }
     
     func fetchUserPosts(forUid uid: String) {
-        COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { snapShot, error in
-            if let error = error {
-                print("DEBUG: Failed to fetch user's posts \(error.localizedDescription)")
-                return
-            }
-            guard let documents = snapShot?.documents else { return }
-            self.posts = documents.compactMap({ try? $0.data(as: Post.self)})
-            print(self.posts)
+        postsService.fetchUserPosts(forUid: uid) { posts in
+            self.posts = posts
         }
     }
 }

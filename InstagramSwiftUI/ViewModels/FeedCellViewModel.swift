@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Firebase
 
 class FeedCellViewModel: ObservableObject {
     
@@ -29,15 +28,13 @@ class FeedCellViewModel: ObservableObject {
     
     func like() {
         likeService.like(post: post) {
+            self.post.didLike = true
+            self.post.likes += 1
             self.notificationService.uploadNotification(toUid: self.post.ownerUid,
                                                         type: .like,
                                                         post: self.post)
-            self.post.didLike = true
-            self.post.likes += 1
         }
     }
-    
-    
     
     func unLike() {
         likeService.unLike(post: post) {

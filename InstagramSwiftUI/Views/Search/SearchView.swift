@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SearchView: View {
-    init(viewModel: SearchViewModel, vmFactory: VMFactoty) {
+    init(viewModel: SearchViewModel, vmFactory: VMFactoty, postsService: PostService) {
         self.viewModel = viewModel
         self.vmFactory = vmFactory
+        self.postsService = postsService
     }
+    let postsService: PostService
     let vmFactory: VMFactoty
     @State var searchText = ""
     @State var inSearchMode = false
@@ -22,9 +24,9 @@ struct SearchView: View {
                 .padding()
             ZStack {
                 if inSearchMode {
-                    UserListView(vmFactory: vmFactory, viewModel: viewModel, searchText: $searchText)
+                    UserListView(vmFactory: vmFactory, postsService: postsService, viewModel: viewModel, searchText: $searchText)
                 } else {
-                    PostGridView(config: .search, vmFactory: vmFactory)
+                    PostGridView(config: .search, vmFactory: vmFactory, postsService: postsService)
                 }
             }
         }

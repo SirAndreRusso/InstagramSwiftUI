@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     var vmFactory: VMFactoty
+    var postsService: PostService
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedIndex: Int
     var body: some View {
@@ -21,7 +22,7 @@ struct MainTabView: View {
                     .tabItem {
                         Image(systemName: "house")
                     }.tag(0)
-                SearchView(viewModel: vmFactory.makeSearchViewModel(), vmFactory: vmFactory)
+                SearchView(viewModel: vmFactory.makeSearchViewModel(), vmFactory: vmFactory, postsService: postsService)
                     .onTapGesture {
                         selectedIndex = 1
                     }
@@ -42,7 +43,7 @@ struct MainTabView: View {
                     .tabItem {
                         Image(systemName: "heart")
                     }.tag(3)
-                ProfileView(viewModel: vmFactory.makeProfileViewModel(), vmFactory: vmFactory)
+                ProfileView(viewModel: vmFactory.makeProfileViewModel(), vmFactory: vmFactory, postsService: postsService)
                     .onTapGesture {
                         selectedIndex = 4
                     }
@@ -57,9 +58,11 @@ struct MainTabView: View {
             .tint(.black)
         }
     }
+    
     var LogOutButton: some View {
         Button {
             viewModel.signOut()
+            self.selectedIndex = 0
         } label: {
             Text("Logout")
                 .foregroundColor(.black)

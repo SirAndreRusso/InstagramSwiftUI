@@ -9,29 +9,17 @@ import SwiftUI
 import Firebase
 
 class UploadPostViewModel: ObservableObject {
-    // find out if we can use viewmodel inside viewmodel
-    init (user: User, imageUploader: ImageUploader) {
-        self.user = user
-        self.imageUploader = imageUploader
-    }
+    
     var user : User
-    var imageUploader: ImageUploader
+    var postsService: PostService
+    
+    init (user: User, postsService: PostService) {
+        self.user = user
+        self.postsService = postsService
+    }
     
     func uploadPost(caption: String, image: UIImage, completion:  ((Error?) -> Void)?) {
-        //        guard let user = authViewModel.currentUser else { return }
-        imageUploader.uploadImage(image: image, type: .post) { [weak self] imageURL in
-            guard let self = self else { return }
-            let data: [String : Any] = ["caption" : caption,
-                                        "timeStamp": Timestamp(date: Date()),
-                                        "likes" : 0,
-                                        "imageURL" : imageURL,
-                                        "ownerUid" : self.user.id ?? "",
-                                        "ownerImageURL" : self.user.profileImageURL,
-                                        "ownerUsername" : self.user.username] as [String : Any]
-            
-            COLLECTION_POSTS.addDocument(data: data, completion: completion)
-            
-        }
-        
+        postsService.uploadPost(user: user, caption: caption, image: image, completion: completion)
     }
+    
 }

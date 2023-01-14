@@ -8,16 +8,21 @@
 import Firebase
 
 protocol NotificationService {
+    
     var user: User {get }
     func fetchNotifications()
     func uploadNotification(toUid: String, type: NotificationType, post: Post?)
+    
 }
 
 class DefaultNotificationService: NotificationService {
+    
     let user: User
+    
     init(user: User) {
         self.user = user
     }
+    
     func fetchNotifications() {
         
     }

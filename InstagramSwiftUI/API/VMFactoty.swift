@@ -16,17 +16,19 @@ class VMFactoty {
     }
     
     func makeUploadPostViewModel() -> UploadPostViewModel {
-        let imageUploader = serviceFactory.makeImageUploader()
-        return UploadPostViewModel(user: user, imageUploader: imageUploader)
+        let postsService = serviceFactory.makePostsService()
+        return UploadPostViewModel(user: user, postsService: postsService)
     }
     
     func makeFeedViewModel() -> FeedViewModel {
         let notificationService = serviceFactory.makeNotificationService()
         let likeService = serviceFactory.makeLikeService()
+        let postsService = serviceFactory.makePostsService()
         return FeedViewModel(user: user,
-                             notificationService: notificationService, likeService: likeService)
+                             notificationService: notificationService,
+                             likeService: likeService,
+                             postsService: postsService)
     }
-    
     
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel()

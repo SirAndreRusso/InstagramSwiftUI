@@ -17,10 +17,11 @@ struct ContentView: View {
                 LoginView()
             } else {
                 if let user = viewModel.currentUser {
-                    let serviceFacroty = ServiceFactory(user: user)
+                    let serviceFacroty = DefaultServiceFactory(user: user)
                     let vmFactory = VMFactoty(user: user, serviceFactory: serviceFacroty)
+                    let postsService = serviceFacroty.makePostsService()
                     
-                    MainTabView(vmFactory: vmFactory, selectedIndex: $selectedIndex)
+                    MainTabView(vmFactory: vmFactory, postsService: postsService, selectedIndex: $selectedIndex)
                 }
             }
         }

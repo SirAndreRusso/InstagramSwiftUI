@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
     @ObservedObject var viewModel: ProfileViewModel
-    private let vmFactory: VMFactoty
-    init(viewModel: ProfileViewModel, vmFactory: VMFactoty) {
-        self.vmFactory = vmFactory
-        self.viewModel = viewModel
-    }
+    let vmFactory: VMFactoty
+    let postsService: PostService
+   
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
                 ProfileHeaderView(viewModel: viewModel)
-                PostGridView(config: .profile(viewModel.user.id ?? ""), vmFactory: vmFactory)
+                PostGridView(config: .profile(viewModel.user.id ?? ""), vmFactory: vmFactory, postsService: postsService)
             }
             .padding(.top)
         }

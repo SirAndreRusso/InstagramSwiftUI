@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserListView: View {
     let vmFactory: VMFactoty
+    let postsService: PostService
     @ObservedObject var viewModel: SearchViewModel
     @Binding var searchText: String
     var body: some View {
@@ -18,7 +19,7 @@ struct UserListView: View {
                         ? viewModel.users
                         : viewModel.filteredUsers(searchText)) { user in
                     NavigationLink {
-                        ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user), vmFactory: vmFactory)
+                        ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user), vmFactory: vmFactory, postsService: postsService)
                     } label: {
                         UserCell(user: user)
                             .padding(.leading)
