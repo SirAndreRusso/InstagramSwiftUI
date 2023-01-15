@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct SearchBar: View {
+    
     @Binding var text: String
     @Binding var isEditing: Bool
+    
     var body: some View {
         HStack {
             TextField("Search...", text: $text)
@@ -44,5 +46,6 @@ struct SearchBar: View {
         }
         .animation(.default, value: isEditing)
     }
+    
 }
 

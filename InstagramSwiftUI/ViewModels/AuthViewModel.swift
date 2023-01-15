@@ -12,12 +12,10 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
-    var imageUploader: ImageUploader
-    var authService: AuthService
+    private let authService: AuthService
     
     init(authService: AuthService) {
         self.authService = authService
-        self.imageUploader = authService.imageUploader
         userSession = Auth.auth().currentUser
         fetchUser()
     }

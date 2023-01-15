@@ -10,18 +10,10 @@ import Kingfisher
 
 struct PostGridView: View {
     
-    @ObservedObject var viewModel : PostGreedViewModel
-    let vmFactory: DefaultVMFactory
-    let config: PostGreedConfiguration
-//    let postsService: PostService
+    @ObservedObject var viewModel: PostGreedViewModel
     private let items = [GridItem(), GridItem(), GridItem()]
     private let width = UIScreen.main.bounds.width / 3
-    
-    init(config: PostGreedConfiguration, vmFactory: DefaultVMFactory, postService: PostService) {
-        self.config = config
-        self.viewModel = PostGreedViewModel(config: config, postService: postService)
-        self.vmFactory = vmFactory
-    }
+    let vmFactory: VMFactory
     
     var body: some View {
         LazyVGrid(columns: items, spacing: 2, content: {

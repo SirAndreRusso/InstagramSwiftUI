@@ -8,15 +8,17 @@
 import SwiftUI
 
 enum PostGreedConfiguration {
+    
     case search
     case profile(String)
+    
 }
 
 class PostGreedViewModel: ObservableObject {
     
-  @Published var posts = [Post]()
-    let postService: PostService
-    let config: PostGreedConfiguration
+    @Published var posts = [Post]()
+    private let postService: PostService
+    private let config: PostGreedConfiguration
     
     init(config: PostGreedConfiguration, postService: PostService) {
         self.config = config
@@ -45,4 +47,5 @@ class PostGreedViewModel: ObservableObject {
             self.posts = posts
         }
     }
+    
 }

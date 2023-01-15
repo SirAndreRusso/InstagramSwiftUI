@@ -12,12 +12,7 @@ struct FeedCell: View {
     
     @ObservedObject var viewModel : FeedCellViewModel
     var didLike: Bool { return viewModel.post.didLike ?? false}
-    let vmfactory: DefaultVMFactory
-    
-    init(viewModel: FeedCellViewModel, vmfactory: DefaultVMFactory) {
-        self.viewModel = viewModel
-        self.vmfactory = vmfactory
-    }
+    let vmfactory: VMFactory
     
     var body: some View {
         VStack(alignment: .leading) {

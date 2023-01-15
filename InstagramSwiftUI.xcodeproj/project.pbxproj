@@ -292,8 +292,8 @@
 				B4FAA1EA295B812C00273965 /* FeedViewModel.swift */,
 				B4FAA1F029618B7300273965 /* FeedCellViewModel.swift */,
 				B4FAA1FC2967436500273965 /* NotificationsViewModel.swift */,
-				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
 				B4FAA1EE2960B00700273965 /* PostGreedViewModel.swift */,
+				B48A7DA02953585C007EE0A8 /* ProfileViewModel.swift */,
 				B48A7D9E294F9DAC007EE0A8 /* SearchViewModel.swift */,
 				B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */,
 			);

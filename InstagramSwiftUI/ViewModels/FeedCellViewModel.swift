@@ -11,12 +11,12 @@ class FeedCellViewModel: ObservableObject {
     
     @Published var post: Post
     @Published var user: User
+    private let notificationService: NotificationService
+    private let likeService: LikeService
     var likeString: String {
         let label = post.likes == 1 ? "like" : "likes"
         return "\(post.likes) \(label)"
     }
-    var notificationService: NotificationService
-    var likeService: LikeService
     
     init(post: Post, user: User, notificationService: NotificationService, likeService: LikeService) {
         self.post = post
@@ -43,10 +43,10 @@ class FeedCellViewModel: ObservableObject {
         }
     }
     
-    
     func checkIfUserLikedPost() {
         self.likeService.checkIfUserLikedPost(post: post) { didLike in
             self.post.didLike = didLike
         }
     }
+    
 }

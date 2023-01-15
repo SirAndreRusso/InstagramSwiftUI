@@ -10,13 +10,7 @@ import SwiftUI
 struct FeedView: View {
     
     @ObservedObject var viewModel: FeedViewModel
-    let vmFactory: DefaultVMFactory
-    
-    init(viewModel: FeedViewModel, vmFactory: DefaultVMFactory) {
-        self.viewModel = viewModel
-        self.vmFactory = vmFactory
-        
-    }
+    let vmFactory: VMFactory
   
     var body: some View {
         ScrollView {
@@ -30,6 +24,7 @@ struct FeedView: View {
             .padding(.top)
         }
     }
+    
 }
 
 

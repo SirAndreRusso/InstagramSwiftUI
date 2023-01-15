@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct SearchView: View {
-    init(viewModel: SearchViewModel, vmFactory: DefaultVMFactory, postService: PostService) {
-        self.viewModel = viewModel
-        self.vmFactory = vmFactory
-        self.postService = postService
-    }
-    let postService: PostService
-    let vmFactory: DefaultVMFactory
+
     @State var searchText = ""
     @State var inSearchMode = false
     @ObservedObject var viewModel : SearchViewModel
+    let postService: PostService
+    let vmFactory: VMFactory
+    
     var body: some View {
         ScrollView {
             SearchBar(text: $searchText, isEditing: $inSearchMode)
@@ -26,11 +23,14 @@ struct SearchView: View {
                 if inSearchMode {
                     UserListView(vmFactory: vmFactory, postService: postService, viewModel: viewModel, searchText: $searchText)
                 } else {
-                    PostGridView(config: .search, vmFactory: vmFactory, postService: postService)
+                    if let postGreedViewModel = vmFactory.makePostGreedViewModel(config: .search) {
+                        PostGridView(viewModel: postGreedViewModel, vmFactory: vmFactory)
+                    }
                 }
             }
         }
     }
+    
 }
 
 

@@ -11,7 +11,7 @@ class FeedViewModel: ObservableObject {
     
     @Published var user: User
     @Published var posts = [Post]()
-    let postsService: PostService
+    private let postsService: PostService
     let notificationService: NotificationService
     let likeService: LikeService
     
@@ -31,4 +31,5 @@ class FeedViewModel: ObservableObject {
             self.posts = posts
         }
     }
+    
 }

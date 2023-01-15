@@ -10,8 +10,8 @@ import SwiftUI
 class ProfileViewModel: ObservableObject {
     
    @Published var user: User
-    let followingService: FollowingService
-    let notificationService: NotificationService
+    private let followingService: FollowingService
+    private let notificationService: NotificationService
     
     init(user: User,
          followingService: FollowingService,
@@ -58,4 +58,5 @@ class ProfileViewModel: ObservableObject {
             self.user.isFolowed = isFollowed
         }
     }
+    
 }

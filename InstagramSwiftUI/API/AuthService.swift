@@ -11,7 +11,7 @@ import Firebase
 
 protocol AuthService {
     
-    var imageUploader: ImageUploader {get set}
+    var imageUploader: ImageUploader { get }
     
     func login(withEmail email: String,
                password: String,
@@ -30,7 +30,7 @@ protocol AuthService {
 
 class DefaultAuthService: AuthService {
     
-    var imageUploader: ImageUploader
+    let imageUploader: ImageUploader
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader
@@ -97,6 +97,7 @@ class DefaultAuthService: AuthService {
                   + error.localizedDescription)
         }
     }
+    
     func fetchUser(uid: String,
                    completion: @escaping (Result<User, Error>) -> Void) {
         COLLECTION_USERS
@@ -120,4 +121,5 @@ class DefaultAuthService: AuthService {
     func resetPassword() {
         
     }
+    
 }

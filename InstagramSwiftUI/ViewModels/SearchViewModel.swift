@@ -10,7 +10,7 @@ import SwiftUI
 class SearchViewModel: ObservableObject {
     
     @Published var users = [User]()
-    let userService: UserService
+    private let userService: UserService
     init(userService: UserService) {
         self.userService = userService
         fetchUsers()

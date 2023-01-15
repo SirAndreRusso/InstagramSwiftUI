@@ -17,9 +17,9 @@ struct ContentView: View {
                 LoginView()
             } else {
                 if let user = viewModel.currentUser {
-                    let serviceFacroty = DefaultServiceFactory(user: user)
-                    let vmFactory = DefaultVMFactory(user: user, serviceFactory: serviceFacroty)
-                    let postsService = serviceFacroty.makePostsService()
+                    let serviceFactory: ServiceFactory = DefaultServiceFactory(user: user)
+                    let vmFactory: VMFactory = DefaultVMFactory(user: user, serviceFactory: serviceFactory)
+                    let postsService = serviceFactory.makePostsService()
                     
                     MainTabView(vmFactory: vmFactory, postService: postsService, selectedIndex: $selectedIndex)
                 }

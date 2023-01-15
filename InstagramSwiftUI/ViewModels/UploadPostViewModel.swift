@@ -9,8 +9,8 @@ import SwiftUI
 
 class UploadPostViewModel: ObservableObject {
     
-    var user : User
-    var postService: PostService
+    private let user: User
+    private let postService: PostService
     
     init (user: User, postsService: PostService) {
         self.user = user

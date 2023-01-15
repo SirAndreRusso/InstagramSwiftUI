@@ -35,9 +35,11 @@ class DefaultNotificationService: NotificationService {
             "profileImageURL": user.profileImageURL,
             "type": type.rawValue,
         ]
+        
         if let post = post, let id = post.id {
             data["postId"] = id
         }
+        
         COLLECTION_NOTIFICATIONS
             .document(uid)
             .collection("user-notiications")
@@ -47,4 +49,5 @@ class DefaultNotificationService: NotificationService {
                 }
             }
     }
+    
 }

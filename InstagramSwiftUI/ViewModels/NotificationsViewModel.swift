@@ -11,7 +11,7 @@ class NotificationsViewModel: ObservableObject {
     
     @Published var notifications = [Notification]()
     private let user: User
-    let notificationsService: NotificationService
+    private let notificationsService: NotificationService
     
     init(user: User, notificationsService: NotificationService) {
         self.user = user

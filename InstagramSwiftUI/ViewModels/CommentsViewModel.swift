@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
-import Firebase
 
 class CommentsViewModel: ObservableObject {
     
     @Published var comments = [Comment]()
     private let post: Post
     private let user: User
-    let notificationService: NotificationService
-    let commentService: CommentService
+    private let notificationService: NotificationService
+    private let commentService: CommentService
     
     init(post: Post,
          user: User,
@@ -44,4 +43,5 @@ class CommentsViewModel: ObservableObject {
     deinit {
         // delete snapshot listener
     }
+    
 }

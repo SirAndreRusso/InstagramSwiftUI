@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserListView: View {
-    let vmFactory: DefaultVMFactory
+    let vmFactory: VMFactory
     let postService: PostService
     @ObservedObject var viewModel: SearchViewModel
     @Binding var searchText: String
