@@ -4,8 +4,23 @@
 //
 //  Created by Андрей Русин on 09.01.2023.
 //
+protocol VMFactory {
+    
+    var user: User { get }
+    var serviceFactory: ServiceFactory { get }
+    
+    func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel
+    func makeFeedViewModel() -> FeedViewModel
+    func makeFeedCellViewModel(post: Post?,
+                               user: User?,
+                               notificationService: NotificationService?,
+                               likeService: LikeService?) -> FeedCellViewModel?
+    func makeNotificationsViewModel() -> NotificationsViewModel
+    func makeUploadPostViewModel() -> UploadPostViewModel
+    
+}
 
-class VMFactoty {
+class DefaultVMFactory {
     
     let user: User
     let serviceFactory: ServiceFactory
@@ -28,6 +43,20 @@ class VMFactoty {
                              notificationService: notificationService,
                              likeService: likeService,
                              postsService: postsService)
+    }
+    
+    func makeFeedCellViewModel(post: Post? = nil,
+                               user: User? = nil,
+                               notificationService: NotificationService? = nil,
+                               likeService: LikeService? = nil) -> FeedCellViewModel? {
+        guard let user = user,
+              let post = post,
+              let notificationService = notificationService,
+              let likeService = likeService else {
+            return nil
+        }
+        
+        return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService)
     }
     
     func makeSearchViewModel() -> SearchViewModel {
@@ -57,9 +86,11 @@ class VMFactoty {
     
     func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel {
         let notificationService = serviceFactory.makeNotificationService()
+        let commentService = serviceFactory.makeCommentService()
         return CommentsViewModel(post: post,
                          user: user,
-                         notificationService: notificationService)
+                                 notificationService: notificationService,
+                                 commentService: commentService)
     }
     
 }

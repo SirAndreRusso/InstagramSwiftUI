@@ -10,9 +10,9 @@ import SwiftUI
 struct FeedView: View {
     
     @ObservedObject var viewModel: FeedViewModel
-    let vmFactory: VMFactoty
+    let vmFactory: DefaultVMFactory
     
-    init(viewModel: FeedViewModel, vmFactory: VMFactoty) {
+    init(viewModel: FeedViewModel, vmFactory: DefaultVMFactory) {
         self.viewModel = viewModel
         self.vmFactory = vmFactory
         
@@ -22,11 +22,9 @@ struct FeedView: View {
         ScrollView {
             LazyVStack(spacing: 32) {
                 ForEach(viewModel.posts) { post in
-                    FeedCell(viewModel: FeedCellViewModel(post: post,
-                                                          user: viewModel.user,
-                                                          notificationService: viewModel.notificationService,
-                                                          likeService: viewModel.likeService),
-                             vmfactory: vmFactory)
+                    if let feedCellViewModel = vmFactory.makeFeedCellViewModel(post: post, user: viewModel.user, notificationService: viewModel.notificationService, likeService: viewModel.likeService) {
+                        FeedCell(viewModel: feedCellViewModel, vmfactory: vmFactory)
+                    }
                 }
             }
             .padding(.top)

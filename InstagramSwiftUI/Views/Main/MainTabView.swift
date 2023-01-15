@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    var vmFactory: VMFactoty
+    var vmFactory: DefaultVMFactory
     var postService: PostService
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedIndex: Int

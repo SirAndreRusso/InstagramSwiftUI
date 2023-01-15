@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
-    let vmFactory: VMFactoty
+    let vmFactory: DefaultVMFactory
     let postService: PostService
    
     var body: some View {

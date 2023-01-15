@@ -12,9 +12,9 @@ struct FeedCell: View {
     
     @ObservedObject var viewModel : FeedCellViewModel
     var didLike: Bool { return viewModel.post.didLike ?? false}
-    let vmfactory: VMFactoty
+    let vmfactory: DefaultVMFactory
     
-    init(viewModel: FeedCellViewModel, vmfactory: VMFactoty) {
+    init(viewModel: FeedCellViewModel, vmfactory: DefaultVMFactory) {
         self.viewModel = viewModel
         self.vmfactory = vmfactory
     }

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SearchView: View {
-    init(viewModel: SearchViewModel, vmFactory: VMFactoty, postService: PostService) {
+    init(viewModel: SearchViewModel, vmFactory: DefaultVMFactory, postService: PostService) {
         self.viewModel = viewModel
         self.vmFactory = vmFactory
         self.postService = postService
     }
     let postService: PostService
-    let vmFactory: VMFactoty
+    let vmFactory: DefaultVMFactory
     @State var searchText = ""
     @State var inSearchMode = false
     @ObservedObject var viewModel : SearchViewModel

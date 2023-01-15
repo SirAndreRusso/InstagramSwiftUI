@@ -11,13 +11,13 @@ import Kingfisher
 struct PostGridView: View {
     
     @ObservedObject var viewModel : PostGreedViewModel
-    let vmFactory: VMFactoty
+    let vmFactory: DefaultVMFactory
     let config: PostGreedConfiguration
 //    let postsService: PostService
     private let items = [GridItem(), GridItem(), GridItem()]
     private let width = UIScreen.main.bounds.width / 3
     
-    init(config: PostGreedConfiguration, vmFactory: VMFactoty, postService: PostService) {
+    init(config: PostGreedConfiguration, vmFactory: DefaultVMFactory, postService: PostService) {
         self.config = config
         self.viewModel = PostGreedViewModel(config: config, postService: postService)
         self.vmFactory = vmFactory

@@ -9,11 +9,12 @@ protocol ServiceFactory {
    
     var user: User { get }
     
-    func makeAuthService()    
-    func makeImageUploader() -> ImageUploader
+    func makeAuthService()
+    func makeCommentService() -> CommentService
     func makeFollowingService() -> FollowingService
-    func makeNotificationService() -> NotificationService
+    func makeImageUploader() -> ImageUploader
     func makeLikeService() -> LikeService
+    func makeNotificationService() -> NotificationService
     func makePostsService() -> PostService
     func makeUserService() -> UserService
     
@@ -31,20 +32,24 @@ class DefaultServiceFactory: ServiceFactory {
         
     }
     
-    func makeImageUploader() -> ImageUploader {
-        DefaultImageUploader()
+    func makeCommentService() -> CommentService {
+        DefaultCommentService()
     }
     
     func makeFollowingService() -> FollowingService {
         DefaultFollowingService()
     }
     
-    func makeNotificationService() -> NotificationService {
-        DefaultNotificationService(user: user)
+    func makeImageUploader() -> ImageUploader {
+        DefaultImageUploader()
     }
     
     func makeLikeService() -> LikeService {
         DefaultLikeService()
+    }
+    
+    func makeNotificationService() -> NotificationService {
+        DefaultNotificationService(user: user)
     }
     
     func makePostsService() -> PostService {

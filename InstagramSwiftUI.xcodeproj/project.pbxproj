@@ -10,6 +10,7 @@
 		B42CA69F297207A0000C1D09 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA69E297207A0000C1D09 /* LikeService.swift */; };
 		B42CA6A129733EC5000C1D09 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA6A029733EC5000C1D09 /* PostService.swift */; };
 		B42CA6A329735AC8000C1D09 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA6A229735AC8000C1D09 /* UserService.swift */; };
+		B42CA6A5297362AB000C1D09 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42CA6A4297362AB000C1D09 /* CommentService.swift */; };
 		B4329E2B2957816D00067C3E /* UploadPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */; };
 		B4329E33295A3C8000067C3E /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4329E32295A3C8000067C3E /* TextArea.swift */; };
 		B43A5D9029321119005EEEF4 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43A5D8F29321119005EEEF4 /* FeedCell.swift */; };
@@ -70,7 +71,7 @@
 		B4FAA1FF296B4DF300273965 /* NotificationSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */; };
 		B4FAA201296C55B400273965 /* ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA200296C55B400273965 /* ServiceFactory.swift */; };
 		B4FAA203296C59B800273965 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA202296C59B800273965 /* AuthService.swift */; };
-		B4FAA205296C7B2E00273965 /* VMFactoty.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA204296C7B2E00273965 /* VMFactoty.swift */; };
+		B4FAA205296C7B2E00273965 /* VMFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAA204296C7B2E00273965 /* VMFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		B42CA69E297207A0000C1D09 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
 		B42CA6A029733EC5000C1D09 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		B42CA6A229735AC8000C1D09 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		B42CA6A4297362AB000C1D09 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		B4329E2A2957816D00067C3E /* UploadPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostViewModel.swift; sourceTree = "<group>"; };
 		B4329E32295A3C8000067C3E /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
 		B43A5D8F29321119005EEEF4 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 		B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSevice.swift; sourceTree = "<group>"; };
 		B4FAA200296C55B400273965 /* ServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceFactory.swift; sourceTree = "<group>"; };
 		B4FAA202296C59B800273965 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		B4FAA204296C7B2E00273965 /* VMFactoty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMFactoty.swift; sourceTree = "<group>"; };
+		B4FAA204296C7B2E00273965 /* VMFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,13 +304,14 @@
 			isa = PBXGroup;
 			children = (
 				B4FAA202296C59B800273965 /* AuthService.swift */,
+				B42CA6A4297362AB000C1D09 /* CommentService.swift */,
 				B48A7DA22953607B007EE0A8 /* FollowingService.swift */,
 				B48A7D98294C7B13007EE0A8 /* ImageUploader.swift */,
 				B42CA69E297207A0000C1D09 /* LikeService.swift */,
 				B4FAA1FE296B4DF300273965 /* NotificationSevice.swift */,
-				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
-				B4FAA204296C7B2E00273965 /* VMFactoty.swift */,
 				B42CA6A029733EC5000C1D09 /* PostService.swift */,
+				B4FAA200296C55B400273965 /* ServiceFactory.swift */,
+				B4FAA204296C7B2E00273965 /* VMFactory.swift */,
 				B42CA6A229735AC8000C1D09 /* UserService.swift */,
 			);
 			path = API;
@@ -566,7 +569,7 @@
 				B45043CC2940E45300BB26F2 /* UserStatsView.swift in Sources */,
 				B48A7D99294C7B13007EE0A8 /* ImageUploader.swift in Sources */,
 				B4E26EBE293101520032DD14 /* ContentView.swift in Sources */,
-				B4FAA205296C7B2E00273965 /* VMFactoty.swift in Sources */,
+				B4FAA205296C7B2E00273965 /* VMFactory.swift in Sources */,
 				B4FAA1F729648BDA00273965 /* CommentsViewModel.swift in Sources */,
 				B45043CA293FC72700BB26F2 /* ProfileHeaderView.swift in Sources */,
 				B45043D42944A9C700BB26F2 /* ResetPasswordView.swift in Sources */,
@@ -599,6 +602,7 @@
 				B4FAA201296C55B400273965 /* ServiceFactory.swift in Sources */,
 				B48A7DA12953585C007EE0A8 /* ProfileViewModel.swift in Sources */,
 				B4E26ECC2931030A0032DD14 /* MainTabView.swift in Sources */,
+				B42CA6A5297362AB000C1D09 /* CommentService.swift in Sources */,
 				B4FAA1F9296492CD00273965 /* InputView.swift in Sources */,
 				B45043D02944A99800BB26F2 /* LoginView.swift in Sources */,
 				B45043D62944AF3200BB26F2 /* CustomTextfield.swift in Sources */,
