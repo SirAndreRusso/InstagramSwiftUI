@@ -16,6 +16,7 @@ protocol VMFactory {
                                notificationService: NotificationService?,
                                likeService: LikeService?) -> FeedCellViewModel?
     func makeNotificationsViewModel() -> NotificationsViewModel
+    func makeNotificationCellViewModel(notification: Notification?) -> NotificationCellViewModel?
     func makePostGreedViewModel(config: PostGreedConfiguration?) -> PostGreedViewModel?
     func makeProfileViewModel(user: User?) -> ProfileViewModel
     func makeSearchViewModel() -> SearchViewModel
@@ -70,6 +71,16 @@ class DefaultVMFactory: VMFactory {
     func makeNotificationsViewModel() -> NotificationsViewModel {
         let notificationService = serviceFactory.makeNotificationService()
         return NotificationsViewModel(user: user, notificationsService: notificationService)
+    }
+    
+    func makeNotificationCellViewModel(notification: Notification? = nil) -> NotificationCellViewModel? {
+        guard let notification = notification else { return nil }
+        let followingService = serviceFactory.makeFollowingService()
+        let notificationService = serviceFactory.makeNotificationService()
+        
+        return NotificationCellViewModel(notification: notification,
+                                         followingService: followingService,
+                                         notificationService: notificationService)
     }
     
     func makePostGreedViewModel(config: PostGreedConfiguration? = nil) -> PostGreedViewModel? {

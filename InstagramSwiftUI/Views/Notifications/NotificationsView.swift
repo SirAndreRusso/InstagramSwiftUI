@@ -10,15 +10,22 @@ import SwiftUI
 struct NotificationsView: View {
     
     @ObservedObject var viewModel: NotificationsViewModel
-    init(viewModel: NotificationsViewModel) {
+    var vmFactory: VMFactory
+    
+    init(viewModel: NotificationsViewModel, vmFactory: VMFactory) {
         self.viewModel = viewModel
+        self.vmFactory = vmFactory
     }
+    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
                 ForEach(viewModel.notifications) { notification in
-                    NotificationCell(notification: notification)
-                        .padding(.top)
+                    if let viewModel = vmFactory
+                        .makeNotificationCellViewModel(notification: notification) {
+                        NotificationCell(viewModel: viewModel)
+                            .padding(.top)
+                    }
                 }
             }
         }

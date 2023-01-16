@@ -44,7 +44,8 @@ struct MainTabView: View {
                         Image(systemName: "plus.square")
                     }.tag(2)
                 
-                NotificationsView(viewModel: vmFactory.makeNotificationsViewModel())
+                NotificationsView(viewModel: vmFactory.makeNotificationsViewModel(),
+                                  vmFactory: vmFactory)
                     .onTapGesture {
                         selectedIndex = 3
                     }

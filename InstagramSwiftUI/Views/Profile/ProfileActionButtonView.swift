@@ -36,10 +36,10 @@ struct ProfileActionButtonView: View {
                         .foregroundColor(isFollowed ? .black : .white)
                         .background(Color(isFollowed ? .white : .systemBlue))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 3)
+                            RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color.gray, lineWidth: isFollowed ? 1 : 0))
                 }
-                .cornerRadius(3)
+                .cornerRadius(5)
                 
                 Button {
                     
@@ -49,10 +49,10 @@ struct ProfileActionButtonView: View {
                         .frame(width: 172, height: 32)
                         .foregroundColor(.black)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 3)
+                            RoundedRectangle(cornerRadius: 5)
                                 .stroke(Color.gray, lineWidth: 1))
                 }
-                .cornerRadius(3)
+                .cornerRadius(5)
             }
         }
     }
