@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MainTabView: View {
+    
     var vmFactory: VMFactory
     var postService: PostService
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedIndex: Int
+    
     var body: some View {
         NavigationView {
             TabView(selection: $selectedIndex) {
@@ -89,6 +91,7 @@ struct MainTabView: View {
         default: return ""
         }
     }
+    
 }
 
 

@@ -28,10 +28,10 @@ enum NotificationType: Int, Decodable {
 
 struct Notification: Identifiable, Decodable {
     @DocumentID var id: String?
-    let postId: String
+    let postId: String?
     let username: String
     let profileImageURL: String
     let timestamp: Timestamp
-    let type: Int
+    let type: NotificationType
     let uid: String
 }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 import Firebase
 
 protocol AuthService {

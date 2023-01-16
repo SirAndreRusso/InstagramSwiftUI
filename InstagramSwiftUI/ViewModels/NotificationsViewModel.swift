@@ -16,14 +16,24 @@ class NotificationsViewModel: ObservableObject {
     init(user: User, notificationsService: NotificationService) {
         self.user = user
         self.notificationsService = notificationsService
+        fetchNotifications()
     }
     
     func fetchNotifications() {
-        
+        notificationsService.fetchNotifications { notifications in
+            self.notifications = notifications
+            for i in notifications {
+                print(i)
+            }
+        }
     }
     
     func uploadNotification(toUid: String, type: NotificationType, post: Post? = nil) {
         notificationsService.uploadNotification(toUid: toUid, type: type, post: post)
     }
     
+    
+    deinit {
+        print("DEINIT")
+    }
 }

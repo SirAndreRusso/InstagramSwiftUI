@@ -220,11 +220,11 @@
 		B4E26E892930FFDB0032DD14 /* InstagramSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				B4E26EB9293100830032DD14 /* Utils */,
 				B4E26EB8293100750032DD14 /* API */,
-				B4E26EB72931006D0032DD14 /* ViewModels */,
-				B4E26EB6293100650032DD14 /* Views */,
 				B4E26EB4293100460032DD14 /* Models */,
+				B4E26EB6293100650032DD14 /* Views */,
+				B4E26EB72931006D0032DD14 /* ViewModels */,
+				B4E26EB9293100830032DD14 /* Utils */,
 				B4E26E8A2930FFDB0032DD14 /* InstagramSwiftUIApp.swift */,
 				B4E26E8E2930FFDC0032DD14 /* Assets.xcassets */,
 				B4E26E902930FFDC0032DD14 /* Preview Content */,
@@ -271,15 +271,15 @@
 		B4E26EB6293100650032DD14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B4E26EC6293101FF0032DD14 /* Items */,
 				B4E26EC5293101E10032DD14 /* Authentication */,
-				B4E26EC4293101D90032DD14 /* Notifications */,
-				B4E26EC3293101D10032DD14 /* Search */,
 				B4E26EC2293101B60032DD14 /* Comments */,
 				B4E26EC1293101B00032DD14 /* Feed */,
-				B4E26EC0293101A80032DD14 /* Profile */,
-				B4E26EBF2931018A0032DD14 /* UploadPost */,
+				B4E26EC6293101FF0032DD14 /* Items */,
 				B4E26EBC293101270032DD14 /* Main */,
+				B4E26EC4293101D90032DD14 /* Notifications */,
+				B4E26EC0293101A80032DD14 /* Profile */,
+				B4E26EC3293101D10032DD14 /* Search */,
+				B4E26EBF2931018A0032DD14 /* UploadPost */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -406,10 +406,10 @@
 		B4E26EC6293101FF0032DD14 /* Items */ = {
 			isa = PBXGroup;
 			children = (
+				B4FAA1F8296492CD00273965 /* InputView.swift */,
 				B45043BE293A611F00BB26F2 /* PostGridView.swift */,
 				B45043C0293A650C00BB26F2 /* UserListView.swift */,
 				B45043C2293A651600BB26F2 /* UserCell.swift */,
-				B4FAA1F8296492CD00273965 /* InputView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";

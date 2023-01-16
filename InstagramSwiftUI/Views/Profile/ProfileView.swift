@@ -20,8 +20,6 @@ struct ProfileView: View {
                     ProfileHeaderView(viewModel: viewModel)
                     PostGridView(viewModel: postGreedViewModel, vmFactory: vmFactory)
                 }
-                
-                PostGridView(viewModel: vmFactory.makePostGreedViewModel(config: .profile(viewModel.user.id ?? ""))!, vmFactory: vmFactory)
             }
             .padding(.top)
         }

@@ -9,8 +9,8 @@ import Firebase
 
 protocol NotificationService {
     
-    var user: User {get }
-    func fetchNotifications()
+    var user: User { get }
+    func fetchNotifications(completion: @escaping ([Notification]) -> Void)
     func uploadNotification(toUid: String, type: NotificationType, post: Post?)
     
 }
@@ -23,8 +23,24 @@ class DefaultNotificationService: NotificationService {
         self.user = user
     }
     
-    func fetchNotifications() {
+    func fetchNotifications(completion: @escaping ([Notification]) -> Void) {
+        guard let uid = user.id else { return }
+        let query = COLLECTION_NOTIFICATIONS
+            .document(uid)
+            .collection("user-notifications")
+            .order(by: "timestamp", descending: true)
         
+        query.getDocuments { snapshot, error in
+            if let error = error {
+                print("DEBUG: Failed to fetch notifications"
+                      + error.localizedDescription)
+            }
+            
+            guard let documents = snapshot?.documents else { return }
+            let notifications = documents.compactMap({ try? $0.data(as: Notification.self)})
+            
+            completion(notifications)
+        }
     }
     
     func uploadNotification(toUid uid: String, type: NotificationType, post: Post? = nil) {
@@ -42,10 +58,11 @@ class DefaultNotificationService: NotificationService {
         
         COLLECTION_NOTIFICATIONS
             .document(uid)
-            .collection("user-notiications")
+            .collection("user-notifications")
             .addDocument(data: data) { error in
                 if let error = error {
-                    print("DEBUG: Failed to add notifacation" + error.localizedDescription)
+                    print("DEBUG: Failed to add notifacation"
+                          + error.localizedDescription)
                 }
             }
     }
