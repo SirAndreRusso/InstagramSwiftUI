@@ -21,9 +21,12 @@ struct SearchView: View {
                 .padding()
             ZStack {
                 if inSearchMode {
-                    UserListView(vmFactory: vmFactory, postService: postService, viewModel: viewModel, searchText: $searchText)
+                    UserListView(vmFactory: vmFactory,
+                                 viewModel: viewModel,
+                                 searchText: $searchText)
                 } else {
-                    if let postGreedViewModel = vmFactory.makePostGreedViewModel(config: .search) {
+                    if let postGreedViewModel = vmFactory
+                        .makePostGreedViewModel(config: .search) {
                         PostGridView(viewModel: postGreedViewModel, vmFactory: vmFactory)
                     }
                 }

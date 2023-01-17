@@ -11,20 +11,30 @@ import SwiftUI
 struct NotificationCell: View {
     
     @ObservedObject var viewModel: NotificationCellViewModel
+    var vmFactory: VMFactory
     var isFollowed: Bool { viewModel.notification.isFollowed ?? false }
     
     var body: some View {
         HStack {
-            KFImage(URL(string: viewModel.notification.profileImageURL))
-                .resizable()
-                .scaledToFill()
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
+            if let user = viewModel.notification.user {
+                NavigationLink {
+                   ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user),
+                               vmFactory: vmFactory) 
+                } label: {
+                    KFImage(URL(string: viewModel.notification.profileImageURL))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                    
+                    Text(viewModel.notification.username)
+                        .font(.system(size: 14, weight: .semibold)) +
+                    Text(" " + viewModel.notification.type.notificationMessage)
+                        .font(.system(size: 15))
+                }
+            }
+
             
-            Text(viewModel.notification.username)
-                .font(.system(size: 14, weight: .semibold)) +
-            Text(" " + viewModel.notification.type.notificationMessage)
-                .font(.system(size: 15))
             Spacer()
             
             if viewModel.notification.type != .follow {

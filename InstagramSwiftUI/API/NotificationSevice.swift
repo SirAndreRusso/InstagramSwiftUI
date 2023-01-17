@@ -13,6 +13,7 @@ protocol NotificationService {
     func fetchNotifications(completion: @escaping ([Notification]) -> Void)
     func uploadNotification(toUid: String, type: NotificationType, post: Post?)
     func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void)
+    func fetchNotificationUser(uid: String, completion: @escaping (User?) -> Void)
     
 }
 
@@ -78,7 +79,22 @@ class DefaultNotificationService: NotificationService {
                           + error.localizedDescription)
                 }
                 let notificationPost = try? snapshot?.data(as: Post.self)
+                
                 completion(notificationPost)
+            }
+    }
+    
+    func fetchNotificationUser(uid: String, completion: @escaping (User?) -> Void) {
+        COLLECTION_USERS
+            .document(uid)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Failed to fetch user from notification"
+                          + error.localizedDescription)
+                }
+                guard let user = try? snapshot?.data(as: User.self) else { return }
+                
+                completion(user)
             }
     }
     

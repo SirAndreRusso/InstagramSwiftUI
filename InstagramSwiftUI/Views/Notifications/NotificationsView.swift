@@ -18,7 +18,7 @@ struct NotificationsView: View {
                 ForEach(viewModel.notifications) { notification in
                     if let viewModel = vmFactory
                         .makeNotificationCellViewModel(notification: notification) {
-                        NotificationCell(viewModel: viewModel)
+                        NotificationCell(viewModel: viewModel, vmFactory: vmFactory)
                             .padding(.top)
                     }
                 }

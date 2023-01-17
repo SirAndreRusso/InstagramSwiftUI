@@ -54,8 +54,7 @@ struct MainTabView: View {
                     }.tag(3)
                 
                 ProfileView(viewModel: vmFactory.makeProfileViewModel(user: viewModel.currentUser),
-                            vmFactory: vmFactory,
-                            postService: postService)
+                            vmFactory: vmFactory)
                     .onTapGesture {
                         selectedIndex = 4
                     }

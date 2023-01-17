@@ -21,15 +21,19 @@ class NotificationCellViewModel: ObservableObject {
         self.notificationService = notificationService
         checkIfUserIsfollowed()
         fetchNotificationPost()
+        fetchNotificationUser()
     }
     
     func follow() {
         followingService.follow(uid: notification.uid) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                print("DEBUG: Failed to follow \(self.notification.username)" + error.localizedDescription)
+                print("DEBUG: Failed to follow \(self.notification.username)"
+                      + error.localizedDescription)
             } else {
-                self.notificationService.uploadNotification(toUid: self.notification.uid, type: .follow, post: nil)
+                self.notificationService.uploadNotification(toUid: self.notification.uid,
+                                                            type: .follow,
+                                                            post: nil)
                 self.notification.isFollowed = true
                 print("DEBUG: Successfully folowed the user \(self.notification.username)")
             }
@@ -61,6 +65,14 @@ class NotificationCellViewModel: ObservableObject {
             .fetchNotificationPost(postId: notification.postId) { notificationPost in
                 self.notification.post = notificationPost
         }
+    }
+    
+    func fetchNotificationUser() {
+        notificationService
+            .fetchNotificationUser(uid: self.notification.uid) { notificationUser in
+                self.notification.user = notificationUser
+                print(notificationUser?.username)
+            }
     }
     
 }
