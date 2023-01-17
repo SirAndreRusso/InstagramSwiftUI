@@ -12,6 +12,7 @@ protocol NotificationService {
     var user: User { get }
     func fetchNotifications(completion: @escaping ([Notification]) -> Void)
     func uploadNotification(toUid: String, type: NotificationType, post: Post?)
+    func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void)
     
 }
 
@@ -64,6 +65,20 @@ class DefaultNotificationService: NotificationService {
                     print("DEBUG: Failed to add notifacation"
                           + error.localizedDescription)
                 }
+            }
+    }
+    
+    func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void) {
+        guard let postId = postId else { return }
+        COLLECTION_POSTS
+            .document(postId)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Failed to fetch post from notification"
+                          + error.localizedDescription)
+                }
+                let notificationPost = try? snapshot?.data(as: Post.self)
+                completion(notificationPost)
             }
     }
     

@@ -9,13 +9,8 @@ import SwiftUI
 
 struct NotificationsView: View {
     
-    @ObservedObject var viewModel: NotificationsViewModel
+    @StateObject var viewModel: NotificationsViewModel
     var vmFactory: VMFactory
-    
-    init(viewModel: NotificationsViewModel, vmFactory: VMFactory) {
-        self.viewModel = viewModel
-        self.vmFactory = vmFactory
-    }
     
     var body: some View {
         ScrollView {

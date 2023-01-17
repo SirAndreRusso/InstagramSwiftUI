@@ -10,7 +10,7 @@ import Kingfisher
 
 struct PostGridView: View {
     
-    @ObservedObject var viewModel: PostGreedViewModel
+    @StateObject var viewModel: PostGreedViewModel
     private let items = [GridItem(), GridItem(), GridItem()]
     private let width = UIScreen.main.bounds.width / 3
     let vmFactory: VMFactory

@@ -28,10 +28,12 @@ struct NotificationCell: View {
             Spacer()
             
             if viewModel.notification.type != .follow {
-                Image("kenny")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 40, height: 40)
+                if let post = viewModel.notification.post {
+                    KFImage(URL(string: post.imageURL))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                }
             } else {
                 Button {
                     isFollowed ? viewModel.unFollow() : viewModel.follow()

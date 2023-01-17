@@ -20,6 +20,7 @@ class NotificationCellViewModel: ObservableObject {
         self.followingService = followingService
         self.notificationService = notificationService
         checkIfUserIsfollowed()
+        fetchNotificationPost()
     }
     
     func follow() {
@@ -56,7 +57,10 @@ class NotificationCellViewModel: ObservableObject {
     }
     
     func fetchNotificationPost() {
-        
+        notificationService
+            .fetchNotificationPost(postId: notification.postId) { notificationPost in
+                self.notification.post = notificationPost
+        }
     }
     
 }

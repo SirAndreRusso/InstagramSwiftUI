@@ -9,13 +9,8 @@ import SwiftUI
 import PhotosUI
 
 struct UploadPostView: View {
-//     find better way to initialize
 
-    init (viewModel: UploadPostViewModel, tabIndex: Binding<Int>) {
-        self.viewModel = viewModel
-        self._tabIndex = tabIndex
-    }
-    @ObservedObject var viewModel: UploadPostViewModel
+    @StateObject var viewModel: UploadPostViewModel
     @Binding var tabIndex: Int
     @State private var selectedImage: PhotosPickerItem? = nil
     @State private var postImage: Image?

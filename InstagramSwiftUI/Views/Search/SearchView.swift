@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SearchView: View {
 
-    @State var searchText = ""
-    @State var inSearchMode = false
-    @ObservedObject var viewModel : SearchViewModel
+    @StateObject var viewModel : SearchViewModel
+    @State private var searchText = ""
+    @State private var inSearchMode = false
     let postService: PostService
     let vmFactory: VMFactory
     
