@@ -16,13 +16,11 @@ struct FeedView: View {
         ScrollView {
             LazyVStack(spacing: 32) {
                 ForEach(viewModel.posts) { post in
-                    if let feedCellViewModel = vmFactory
+                    let feedCellViewModel = vmFactory
                         .makeFeedCellViewModel(post: post,
-                                               user: viewModel.user,
-                                               notificationService: viewModel.notificationService,
-                                               likeService: viewModel.likeService) {
+                                               likeService: viewModel.likeService,
+                                               notificationService: viewModel.notificationService)
                         FeedCell(viewModel: feedCellViewModel, vmfactory: vmFactory)
-                    }
                 }
             }
             .padding(.top)

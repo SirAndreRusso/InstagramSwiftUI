@@ -71,7 +71,6 @@ class NotificationCellViewModel: ObservableObject {
         notificationService
             .fetchNotificationUser(uid: self.notification.uid) { notificationUser in
                 self.notification.user = notificationUser
-                print(notificationUser?.username)
             }
     }
     

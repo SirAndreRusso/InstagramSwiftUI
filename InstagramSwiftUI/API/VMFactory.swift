@@ -11,10 +11,9 @@ protocol VMFactory {
     
     func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel
     func makeFeedViewModel() -> FeedViewModel
-    func makeFeedCellViewModel(post: Post?,
-                               user: User?,
-                               notificationService: NotificationService?,
-                               likeService: LikeService?) -> FeedCellViewModel?
+    func makeFeedCellViewModel(post: Post,
+                               likeService: LikeService?,
+                               notificationService: NotificationService?) -> FeedCellViewModel
     func makeNotificationsViewModel() -> NotificationsViewModel
     func makeNotificationCellViewModel(notification: Notification?) -> NotificationCellViewModel?
     func makePostGreedViewModel(config: PostGreedConfiguration?) -> PostGreedViewModel?
@@ -49,18 +48,20 @@ class DefaultVMFactory: VMFactory {
                              postsService: postsService)
     }
     
-    func makeFeedCellViewModel(post: Post? = nil,
-                               user: User? = nil,
-                               notificationService: NotificationService? = nil,
-                               likeService: LikeService? = nil) -> FeedCellViewModel? {
-        guard let user = user,
-              let post = post,
-              let notificationService = notificationService,
-              let likeService = likeService else {
-            return nil
-        }
+    func makeFeedCellViewModel(post: Post,
+                               likeService: LikeService? = nil,
+                               notificationService: NotificationService? = nil) -> FeedCellViewModel {
+            if let notificationService = notificationService,
+               let likeService = likeService {
+                let userService = serviceFactory.makeUserService()
+                return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService, userService: userService)
+            } else {
+                let notificationService = serviceFactory.makeNotificationService()
+                let likeService = serviceFactory.makeLikeService()
+                let userService = serviceFactory.makeUserService()
+                return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService, userService: userService)
+            }
         
-        return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService)
     }
     
     func makeSearchViewModel() -> SearchViewModel {

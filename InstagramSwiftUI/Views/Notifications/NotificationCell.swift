@@ -34,15 +34,26 @@ struct NotificationCell: View {
                 }
             }
 
-            
             Spacer()
             
             if viewModel.notification.type != .follow {
                 if let post = viewModel.notification.post {
-                    KFImage(URL(string: post.imageURL))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 40)
+                    NavigationLink {
+                        if let post = viewModel.notification.post {
+                            FeedCell(viewModel: vmFactory
+                                .makeFeedCellViewModel(post: post,
+                                                       likeService: nil,
+                                                       notificationService: nil),
+                                     vmfactory: vmFactory)
+                        }
+                    } label: {
+                        KFImage(URL(string: post.imageURL))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 40, height: 40)
+                            .clipped()
+                    }
+
                 }
             } else {
                 Button {

@@ -11,6 +11,7 @@ protocol UserService {
     
     func  fetchUsers(completion: @escaping ([User]) -> Void)
     func filteredUsers(users: [User], _ query: String) -> [User]
+    func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void)
     
 }
 
@@ -33,6 +34,20 @@ class DefaultUserService: UserService {
         let lowercasedQuery = query.lowercased()
         return users.filter({ $0.fullname.lowercased().contains(lowercasedQuery)
             ||  $0.username.contains(lowercasedQuery)})
+    }
+    
+    func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void) {
+        COLLECTION_USERS
+            .document(uid)
+            .getDocument { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Failed to fetch post owner"
+                          + error.localizedDescription)
+                }
+                let postOwner = try? snapshot?.data(as: User.self)
+                
+                completion(postOwner)
+            }
     }
     
 }

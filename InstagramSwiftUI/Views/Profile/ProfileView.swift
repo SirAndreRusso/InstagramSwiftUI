@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @StateObject var viewModel: ProfileViewModel
+    @ObservedObject var viewModel: ProfileViewModel
     let vmFactory: VMFactory
 //    let postService: PostService
    
