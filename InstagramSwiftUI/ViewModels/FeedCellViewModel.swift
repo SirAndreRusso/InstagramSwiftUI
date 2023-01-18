@@ -19,6 +19,14 @@ class FeedCellViewModel: ObservableObject {
         let label = post.likes == 1 ? "like" : "likes"
         return "\(post.likes) \(label)"
     }
+    var timeStampString: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfYear, .month]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+        
+        return formatter.string(from: post.timeStamp.dateValue(), to: Date()) ?? ""
+    }
     
     init(post: Post, user: User,  notificationService: NotificationService, likeService: LikeService, userService: UserService) {
         self.post = post

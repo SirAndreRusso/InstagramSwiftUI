@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct UserStatsView: View {
+    
     var value: Int
     var title: String
+    
     var body: some View {
             VStack {
                 Text("\(value)")
@@ -19,10 +21,5 @@ struct UserStatsView: View {
             }
             .frame(width: 70)
     }
-}
-
-struct UserStateView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserStatsView(value: 1, title: "Posts")
-    }
+    
 }

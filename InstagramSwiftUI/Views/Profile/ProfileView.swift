@@ -11,7 +11,6 @@ struct ProfileView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
     let vmFactory: VMFactory
-//    let postService: PostService
    
     var body: some View {
         ScrollView {

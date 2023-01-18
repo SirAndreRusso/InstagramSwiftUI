@@ -9,7 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileHeaderView: View {
+    
     @ObservedObject var viewModel: ProfileViewModel
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -24,6 +26,7 @@ struct ProfileHeaderView: View {
                 UserStatsView(value: 1, title: "Following")
             }
             .padding(.horizontal)
+            
             Text(viewModel.user.fullname)
                 .font(.system(size: 15, weight: .semibold))
                 .padding([.leading, .top], 8)
@@ -39,6 +42,7 @@ struct ProfileHeaderView: View {
             .padding(.top, 8)
         }
     }
+    
 }
 
 

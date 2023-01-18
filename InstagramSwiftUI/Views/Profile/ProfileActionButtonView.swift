@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ProfileActionButtonView: View {
+    
     @ObservedObject var viewModel: ProfileViewModel
     var isFollowed: Bool { return viewModel.user.isFolowed ?? false }
+    
     var body: some View {
         if viewModel.user.isCurrentUser {
             Button {
@@ -56,5 +58,6 @@ struct ProfileActionButtonView: View {
             }
         }
     }
+    
 }
 
