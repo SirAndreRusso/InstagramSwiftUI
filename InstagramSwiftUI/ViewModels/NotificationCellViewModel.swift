@@ -13,7 +13,7 @@ class NotificationCellViewModel: ObservableObject {
     let followingService: FollowingService
     let notificationService: NotificationService
     
-    var timeStampString: String {
+    var timestampString: String {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfYear, .month]
         formatter.maximumUnitCount = 1

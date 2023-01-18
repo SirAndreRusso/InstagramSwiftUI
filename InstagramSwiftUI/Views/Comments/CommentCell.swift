@@ -27,7 +27,7 @@ struct CommentCell: View {
             
             Spacer()
             
-            Text(comment.timeStampString ?? "")
+            Text(comment.timestampString ?? "")
                 .font(.system(size: 12))
                 .foregroundColor(.gray)
         }

@@ -16,7 +16,7 @@ struct Comment: Identifiable, Decodable {
     let commentText: String
     let timestamp: Timestamp
     let uid: String
-    var timeStampString: String? {
+    var timestampString: String? {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfYear, .month]
         formatter.maximumUnitCount = 1

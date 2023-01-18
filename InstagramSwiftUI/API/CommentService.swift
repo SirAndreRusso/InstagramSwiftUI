@@ -58,8 +58,4 @@ class DefaultCommentService: CommentService {
             }
     }
     
-    deinit {
-        // delete snapshot listener
-    }
-    
 }

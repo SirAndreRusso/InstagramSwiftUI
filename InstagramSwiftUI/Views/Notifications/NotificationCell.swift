@@ -31,7 +31,7 @@ struct NotificationCell: View {
                         .font(.system(size: 14, weight: .semibold))
                     + Text(" " + viewModel.notification.type.notificationMessage)
                         .font(.system(size: 15))
-                    + Text(" " + viewModel.timeStampString)
+                    + Text(" " + viewModel.timestampString)
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                         
