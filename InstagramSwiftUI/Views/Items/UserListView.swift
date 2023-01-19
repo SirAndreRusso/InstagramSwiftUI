@@ -19,7 +19,7 @@ struct UserListView: View {
                         ? viewModel.users
                         : viewModel.filteredUsers(searchText)) { user in
                     NavigationLink {
-                        ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user), vmFactory: vmFactory)
+                        LazyView(ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user), vmFactory: vmFactory))
                     } label: {
                         UserCell(user: user)
                             .padding(.leading)
