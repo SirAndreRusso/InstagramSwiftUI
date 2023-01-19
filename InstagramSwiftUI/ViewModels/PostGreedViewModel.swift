@@ -37,14 +37,14 @@ class PostGreedViewModel: ObservableObject {
     }
     
     func fetchSearchPosts() {
-        postService.fetchSearchPosts { posts in
-            self.posts = posts
+        postService.fetchSearchPosts { [weak self] posts in
+            self?.posts = posts
         }
     }
     
     func fetchUserPosts(forUid uid: String) {
-        postService.fetchUserPosts(forUid: uid) { posts in
-            self.posts = posts
+        postService.fetchUserPosts(forUid: uid) { [weak self] posts in
+            self?.posts = posts
         }
     }
     

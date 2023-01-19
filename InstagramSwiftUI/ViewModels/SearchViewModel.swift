@@ -17,8 +17,8 @@ class SearchViewModel: ObservableObject {
     }
     
     func  fetchUsers() {
-        userService.fetchUsers { users in
-            self.users = users
+        userService.fetchUsers {[weak self] users in
+            self?.users = users
         }
     }
 

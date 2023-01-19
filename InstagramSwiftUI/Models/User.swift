@@ -12,8 +12,15 @@ struct User: Decodable, Identifiable {
     let email: String
     let profileImageURL: String
     @DocumentID var id: String?
+    var stats: UserStats?
     var isFolowed: Bool? = false
     var isCurrentUser: Bool {
         return Auth.auth().currentUser?.uid == id
     }
+}
+
+struct UserStats: Decodable {
+    var following: Int
+    var followers: Int
+    var posts:  Int
 }

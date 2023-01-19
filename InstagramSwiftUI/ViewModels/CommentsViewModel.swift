@@ -35,13 +35,9 @@ class CommentsViewModel: ObservableObject {
     }
     
     func fetchComments() {
-        commentService.fetchComments(post: post) { comments in
-            self.comments.append(contentsOf: comments)
+        commentService.fetchComments(post: post) { [weak self] comments in
+            self?.comments.append(contentsOf: comments)
         }
-        
-    }
-    deinit {
-        // delete snapshot listener
     }
     
 }

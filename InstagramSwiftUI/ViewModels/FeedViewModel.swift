@@ -27,8 +27,8 @@ class FeedViewModel: ObservableObject {
     }
     
     func fetchPosts() {
-        postsService.fetchPosts { posts in
-            self.posts = posts
+        postsService.fetchPosts { [weak self] posts in
+            self?.posts = posts
         }
     }
     

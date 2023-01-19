@@ -21,9 +21,16 @@ struct ProfileHeaderView: View {
                     .frame(width: 95, height: 95)
                     .clipShape(Circle())
                 Spacer()
-                UserStatsView(value: 1, title: "Posts")
-                UserStatsView(value: 1, title: "Followers")
-                UserStatsView(value: 1, title: "Following")
+                
+                if let stats = viewModel.userStats {
+                    UserStatsView(value: stats.posts, title: "Posts")
+                    UserStatsView(value: stats.followers, title: "Followers")
+                    UserStatsView(value: stats.following, title: "Following")
+                } else {
+                    UserStatsView(value: 0, title: "Posts")
+                    UserStatsView(value: 0, title: "Followers")
+                    UserStatsView(value: 0, title: "Following")
+                }
             }
             .padding(.horizontal)
             

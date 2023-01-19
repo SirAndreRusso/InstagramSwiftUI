@@ -94,16 +94,19 @@ class DefaultVMFactory: VMFactory {
     func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
         let followingService = serviceFactory.makeFollowingService()
         let notificationService = serviceFactory.makeNotificationService()
+        let userService = serviceFactory.makeUserService()
         
         if let user = user {
             return ProfileViewModel(user: user,
                                     followingService: followingService,
-                                    notificationService: notificationService)
+                                    notificationService: notificationService,
+                                    userService: userService)
         }
         
         return ProfileViewModel(user: self.user,
                                 followingService: followingService,
-                                notificationService: notificationService)
+                                notificationService: notificationService,
+                                userService: userService)
     }
     
     func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel {

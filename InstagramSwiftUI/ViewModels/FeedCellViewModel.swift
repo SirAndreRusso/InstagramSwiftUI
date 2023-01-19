@@ -39,7 +39,8 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func like() {
-        likeService.like(post: post) {
+        likeService.like(post: post) { [weak self] in
+            guard let self = self else { return }
             self.post.didLike = true
             self.post.likes += 1
             if self.post.ownerUid != self.currentUser.id {
@@ -51,21 +52,21 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func unLike() {
-        likeService.unLike(post: post) {
-            self.post.didLike = false
-            self.post.likes -= 1
+        likeService.unLike(post: post) { [weak self] in
+            self?.post.didLike = false
+            self?.post.likes -= 1
         }
     }
     
     func checkIfUserLikedPost() {
-        self.likeService.checkIfUserLikedPost(post: post) { didLike in
-            self.post.didLike = didLike
+        self.likeService.checkIfUserLikedPost(post: post) { [weak self] didLike in
+            self?.post.didLike = didLike
         }
     }
     
     func fetchPostOwner() {
-        userService.fetchPostOwner(uid: post.ownerUid) { postOwner in
-            self.postOwner = postOwner
+        userService.fetchPostOwner(uid: post.ownerUid) { [weak self] postOwner in
+            self?.postOwner = postOwner
         }
     }
     

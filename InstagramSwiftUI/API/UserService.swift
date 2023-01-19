@@ -9,7 +9,8 @@ import Foundation
 
 protocol UserService {
     
-    func  fetchUsers(completion: @escaping ([User]) -> Void)
+    func fetchUsers(completion: @escaping ([User]) -> Void)
+    func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void)
     func filteredUsers(users: [User], _ query: String) -> [User]
     func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void)
     
@@ -28,6 +29,45 @@ class DefaultUserService: UserService {
             
             completion(users)
         }
+    }
+    
+    func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void) {
+        COLLECTION_FOLLOWING
+            .document(uid)
+            .collection("user-following")
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Failed to fetch user-following documents"
+                          + error.localizedDescription)
+                }
+                guard let following = snapshot?.documents.count else { return }
+                
+                COLLECTION_FOLLOWERS
+                    .document(uid)
+                    .collection("user-followers")
+                    .getDocuments { snapshot, error in
+                        if let error = error {
+                            print("DEBUG: Failed to fetch user-followers documents"
+                                  + error.localizedDescription)
+                        }
+                        guard let followers = snapshot?.documents.count else { return }
+                        
+                        COLLECTION_POSTS
+                            .whereField("ownerUid", isEqualTo: uid)
+                            .getDocuments { snapshot, error in
+                                if let error = error {
+                                    print("DEBUG: Failed to fetch posts by uid"
+                                          + error.localizedDescription)
+                                }
+                                guard let posts = snapshot?.documents.count else { return }
+                                let userStats = UserStats(following: following,
+                                                          followers: followers,
+                                                          posts: posts)
+                                
+                                completion(userStats)
+                            }
+                    }
+            }
     }
 
     func filteredUsers(users: [User], _ query: String) -> [User] {

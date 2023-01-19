@@ -64,22 +64,21 @@ class NotificationCellViewModel: ObservableObject {
     func checkIfUserIsfollowed() {
         guard notification.type == .follow else { return }
         followingService.checkIfUserIsFollowed(uid: notification.uid) { [weak self] isFollowed in
-            guard let self = self else { return }
-            self.notification.isFollowed = isFollowed
+            self?.notification.isFollowed = isFollowed
         }
     }
     
     func fetchNotificationPost() {
         notificationService
-            .fetchNotificationPost(postId: notification.postId) { notificationPost in
-                self.notification.post = notificationPost
+            .fetchNotificationPost(postId: notification.postId) { [weak self] notificationPost in
+                self?.notification.post = notificationPost
         }
     }
     
     func fetchNotificationUser() {
         notificationService
-            .fetchNotificationUser(uid: self.notification.uid) { notificationUser in
-                self.notification.user = notificationUser
+            .fetchNotificationUser(uid: self.notification.uid) { [weak self] notificationUser in
+                self?.notification.user = notificationUser
             }
     }
     

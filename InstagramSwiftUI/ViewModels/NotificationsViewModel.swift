@@ -20,11 +20,8 @@ class NotificationsViewModel: ObservableObject {
     }
     
     func fetchNotifications() {
-        notificationsService.fetchNotifications { notifications in
-            self.notifications = notifications
-            for i in notifications {
-                print(i)
-            }
+        notificationsService.fetchNotifications { [weak self] notifications in
+            self?.notifications = notifications
         }
     }
     

@@ -21,11 +21,11 @@ class AuthViewModel: ObservableObject {
     }
     
     func login(withEmail email: String, password: String) {
-        authService.login(withEmail: email, password: password) { result in
+        authService.login(withEmail: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
-                self.userSession = user
-                self.fetchUser()
+                self?.userSession = user
+                self?.fetchUser()
                 print("login")
             case .failure(let error):
                 print("DEBUG: Login failed \(error.localizedDescription)")
@@ -42,11 +42,11 @@ class AuthViewModel: ObservableObject {
                              password: password,
                              image: image,
                              fullname: fullname,
-                             username: username) { result in
+                             username: username) { [weak self] result in
             switch result {
             case .success(let user):
-                self.userSession = user
-                self.fetchUser()
+                self?.userSession = user
+                self?.fetchUser()
                 print("User data uploaded")
             case .failure(let error):
                 print("DEBUG: Can't upload user data to firestore"
@@ -56,18 +56,18 @@ class AuthViewModel: ObservableObject {
     }
                            
     func signOut() {
-        authService.signOut {
-            self.userSession = nil
+        authService.signOut { [weak self] in
+            self?.userSession = nil
             print("Signed out")
         }
     }
     
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-        authService.fetchUser(uid: uid) { result in
+        authService.fetchUser(uid: uid) { [weak self] result in
             switch result {
             case .success(let user):
-                self.currentUser = user
+                self?.currentUser = user
                 print("User fetched")
             case .failure(let error):
                 print("DEBUG: failed to fetch user"
