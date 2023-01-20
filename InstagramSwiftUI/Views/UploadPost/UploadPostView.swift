@@ -51,6 +51,9 @@ struct UploadPostView: View {
                         }
                     }
             } else if let image = postImage {
+                
+                Divider()
+                
                 HStack(alignment: .top) {
                     image
                         .resizable()
@@ -59,9 +62,11 @@ struct UploadPostView: View {
                         .clipped()
                     
                     TextArea(text: $captionText, placeholder: "Enter your caption..")
-                        .frame(height: 200)
+                        .frame(height: 100)
                 }
                 .padding()
+                
+                Divider()
                 
                 HStack(spacing: 16) {
                     Button {
