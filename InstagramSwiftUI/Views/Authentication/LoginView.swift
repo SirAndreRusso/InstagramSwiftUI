@@ -10,8 +10,8 @@ import UIKit
 
 struct LoginView: View {
     
-    @State private var email = ""
-    @State private var password = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
@@ -54,8 +54,9 @@ struct LoginView: View {
                     // Forgot password
                     HStack {
                         Spacer()
-                        Button {
+                        NavigationLink {
                             
+                            ResetPasswordView(email: $email)
                         } label: {
                             Text("Forgot password?")
                                 .font(.system(size: 13, weight: .semibold))
@@ -63,6 +64,7 @@ struct LoginView: View {
                                 .padding(.top)
                                 .padding(.trailing, 32)
                         }
+
                     }
                     
                     // Sign in

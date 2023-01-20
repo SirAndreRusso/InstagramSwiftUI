@@ -12,6 +12,7 @@ protocol AuthService {
     
     var imageUploader: ImageUploader { get }
     
+    func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void)
     func login(withEmail email: String,
                password: String,
                completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
@@ -21,10 +22,10 @@ protocol AuthService {
                   fullname: String,
                   username: String,
                   completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
+    func resetPassword(withEmail email: String,
+                       didSendPasswordResetLink: @escaping (Bool) -> Void)
     func signOut(completion: @escaping () -> Void)
-    func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void)
-    func resetPassword()
-    
+
 }
 
 class DefaultAuthService: AuthService {
@@ -33,6 +34,26 @@ class DefaultAuthService: AuthService {
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader
+    }
+    
+    func fetchUser(uid: String,
+                   completion: @escaping (Result<User, Error>) -> Void) {
+        COLLECTION_USERS
+            .document(uid)
+            .getDocument { snapShot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            do {
+                guard let user = try snapShot?.data(as: User.self) else {
+                    return
+                }
+                completion(.success(user))
+            } catch {
+                print("DEBUG: Failed to decode user"
+                      + "\(error.localizedDescription)")
+            }
+        }
     }
     
     func login(withEmail email: String,
@@ -86,6 +107,17 @@ class DefaultAuthService: AuthService {
             }
         }
     }
+    
+    func resetPassword(withEmail email: String,
+                       didSendPasswordResetLink: @escaping (Bool) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                print("DEBUG: Failed to send password reset link to \(email)"
+                      + error.localizedDescription)
+            }
+            didSendPasswordResetLink(true)
+        }
+    }
                            
     func signOut(completion: @escaping () -> Void) {
         do {
@@ -95,30 +127,6 @@ class DefaultAuthService: AuthService {
             print("DEBUG: Failed to sign out"
                   + error.localizedDescription)
         }
-    }
-    
-    func fetchUser(uid: String,
-                   completion: @escaping (Result<User, Error>) -> Void) {
-        COLLECTION_USERS
-            .document(uid)
-            .getDocument { snapShot, error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            do {
-                guard let user = try snapShot?.data(as: User.self) else {
-                    return
-                }
-                completion(.success(user))
-            } catch {
-                print("DEBUG: Failed to decode user"
-                      + "\(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func resetPassword() {
-        
     }
     
 }

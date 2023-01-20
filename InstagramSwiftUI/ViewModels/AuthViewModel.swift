@@ -12,6 +12,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    @Published var didSendResetPasswordLink: Bool = false
     private let authService: AuthService
     
     init(authService: AuthService) {
@@ -76,8 +77,10 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func resetPassword() {
-        
+    func resetPassword(withEmail email: String) {
+        authService.resetPassword(withEmail: email) { [weak self] didSendResetPasswordLink in
+            self?.didSendResetPasswordLink = didSendResetPasswordLink
+        }
     }
     
 }
