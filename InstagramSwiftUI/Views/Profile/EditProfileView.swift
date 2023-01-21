@@ -9,13 +9,15 @@ import SwiftUI
 
 struct EditProfileView: View {
     
-    @State private var about: String = ""
+    @ObservedObject var viewModel: ProfileViewModel
+    @Environment(\.presentationMode) var mode
+    @State private var bio: String = ""
     
     var body: some View {
         VStack {
             HStack {
                 Button {
-                    
+                    mode.wrappedValue.dismiss()
                 } label: {
                     Text("Cancel")
                         .bold()
@@ -25,7 +27,8 @@ struct EditProfileView: View {
                 Spacer()
                 
                 Button {
-                    
+                    viewModel.saveUserData(bio: bio)
+                    self.mode.wrappedValue.dismiss()
                 } label: {
                     Text("Done")
                         .bold()
@@ -37,12 +40,14 @@ struct EditProfileView: View {
             
             Divider()
             
-            TextArea(text: $about, placeholder: "Tell about you...")
+            TextArea(text: $bio, placeholder: "Tell about you...")
                 .frame(width: UIScreen.main.bounds.width - 16, height: 200)
             
             Divider()
             
             Spacer()
+            
         }
     }
+    
 }

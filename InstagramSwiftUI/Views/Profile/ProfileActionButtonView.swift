@@ -11,6 +11,7 @@ struct ProfileActionButtonView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
     @State var showEditProfile: Bool = false
+    let vmFactory: VMFactory
     var isFollowed: Bool { return viewModel.user.isFolowed ?? false }
     
     var body: some View {
@@ -28,7 +29,7 @@ struct ProfileActionButtonView: View {
             }
             .cornerRadius(3)
             .sheet(isPresented: $showEditProfile) {
-                EditProfileView()
+                EditProfileView(viewModel: viewModel)
             }
         } else {
             // Follow and message buttons

@@ -10,6 +10,7 @@ protocol VMFactory {
     var serviceFactory: ServiceFactory { get }
     
     func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel
+    func makeEditProfileViewModel() -> EditProfileViewModel
     func makeFeedViewModel() -> FeedViewModel
     func makeFeedCellViewModel(post: Post,
                                likeService: LikeService?,
@@ -36,6 +37,11 @@ class DefaultVMFactory: VMFactory {
     func makeUploadPostViewModel() -> UploadPostViewModel {
         let postsService = serviceFactory.makePostsService()
         return UploadPostViewModel(user: user, postsService: postsService)
+    }
+    
+    func makeEditProfileViewModel() -> EditProfileViewModel {
+        let userService = serviceFactory.makeUserService()
+        return EditProfileViewModel(user: user, userService: userService)
     }
     
     func makeFeedViewModel() -> FeedViewModel {

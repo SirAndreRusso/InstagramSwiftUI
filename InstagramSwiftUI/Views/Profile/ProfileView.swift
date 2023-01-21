@@ -16,7 +16,7 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: 32) {
                 if let postGreedViewModel = vmFactory.makePostGreedViewModel(config: .profile(viewModel.user.id ?? "")) {
-                    ProfileHeaderView(viewModel: viewModel)
+                    ProfileHeaderView(viewModel: viewModel, vmFactory: vmFactory)
                     PostGridView(viewModel: postGreedViewModel, vmFactory: vmFactory)
                 }
             }

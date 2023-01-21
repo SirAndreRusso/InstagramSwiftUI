@@ -11,6 +11,7 @@ import Kingfisher
 struct ProfileHeaderView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
+    var vmFactory: VMFactory
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -41,15 +42,22 @@ struct ProfileHeaderView: View {
                 .font(.system(size: 15))
                 .padding(.leading, 8)
             
+            if let bio = viewModel.user.bio {
+                Text(bio)
+                    .font(.system(size: 15))
+                    .padding(.leading, 8)
+            }
+            
             HStack {
                 Spacer()
-                ProfileActionButtonView(viewModel: viewModel)
+                ProfileActionButtonView(viewModel: viewModel, vmFactory: vmFactory)
                 Spacer()
             }
             .padding(.top, 8)
         }
     }
-    
+        
 }
+
 
 

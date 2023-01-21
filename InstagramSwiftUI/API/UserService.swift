@@ -8,15 +8,37 @@
 import Foundation
 
 protocol UserService {
-    
+    func fetchUser(uid: String,
+                   completion: @escaping (Result<User, Error>) -> Void)
     func fetchUsers(completion: @escaping ([User]) -> Void)
     func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void)
     func filteredUsers(users: [User], _ query: String) -> [User]
     func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void)
+    func saveUserData(uid: String, bio: String, completion: @escaping () -> Void)
     
 }
 
 class DefaultUserService: UserService {
+    
+    func fetchUser(uid: String,
+                   completion: @escaping (Result<User, Error>) -> Void) {
+        COLLECTION_USERS
+            .document(uid)
+            .getDocument { snapShot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            do {
+                guard let user = try snapShot?.data(as: User.self) else {
+                    return
+                }
+                completion(.success(user))
+            } catch {
+                print("DEBUG: Failed to decode user"
+                      + "\(error.localizedDescription)")
+            }
+        }
+    }
     
     func  fetchUsers(completion: @escaping ([User]) -> Void) {
         COLLECTION_USERS.getDocuments { snapShot, error in
@@ -87,6 +109,19 @@ class DefaultUserService: UserService {
                 let postOwner = try? snapshot?.data(as: User.self)
                 
                 completion(postOwner)
+            }
+    }
+    
+    func saveUserData(uid: String, bio: String, completion: @escaping () -> Void) {
+        COLLECTION_USERS
+            .document(uid)
+            .updateData(["bio": bio]) { error in
+                if let error = error {
+                    print("DEBUG: Failed to save user data"
+                          + error.localizedDescription)
+                    return
+                }
+                completion()
             }
     }
     

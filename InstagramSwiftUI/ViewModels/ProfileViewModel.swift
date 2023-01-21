@@ -11,6 +11,7 @@ class ProfileViewModel: ObservableObject {
     
     @Published var user: User
     @Published var userStats: UserStats? = nil
+    @Published var saveDataComplete: Bool = false
     private let followingService: FollowingService
     private let notificationService: NotificationService
     private let userService: UserService
@@ -25,6 +26,7 @@ class ProfileViewModel: ObservableObject {
         self.userService = userService
         checkIfUserIsfollowed()
         fetchUserStats()
+        fetchUser()
     }
     
     func follow() {
@@ -65,6 +67,27 @@ class ProfileViewModel: ObservableObject {
         guard let uid = user.id else { return }
         userService.fetchUserStats(uid: uid) { [weak self] userStats in
             self?.userStats = userStats
+        }
+    }
+    
+    func fetchUser() {
+        guard let uid = user.id else { return }
+        userService.fetchUser(uid: uid) { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+            case .failure(let error):
+                print("DEBUG: Failed to fetch user" + error.localizedDescription)
+            }
+        }
+    }
+    
+    func saveUserData(bio: String) {
+        guard let uid = user.id else { return }
+        userService.saveUserData(uid: uid, bio: bio) { [weak self] in
+            self?.user.bio = bio
+            self?.saveDataComplete = true
+            print(self?.saveDataComplete)
         }
     }
     
