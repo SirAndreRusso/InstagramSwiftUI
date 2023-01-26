@@ -32,7 +32,7 @@ class CommentsViewModel: ObservableObject {
     func uploadComment(commentText: String) { 
         commentService.uploadComment(user: user, post: post, commentText: commentText)
         
-        self.notificationService.uploadNotification(user: user, toUid: self.post.ownerUid,
+        self.notificationService.uploadNotification(fromUser: user, toUid: self.post.ownerUid,
                                                             type: .comment,
                                                             post: self.post)
     }

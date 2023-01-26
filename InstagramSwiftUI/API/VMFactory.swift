@@ -18,7 +18,7 @@ protocol VMFactory {
                                notificationService: NotificationService?
                                ) -> FeedCellViewModel
     func makeNotificationsViewModel(user: User, router: Router) -> NotificationsViewModel
-    func makeNotificationCellViewModel(notification: Notification, router: Router) -> NotificationCellViewModel
+    func makeNotificationCellViewModel(notification: Notification, router: Router, user: User) -> NotificationCellViewModel
     func makePostGreedViewModel(config: PostGreedConfiguration, router: Router) -> PostGreedViewModel
     func makeProfileViewModel(user: User, router: Router) -> ProfileViewModel
     func makeProfileHeaderViewModel(user: User, router: Router) -> ProfileHeaderViewModel
@@ -73,10 +73,11 @@ final class DefaultVMFactory: VMFactory {
         NotificationsViewModel(user: user, router: router, notificationsService: serviceProvider.notificationService)
     }
     
-    func makeNotificationCellViewModel(notification: Notification, router: Router) -> NotificationCellViewModel {
+    func makeNotificationCellViewModel(notification: Notification, router: Router, user: User) -> NotificationCellViewModel {
         NotificationCellViewModel(notification: notification,
                                   followingService: serviceProvider.followingService,
                                   notificationService: serviceProvider.notificationService,
+                                  user: user,
                                   router: router)
     }
     

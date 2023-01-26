@@ -10,42 +10,44 @@ import SwiftUI
 class NotificationCellViewModel: ObservableObject {
     
     @Published var notification: Notification
-//    @EnvironmentObject var authViewModel: AuthViewModel
+    var timestampString = ""
+    var user: User
     let followingService: FollowingService
     let notificationService: NotificationService
     weak var router: Router?
     
-    var timestampString: String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfYear, .month]
-        formatter.maximumUnitCount = 1
-        formatter.unitsStyle = .abbreviated
-        
-        return formatter.string(from: notification.timestamp.dateValue(), to: Date()) ?? ""
-    }
-    
     init(notification: Notification,
          followingService: FollowingService,
          notificationService: NotificationService,
+         user: User,
          router: Router) {
         self.notification = notification
         self.followingService = followingService
         self.notificationService = notificationService
+        self.user = user
         self.router = router
         checkIfUserIsfollowed()
         fetchNotificationPost()
         fetchNotificationUser()
     }
     
-    func follow(user: User) {
+    func getTimestampString() {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfYear, .month]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+        
+        self.timestampString = formatter.string(from: notification.timestamp.dateValue(), to: Date()) ?? ""
+    }
+    
+    func follow() {
         followingService.follow(uid: notification.uid) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
                 print("DEBUG: Failed to follow \(self.notification.username)"
                       + error.localizedDescription)
             } else {
-//                guard let user = self.authViewModel.currentUser else { return }
-                self.notificationService.uploadNotification(user: user,
+                self.notificationService.uploadNotification(fromUser: self.user,
                                                             toUid: self.notification.uid,
                                                             type: .follow,
                                                             post: nil)

@@ -17,7 +17,7 @@ protocol Router: AnyObject {
     func showFeedView(user: User) -> FeedView
     func showFeedCellView(user: User, post: Post) -> FeedCell
     func showPostGreedView(config: PostGreedConfiguration) -> PostGridView
-    func showNotificationCell(notification: Notification) -> NotificationCell
+    func showNotificationCell(notification: Notification, user: User) -> NotificationCell
     func showProfileView(user: User) -> ProfileView
     func showProfileHeaderView(user: User) -> ProfileHeaderView
     func showSearchView() -> SearchView
@@ -69,8 +69,8 @@ class DefaultRouter: Router {
         return PostGridView(viewModel: postGreedViewModel)
     }
     
-    func showNotificationCell(notification: Notification) -> NotificationCell {
-        let notificationCellViewModel = vmFactory.makeNotificationCellViewModel(notification: notification, router: self)
+    func showNotificationCell(notification: Notification, user: User) -> NotificationCell {
+        let notificationCellViewModel = vmFactory.makeNotificationCellViewModel(notification: notification, router: self, user: user)
         return NotificationCell(viewModel: notificationCellViewModel)
     }
     

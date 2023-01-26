@@ -19,7 +19,9 @@ final class DefaultFollowingService: FollowingService {
     
     func follow(uid: String, completion: @escaping ((Error?) -> Void)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        guard currentUid != uid else { return }
+        guard currentUid != uid else {
+            print("You can't follow yourself")
+            return }
         COLLECTION_FOLLOWING
             .document(currentUid)
             .collection("user-following")

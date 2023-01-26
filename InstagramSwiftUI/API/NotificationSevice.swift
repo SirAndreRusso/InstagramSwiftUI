@@ -10,9 +10,12 @@ import Firebase
 protocol NotificationService {
     
     func fetchNotifications(currentUser: User, completion: @escaping ([Notification]) -> Void)
-    func uploadNotification(user: User, toUid: String, type: NotificationType, post: Post?)
     func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void)
     func fetchNotificationUser(uid: String, completion: @escaping (User?) -> Void)
+    func uploadNotification(fromUser user: User,
+                            toUid uid: String,
+                            type: NotificationType,
+                            post: Post?)
     
 }
 
@@ -33,34 +36,10 @@ final class DefaultNotificationService: NotificationService {
             
             guard let documents = snapshot?.documents else { return }
             let notifications = documents.compactMap({ try? $0.data(as: Notification.self)})
-            let uniqueNotifications = Set<Notification>(notifications)
-            completion(Array<Notification>(uniqueNotifications))
-//            completion(notifications)
+//            let uniqueNotifications = Set<Notification>(notifications)
+//            completion(Array<Notification>(uniqueNotifications))
+            completion(notifications)
         }
-    }
-    
-    func uploadNotification(user: User, toUid uid: String, type: NotificationType, post: Post? = nil) {
-        var data: [String: Any] = [
-            "timestamp": Timestamp(date: Date()),
-            "username": user.username,
-            "uid": user.id ?? "",
-            "profileImageURL": user.profileImageURL,
-            "type": type.rawValue,
-        ]
-        
-        if let post = post, let id = post.id {
-            data["postId"] = id
-        }
-        
-        COLLECTION_NOTIFICATIONS
-            .document(uid)
-            .collection("user-notifications")
-            .addDocument(data: data) { error in
-                if let error = error {
-                    print("DEBUG: Failed to add notifacation"
-                          + error.localizedDescription)
-                }
-            }
     }
     
     func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void) {
@@ -89,6 +68,33 @@ final class DefaultNotificationService: NotificationService {
                 guard let user = try? snapshot?.data(as: User.self) else { return }
                 
                 completion(user)
+            }
+    }
+    
+    func uploadNotification(fromUser user: User,
+                            toUid uid: String,
+                            type: NotificationType,
+                            post: Post? = nil) {
+        var data: [String: Any] = [
+            "timestamp": Timestamp(date: Date()),
+            "username": user.username,
+            "uid": user.id ?? "",
+            "profileImageURL": user.profileImageURL,
+            "type": type.rawValue
+        ]
+        
+        if let post = post, let id = post.id {
+            data["postId"] = id
+        }
+        
+        COLLECTION_NOTIFICATIONS
+            .document(uid)
+            .collection("user-notifications")
+            .addDocument(data: data) { error in
+                if let error = error {
+                    print("DEBUG: Failed to add notifacation"
+                          + error.localizedDescription)
+                }
             }
     }
     

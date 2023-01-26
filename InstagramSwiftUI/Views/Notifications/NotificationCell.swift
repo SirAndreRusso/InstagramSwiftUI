@@ -55,9 +55,7 @@ struct NotificationCell: View {
                 }
             } else {
                 Button {
-                    if let user = viewModel.notification.user {
-                        isFollowed ? viewModel.unFollow() : viewModel.follow(user: user)
-                    }
+                        isFollowed ? viewModel.unFollow() : viewModel.follow()
                 } label: {
                     Text(isFollowed ? "Following" : "Follow")
                         .font(.system(size: 15, weight: .semibold))

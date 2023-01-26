@@ -40,7 +40,7 @@ class ProfileHeaderViewModel: ObservableObject {
                 print("DEBUG: Failed to follow \(self.user.username)"
                       + error.localizedDescription)
             } else {
-                self.notificationService.uploadNotification(user: self.user, toUid: uid, type: .follow, post: nil)
+                self.notificationService.uploadNotification(fromUser: self.user, toUid: uid, type: .follow, post: nil)
                 self.user.isFolowed = true
                 self.fetchUserStats()
             }

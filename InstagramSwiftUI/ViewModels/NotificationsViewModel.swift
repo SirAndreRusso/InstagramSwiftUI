@@ -10,7 +10,7 @@ import SwiftUI
 class NotificationsViewModel: ObservableObject {
     
     @Published var notifications = [Notification]()
-    private let user: User
+    let user: User
     private let notificationsService: NotificationService
     weak var router: Router?
     
@@ -26,11 +26,6 @@ class NotificationsViewModel: ObservableObject {
             self?.notifications = notifications
         }
     }
-    
-    func uploadNotification(currentUser: User, toUid: String, type: NotificationType, post: Post? = nil) {
-        notificationsService.uploadNotification(user: currentUser, toUid: toUid, type: type, post: post)
-    }
-    
     
     deinit {
         print("DEINIT Notifications ViewModel")

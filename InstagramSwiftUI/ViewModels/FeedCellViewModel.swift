@@ -58,7 +58,7 @@ class FeedCellViewModel: ObservableObject {
             self.post.didLike = true
             self.post.likes += 1
             if self.post.ownerUid != self.currentUser.id {
-                self.notificationService.uploadNotification(user: self.currentUser,
+                self.notificationService.uploadNotification(fromUser: self.currentUser,
                                                             toUid: self.post.ownerUid,
                                                             type: .like,
                                                             post: self.post)
