@@ -10,8 +10,6 @@ import Firebase
 
 protocol AuthService {
     
-    var imageUploader: ImageUploader { get }
-    
     func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void)
     func login(withEmail email: String,
                password: String,
@@ -28,9 +26,9 @@ protocol AuthService {
 
 }
 
-class DefaultAuthService: AuthService {
+final class DefaultAuthService: AuthService {
     
-    let imageUploader: ImageUploader
+    private let imageUploader: ImageUploader
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader

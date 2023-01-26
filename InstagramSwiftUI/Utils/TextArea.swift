@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct TextArea: View {
+    
+    @Binding var text: String
+    let placeholder: String
+    
     init(text: Binding<String>, placeholder: String) {
         self._text = text
         self.placeholder = placeholder
         UITextView.appearance().backgroundColor = .clear
     }
-    @Binding var text: String
-    let placeholder: String
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             TextEditor(text: $text)
@@ -29,6 +32,7 @@ struct TextArea: View {
         }
         .font(.body)
     }
+    
 }
 
 

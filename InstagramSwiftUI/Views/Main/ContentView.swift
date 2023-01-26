@@ -1,30 +1,21 @@
-//
-//  ContentView.swift
-//  InstagramSwiftUI
-//
-//  Created by Андрей Русин on 25.11.2022.
-//
-
 import Foundation
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    
+    @EnvironmentObject private var authViewModel: AuthViewModel
     @State var selectedIndex = 0
+    
     var body: some View {
         Group {
-            if viewModel.userSession == nil {
-                LoginView()
+            if authViewModel.userSession == nil {
+                authViewModel.router?.showLoginView()
             } else {
-                if let user = viewModel.currentUser {
-                    let serviceFactory: ServiceFactory = DefaultServiceFactory(user: user)
-                    let vmFactory: VMFactory = DefaultVMFactory(user: user, serviceFactory: serviceFactory)
-                    let postsService = serviceFactory.makePostsService()
-                    
-                    MainTabView(vmFactory: vmFactory, postService: postsService, selectedIndex: $selectedIndex)
+                if let _ = authViewModel.currentUser {
+                    authViewModel.router?.showMainTabView(selectedIndex: $selectedIndex)
                 }
             }
         }
     }
+    
 }
-

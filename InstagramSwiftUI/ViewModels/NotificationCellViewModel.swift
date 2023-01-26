@@ -10,8 +10,10 @@ import SwiftUI
 class NotificationCellViewModel: ObservableObject {
     
     @Published var notification: Notification
+//    @EnvironmentObject var authViewModel: AuthViewModel
     let followingService: FollowingService
     let notificationService: NotificationService
+    weak var router: Router?
     
     var timestampString: String {
         let formatter = DateComponentsFormatter()
@@ -24,23 +26,27 @@ class NotificationCellViewModel: ObservableObject {
     
     init(notification: Notification,
          followingService: FollowingService,
-         notificationService: NotificationService) {
+         notificationService: NotificationService,
+         router: Router) {
         self.notification = notification
         self.followingService = followingService
         self.notificationService = notificationService
+        self.router = router
         checkIfUserIsfollowed()
         fetchNotificationPost()
         fetchNotificationUser()
     }
     
-    func follow() {
+    func follow(user: User) {
         followingService.follow(uid: notification.uid) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
                 print("DEBUG: Failed to follow \(self.notification.username)"
                       + error.localizedDescription)
             } else {
-                self.notificationService.uploadNotification(toUid: self.notification.uid,
+//                guard let user = self.authViewModel.currentUser else { return }
+                self.notificationService.uploadNotification(user: user,
+                                                            toUid: self.notification.uid,
                                                             type: .follow,
                                                             post: nil)
                 self.notification.isFollowed = true
@@ -80,6 +86,10 @@ class NotificationCellViewModel: ObservableObject {
             .fetchNotificationUser(uid: self.notification.uid) { [weak self] notificationUser in
                 self?.notification.user = notificationUser
             }
+    }
+    
+    deinit {
+        print("DEINIT Notifications cell ViewModel")
     }
     
 }

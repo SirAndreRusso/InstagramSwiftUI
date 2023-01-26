@@ -9,7 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct UserCell: View {
+    
     var user: User
+    
     var body: some View {
         HStack {
             KFImage(URL(string: user.profileImageURL))
@@ -28,6 +30,7 @@ struct UserCell: View {
             Spacer()
         }
     }
+    
 }
 
 

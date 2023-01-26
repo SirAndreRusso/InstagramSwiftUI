@@ -9,13 +9,13 @@ import FirebaseFirestoreSwift
 import Firebase
 
 enum NotificationType: Int, Decodable {
+    
     case like
     case comment
     case follow
     
     var notificationMessage: String {
         switch self {
-            
         case .like:
             return "liked your post."
         case .comment:
@@ -24,9 +24,17 @@ enum NotificationType: Int, Decodable {
             return "started following you."
         }
     }
+    
 }
 
-struct Notification: Identifiable, Decodable {
+struct Notification: Identifiable, Hashable, Decodable {
+    static func == (lhs: Notification, rhs: Notification) -> Bool {
+        lhs.postId == rhs.postId
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine([username, profileImageURL, uid])
+    }
+    
     @DocumentID var id: String?
     let postId: String?
     let username: String
@@ -37,4 +45,5 @@ struct Notification: Identifiable, Decodable {
     var isFollowed: Bool? = false
     var post: Post?
     var user: User?
+    
 }

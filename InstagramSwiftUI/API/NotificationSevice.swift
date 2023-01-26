@@ -9,24 +9,17 @@ import Firebase
 
 protocol NotificationService {
     
-    var user: User { get }
-    func fetchNotifications(completion: @escaping ([Notification]) -> Void)
-    func uploadNotification(toUid: String, type: NotificationType, post: Post?)
+    func fetchNotifications(currentUser: User, completion: @escaping ([Notification]) -> Void)
+    func uploadNotification(user: User, toUid: String, type: NotificationType, post: Post?)
     func fetchNotificationPost(postId: String?, completion: @escaping (Post?) -> Void)
     func fetchNotificationUser(uid: String, completion: @escaping (User?) -> Void)
     
 }
 
-class DefaultNotificationService: NotificationService {
+final class DefaultNotificationService: NotificationService {
     
-    let user: User
-    
-    init(user: User) {
-        self.user = user
-    }
-    
-    func fetchNotifications(completion: @escaping ([Notification]) -> Void) {
-        guard let uid = user.id else { return }
+    func fetchNotifications(currentUser: User, completion: @escaping ([Notification]) -> Void) {
+        guard let uid = currentUser.id else { return }
         let query = COLLECTION_NOTIFICATIONS
             .document(uid)
             .collection("user-notifications")
@@ -40,12 +33,13 @@ class DefaultNotificationService: NotificationService {
             
             guard let documents = snapshot?.documents else { return }
             let notifications = documents.compactMap({ try? $0.data(as: Notification.self)})
-            
-            completion(notifications)
+            let uniqueNotifications = Set<Notification>(notifications)
+            completion(Array<Notification>(uniqueNotifications))
+//            completion(notifications)
         }
     }
     
-    func uploadNotification(toUid uid: String, type: NotificationType, post: Post? = nil) {
+    func uploadNotification(user: User, toUid uid: String, type: NotificationType, post: Post? = nil) {
         var data: [String: Any] = [
             "timestamp": Timestamp(date: Date()),
             "username": user.username,

@@ -10,19 +10,16 @@ import SwiftUI
 struct ProfileView: View {
     
     @ObservedObject var viewModel: ProfileViewModel
-    let vmFactory: VMFactory
    
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                if let postGreedViewModel = vmFactory.makePostGreedViewModel(config: .profile(viewModel.user.id ?? "")) {
-                    ProfileHeaderView(viewModel: viewModel, vmFactory: vmFactory)
-                    PostGridView(viewModel: postGreedViewModel, vmFactory: vmFactory)
-                }
+                viewModel.router?.showProfileHeaderView(user: viewModel.user)
+                viewModel.router?.showPostGreedView(config: .profile(viewModel.user.id ?? ""))
             }
             .padding(.top)
         }
     }
-    
+        
 }
 

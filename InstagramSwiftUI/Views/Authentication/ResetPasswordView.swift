@@ -19,11 +19,13 @@ struct ResetPasswordView: View {
     
     var body: some View {
         ZStack {
+            // Gradient background
             LinearGradient(gradient: Gradient(colors: [.purple, .red, .orange]), startPoint: .top, endPoint: .bottom)
                 .opacity(0.8)
                 .ignoresSafeArea()
             
             VStack {
+                // Header
                 Color(.white)
                     .mask {
                         Image("instagramLogo")
@@ -33,8 +35,7 @@ struct ResetPasswordView: View {
                     .frame(width: 230, height: 60)
                     .padding(.top, 60)
                     .padding(.bottom)
-               
-                
+        
                 VStack(spacing: 20) {
                     // Email field
                     CustomTextfield(text: $email, placeholder: Text("Email"), imageName: "envelope")
@@ -43,10 +44,8 @@ struct ResetPasswordView: View {
                         .cornerRadius(10)
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
-                
                 }
-                
-                // Sign in
+                // Reset password
                 Button {
                     viewModel.resetPassword(withEmail: email)
                 } label: {
@@ -60,7 +59,7 @@ struct ResetPasswordView: View {
                 .padding(.top)
                 
                 Spacer()
-                
+                // Sign in
                 Button {
                     mode.wrappedValue.dismiss()
                 } label: {

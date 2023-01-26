@@ -17,11 +17,13 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                // Gradient background
                 LinearGradient(gradient: Gradient(colors: [.purple, .red, .orange]), startPoint: .top, endPoint: .bottom)
                     .opacity(0.8)
                     .ignoresSafeArea()
                 
                 VStack {
+                    // Header
                     Color(.white)
                         .mask {
                             Image("instagramLogo")
@@ -32,7 +34,6 @@ struct LoginView: View {
                         .padding(.top, 60)
                         .padding(.bottom)
                    
-                    
                     VStack(spacing: 20) {
                         // Email field
                         CustomTextfield(text: $email, placeholder: Text("Email"), imageName: "envelope")
@@ -50,13 +51,11 @@ struct LoginView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 32)
                     }
-                    
                     // Forgot password
                     HStack {
                         Spacer()
                         NavigationLink {
-                            
-                            ResetPasswordView(email: $email)
+                            viewModel.router?.showResetPasswordView(email: $email)
                         } label: {
                             Text("Forgot password?")
                                 .font(.system(size: 13, weight: .semibold))
@@ -64,9 +63,7 @@ struct LoginView: View {
                                 .padding(.top)
                                 .padding(.trailing, 32)
                         }
-
                     }
-                    
                     // Sign in
                     Button {
                         viewModel.login(withEmail: email, password: password)
@@ -81,26 +78,22 @@ struct LoginView: View {
                     .padding(.top)
                     
                     Spacer()
-                    
                     // Sign up
-                    NavigationLink(destination: RegistrationView().navigationBarHidden(true), label: {
+                    NavigationLink {
+                        LazyView(viewModel.router?.showRegistrationView().navigationBarHidden(true))
+                    } label: {
                         HStack {
                             Text("Don't have an account yet?")
                                 .font(.system(size: 14))
                             Text("Sign up")
                                 .font(.system(size: 14, weight: .semibold))
                         }
-                    })
+                    }
                     .foregroundColor(.white)
                     .padding(.bottom)
                 }
             }
         }
     }
-}
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-    }
+    
 }

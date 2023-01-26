@@ -11,8 +11,11 @@ class SearchViewModel: ObservableObject {
     
     @Published var users = [User]()
     private let userService: UserService
-    init(userService: UserService) {
+    weak var router: Router?
+    
+    init(userService: UserService, router: Router) {
         self.userService = userService
+        self.router = router
         fetchUsers()
     }
     
@@ -24,6 +27,10 @@ class SearchViewModel: ObservableObject {
 
     func filteredUsers(_ query: String) -> [User] {
         userService.filteredUsers(users: users, query)
+    }
+    
+    deinit {
+        print("DEINIT search ViewModel")
     }
     
 }

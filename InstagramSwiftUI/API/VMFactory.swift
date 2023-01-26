@@ -4,124 +4,102 @@
 //
 //  Created by Андрей Русин on 09.01.2023.
 //
+
 protocol VMFactory {
     
-    var user: User { get }
-    var serviceFactory: ServiceFactory { get }
-    
-    func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel
-    func makeEditProfileViewModel() -> EditProfileViewModel
-    func makeFeedViewModel() -> FeedViewModel
+    func makeAuthViewModel(authService: AuthService, router: Router) -> AuthViewModel
+    func makeCommentsViewModel(user: User, post: Post, router: Router) -> CommentsViewModel
+    func makeEditProfileViewModel(user: User, router: Router) -> EditProfileViewModel
+    func makeFeedViewModel(user: User, router: Router) -> FeedViewModel
     func makeFeedCellViewModel(post: Post,
+                               user: User,
+                               router: Router,
                                likeService: LikeService?,
-                               notificationService: NotificationService?) -> FeedCellViewModel
-    func makeNotificationsViewModel() -> NotificationsViewModel
-    func makeNotificationCellViewModel(notification: Notification?) -> NotificationCellViewModel?
-    func makePostGreedViewModel(config: PostGreedConfiguration?) -> PostGreedViewModel?
-    func makeProfileViewModel(user: User?) -> ProfileViewModel
-    func makeSearchViewModel() -> SearchViewModel
-    func makeUploadPostViewModel() -> UploadPostViewModel
+                               notificationService: NotificationService?
+                               ) -> FeedCellViewModel
+    func makeNotificationsViewModel(user: User, router: Router) -> NotificationsViewModel
+    func makeNotificationCellViewModel(notification: Notification, router: Router) -> NotificationCellViewModel
+    func makePostGreedViewModel(config: PostGreedConfiguration, router: Router) -> PostGreedViewModel
+    func makeProfileViewModel(user: User, router: Router) -> ProfileViewModel
+    func makeProfileHeaderViewModel(user: User, router: Router) -> ProfileHeaderViewModel
+    func makeSearchViewModel(router: Router) -> SearchViewModel
+    func makeUploadPostViewModel(user: User, router: Router) -> UploadPostViewModel
     
 }
 
-class DefaultVMFactory: VMFactory {
+final class DefaultVMFactory: VMFactory {
     
-    let user: User
-    let serviceFactory: ServiceFactory
+    private let serviceProvider: ServiceProvider
     
-    init(user: User, serviceFactory: ServiceFactory) {
-        self.user = user
-        self.serviceFactory = serviceFactory
+    init(serviceFactory: ServiceProvider) {
+        self.serviceProvider = serviceFactory
     }
     
-    func makeUploadPostViewModel() -> UploadPostViewModel {
-        let postsService = serviceFactory.makePostsService()
-        return UploadPostViewModel(user: user, postsService: postsService)
+    func makeAuthViewModel(authService: AuthService, router: Router) -> AuthViewModel {
+        AuthViewModel(authService: authService, router: router)
     }
     
-    func makeEditProfileViewModel() -> EditProfileViewModel {
-        let userService = serviceFactory.makeUserService()
-        return EditProfileViewModel(user: user, userService: userService)
+    func makeUploadPostViewModel(user: User, router: Router) -> UploadPostViewModel {
+        UploadPostViewModel(user: user, postsService: serviceProvider.postService, router: router)
     }
     
-    func makeFeedViewModel() -> FeedViewModel {
-        let notificationService = serviceFactory.makeNotificationService()
-        let likeService = serviceFactory.makeLikeService()
-        let postsService = serviceFactory.makePostsService()
-        return FeedViewModel(user: user,
-                             notificationService: notificationService,
-                             likeService: likeService,
-                             postsService: postsService)
+    func makeEditProfileViewModel(user: User, router: Router) -> EditProfileViewModel {
+        EditProfileViewModel(user: user, userService: serviceProvider.userService, router: router)
+    }
+    
+    func makeFeedViewModel(user: User, router: Router) -> FeedViewModel {
+        FeedViewModel(user: user,
+                             notificationService: serviceProvider.notificationService,
+                             likeService: serviceProvider.likeService,
+                             postsService: serviceProvider.postService,
+                             router: router)
     }
     
     func makeFeedCellViewModel(post: Post,
+                               user: User,
+                               router: Router,
                                likeService: LikeService? = nil,
-                               notificationService: NotificationService? = nil) -> FeedCellViewModel {
-            if let notificationService = notificationService,
-               let likeService = likeService {
-                let userService = serviceFactory.makeUserService()
-                return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService, userService: userService)
-            } else {
-                let notificationService = serviceFactory.makeNotificationService()
-                let likeService = serviceFactory.makeLikeService()
-                let userService = serviceFactory.makeUserService()
-                return FeedCellViewModel(post: post, user: user, notificationService: notificationService, likeService: likeService, userService: userService)
-            }
-        
+                               notificationService: NotificationService? = nil
+                               ) -> FeedCellViewModel {
+
+         FeedCellViewModel(post: post, user: user, notificationService: serviceProvider.notificationService, likeService: serviceProvider.likeService, userService: serviceProvider.userService, router: router)
     }
     
-    func makeSearchViewModel() -> SearchViewModel {
-        let userService = serviceFactory.makeUserService()
-        return SearchViewModel(userService: userService)
+    func makeSearchViewModel(router: Router) -> SearchViewModel {
+        SearchViewModel(userService: serviceProvider.userService, router: router)
     }
     
-    func makeNotificationsViewModel() -> NotificationsViewModel {
-        let notificationService = serviceFactory.makeNotificationService()
-        return NotificationsViewModel(user: user, notificationsService: notificationService)
+    func makeNotificationsViewModel(user: User, router: Router) -> NotificationsViewModel {
+        NotificationsViewModel(user: user, router: router, notificationsService: serviceProvider.notificationService)
     }
     
-    func makeNotificationCellViewModel(notification: Notification? = nil) -> NotificationCellViewModel? {
-        guard let notification = notification else { return nil }
-        let followingService = serviceFactory.makeFollowingService()
-        let notificationService = serviceFactory.makeNotificationService()
-        
-        return NotificationCellViewModel(notification: notification,
-                                         followingService: followingService,
-                                         notificationService: notificationService)
+    func makeNotificationCellViewModel(notification: Notification, router: Router) -> NotificationCellViewModel {
+        NotificationCellViewModel(notification: notification,
+                                  followingService: serviceProvider.followingService,
+                                  notificationService: serviceProvider.notificationService,
+                                  router: router)
     }
     
-    func makePostGreedViewModel(config: PostGreedConfiguration? = nil) -> PostGreedViewModel? {
-        guard let config = config else { return nil }
-        let postService = serviceFactory.makePostsService()
-        
-        return PostGreedViewModel(config: config, postService: postService)
+    func makePostGreedViewModel(config: PostGreedConfiguration, router: Router) -> PostGreedViewModel {
+        PostGreedViewModel(config: config, postService: serviceProvider.postService, router: router)
     }
     
-    func makeProfileViewModel(user: User? = nil) -> ProfileViewModel {
-        let followingService = serviceFactory.makeFollowingService()
-        let notificationService = serviceFactory.makeNotificationService()
-        let userService = serviceFactory.makeUserService()
-        
-        if let user = user {
-            return ProfileViewModel(user: user,
-                                    followingService: followingService,
-                                    notificationService: notificationService,
-                                    userService: userService)
-        }
-        
-        return ProfileViewModel(user: self.user,
-                                followingService: followingService,
-                                notificationService: notificationService,
-                                userService: userService)
+    func makeProfileViewModel(user: User, router: Router) -> ProfileViewModel {
+        ProfileViewModel(user: user, router: router)
     }
     
-    func makeCommentsViewModel(user: User, post: Post) -> CommentsViewModel {
-        let notificationService = serviceFactory.makeNotificationService()
-        let commentService = serviceFactory.makeCommentService()
-        return CommentsViewModel(post: post,
+    func makeProfileHeaderViewModel(user: User, router: Router) -> ProfileHeaderViewModel {
+        ProfileHeaderViewModel(user: user, router: router,
+                                followingService: serviceProvider.followingService,
+                                notificationService: serviceProvider.notificationService,
+                                userService: serviceProvider.userService)
+    }
+    
+    func makeCommentsViewModel(user: User, post: Post, router: Router) -> CommentsViewModel {
+        CommentsViewModel(post: post,
                          user: user,
-                                 notificationService: notificationService,
-                                 commentService: commentService)
+                                 notificationService: serviceProvider.notificationService,
+                                 commentService: serviceProvider.commentService, router: router)
     }
     
 }

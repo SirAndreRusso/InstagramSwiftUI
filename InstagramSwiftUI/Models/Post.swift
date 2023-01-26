@@ -9,6 +9,7 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct Post: Identifiable, Decodable {
+    
     @DocumentID var id: String?
     let ownerUid: String
     let ownerUsername: String
@@ -19,4 +20,5 @@ struct Post: Identifiable, Decodable {
     let timeStamp: Timestamp
     var didLike: Bool? = false
     var user: User?
+    
 }

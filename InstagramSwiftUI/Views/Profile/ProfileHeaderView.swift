@@ -10,8 +10,7 @@ import Kingfisher
 
 struct ProfileHeaderView: View {
     
-    @ObservedObject var viewModel: ProfileViewModel
-    var vmFactory: VMFactory
+    @StateObject var viewModel: ProfileHeaderViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,6 +20,7 @@ struct ProfileHeaderView: View {
                     .scaledToFill()
                     .frame(width: 95, height: 95)
                     .clipShape(Circle())
+                
                 Spacer()
                 
                 if let stats = viewModel.userStats {
@@ -50,7 +50,7 @@ struct ProfileHeaderView: View {
             
             HStack {
                 Spacer()
-                ProfileActionButtonView(viewModel: viewModel, vmFactory: vmFactory)
+                ProfileActionButtonView(viewModel: viewModel)
                 Spacer()
             }
             .padding(.top, 8)

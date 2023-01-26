@@ -5,9 +5,8 @@
 //  Created by Андрей Русин on 15.01.2023.
 //
 
-import Foundation
-
 protocol UserService {
+    
     func fetchUser(uid: String,
                    completion: @escaping (Result<User, Error>) -> Void)
     func fetchUsers(completion: @escaping ([User]) -> Void)
@@ -18,7 +17,7 @@ protocol UserService {
     
 }
 
-class DefaultUserService: UserService {
+final class DefaultUserService: UserService {
     
     func fetchUser(uid: String,
                    completion: @escaping (Result<User, Error>) -> Void) {

@@ -15,10 +15,11 @@ protocol FollowingService {
     
 }
 
-class DefaultFollowingService: FollowingService {
+final class DefaultFollowingService: FollowingService {
     
     func follow(uid: String, completion: @escaping ((Error?) -> Void)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        guard currentUid != uid else { return }
         COLLECTION_FOLLOWING
             .document(currentUid)
             .collection("user-following")
@@ -40,8 +41,8 @@ class DefaultFollowingService: FollowingService {
             .document(uid)
             .delete { _ in
                 COLLECTION_FOLLOWERS
-                    .document()
-                    .collection("followers")
+                    .document(uid)
+                    .collection("user-followers")
                     .document(currentUid)
                     .delete(completion: completion)
             }

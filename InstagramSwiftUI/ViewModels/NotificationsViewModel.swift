@@ -12,25 +12,27 @@ class NotificationsViewModel: ObservableObject {
     @Published var notifications = [Notification]()
     private let user: User
     private let notificationsService: NotificationService
+    weak var router: Router?
     
-    init(user: User, notificationsService: NotificationService) {
+    init(user: User, router: Router, notificationsService: NotificationService) {
         self.user = user
+        self.router = router
         self.notificationsService = notificationsService
-        fetchNotifications()
+        fetchNotifications(currentUser: user)
     }
     
-    func fetchNotifications() {
-        notificationsService.fetchNotifications { [weak self] notifications in
+    func fetchNotifications(currentUser: User) {
+        notificationsService.fetchNotifications(currentUser: currentUser) { [weak self] notifications in
             self?.notifications = notifications
         }
     }
     
-    func uploadNotification(toUid: String, type: NotificationType, post: Post? = nil) {
-        notificationsService.uploadNotification(toUid: toUid, type: type, post: post)
+    func uploadNotification(currentUser: User, toUid: String, type: NotificationType, post: Post? = nil) {
+        notificationsService.uploadNotification(user: currentUser, toUid: toUid, type: type, post: post)
     }
     
     
     deinit {
-        print("DEINIT")
+        print("DEINIT Notifications ViewModel")
     }
 }

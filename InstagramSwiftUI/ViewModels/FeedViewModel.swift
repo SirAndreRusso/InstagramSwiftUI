@@ -14,15 +14,18 @@ class FeedViewModel: ObservableObject {
     private let postsService: PostService
     let notificationService: NotificationService
     let likeService: LikeService
+    weak var router: Router?
     
     init(user: User,
          notificationService: NotificationService,
          likeService: LikeService,
-         postsService: PostService) {
+         postsService: PostService,
+         router: Router) {
         self.user = user
         self.notificationService = notificationService
         self.likeService = likeService
         self.postsService = postsService
+        self.router = router
         fetchPosts()
     }
     
@@ -30,6 +33,10 @@ class FeedViewModel: ObservableObject {
         postsService.fetchPosts { [weak self] posts in
             self?.posts = posts
         }
+    }
+    
+    deinit {
+        print("DEINIT feed ViewModel")
     }
     
 }

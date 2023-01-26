@@ -14,7 +14,7 @@ protocol CommentService {
     
 }
 
-class DefaultCommentService: CommentService {
+final class DefaultCommentService: CommentService {
     
     func fetchComments(post: Post, completion: @escaping ([Comment]) -> Void) {
         guard let postId = post.id else { return }

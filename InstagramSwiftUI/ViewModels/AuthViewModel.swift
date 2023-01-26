@@ -14,9 +14,11 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var didSendResetPasswordLink: Bool = false
     private let authService: AuthService
+    var router: Router?
     
-    init(authService: AuthService) {
+    init(authService: AuthService, router: Router) {
         self.authService = authService
+        self.router = router
         userSession = Auth.auth().currentUser
         fetchUser()
     }

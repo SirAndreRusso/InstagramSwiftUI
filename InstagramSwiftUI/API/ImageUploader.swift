@@ -32,7 +32,7 @@ enum uploadType {
     
 }
 
-class DefaultImageUploader: ImageUploader {
+final class DefaultImageUploader: ImageUploader {
     
         func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void) {
             

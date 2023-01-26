@@ -10,8 +10,6 @@ import Firebase
 
 protocol PostService {
     
-    var imageUploader: ImageUploader { get }
-    
     func fetchPosts(completion: @escaping ([Post]) -> Void)
     func fetchSearchPosts(completion: @escaping ([Post]) -> Void)
     func fetchUserPosts(forUid uid: String, completion: @escaping ([Post]) -> Void)
@@ -19,9 +17,9 @@ protocol PostService {
     
 }
 
-class DefaultPostService: PostService, ObservableObject {
+final class DefaultPostService: PostService, ObservableObject {
     
-    let imageUploader: ImageUploader
+    private let imageUploader: ImageUploader
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader

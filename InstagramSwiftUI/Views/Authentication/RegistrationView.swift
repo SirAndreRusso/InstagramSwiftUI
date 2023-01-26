@@ -9,17 +9,19 @@ import SwiftUI
 import PhotosUI
 
 struct RegistrationView: View {
+    
+    @Environment(\.presentationMode) var mode
+    @EnvironmentObject var viewModel: AuthViewModel
     @State private var selectedImage: PhotosPickerItem? = nil
     @State private var postImage: UIImage?
     @State private var email = ""
     @State private var fullname = ""
     @State private var username = ""
     @State private var password = ""
-    @Environment(\.presentationMode) var mode
-    @EnvironmentObject var viewModel: AuthViewModel
-    
+
     var body: some View {
         ZStack {
+            // Gradient background
             LinearGradient(gradient: Gradient(colors: [.purple, .red, .orange]), startPoint: .top, endPoint: .bottom)
                 .opacity(0.8)
                 .ignoresSafeArea()
@@ -62,7 +64,6 @@ struct RegistrationView: View {
                         .clipShape(Circle())
                 }
 
-                
                 VStack(spacing: 20) {
                     // Email field
                     CustomTextfield(text: $email, placeholder: Text("Email"), imageName: "envelope")
@@ -96,7 +97,6 @@ struct RegistrationView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                 }
-                
                 // Sign up
                 Button {
                         viewModel.register(withEmail: email, password: password, image: postImage, fullname: fullname, username: username)
@@ -111,7 +111,6 @@ struct RegistrationView: View {
                 .padding(.top)
                 
                 Spacer()
-                
                 //Sign in
                 Button {
                     mode.wrappedValue.dismiss()
@@ -128,10 +127,6 @@ struct RegistrationView: View {
             }
         }
     }
+    
 }
 
-struct RegistrationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegistrationView()
-    }
-}

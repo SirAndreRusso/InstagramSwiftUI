@@ -7,6 +7,7 @@
 import FirebaseFirestoreSwift
 import Firebase
 struct User: Decodable, Identifiable {
+    
     let username: String
     let fullname: String
     let email: String
@@ -18,10 +19,13 @@ struct User: Decodable, Identifiable {
     var isCurrentUser: Bool {
         return Auth.auth().currentUser?.uid == id
     }
+    
 }
 
 struct UserStats: Decodable {
+    
     var following: Int
     var followers: Int
     var posts:  Int
+    
 }

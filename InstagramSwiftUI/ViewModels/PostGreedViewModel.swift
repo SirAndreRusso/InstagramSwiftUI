@@ -19,10 +19,12 @@ class PostGreedViewModel: ObservableObject {
     @Published var posts = [Post]()
     private let postService: PostService
     private let config: PostGreedConfiguration
+    weak var router: Router?
     
-    init(config: PostGreedConfiguration, postService: PostService) {
+    init(config: PostGreedConfiguration, postService: PostService, router: Router) {
         self.config = config
         self.postService = postService
+        self.router = router
         fetchPosts(forConfig: config)
     }
     
@@ -46,6 +48,10 @@ class PostGreedViewModel: ObservableObject {
         postService.fetchUserPosts(forUid: uid) { [weak self] posts in
             self?.posts = posts
         }
+    }
+    
+    deinit {
+        print("DEINIT postgreed ViewModel")
     }
     
 }

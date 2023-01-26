@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct UserListView: View {
-    let vmFactory: VMFactory
-//    let postService: PostService
+
     @ObservedObject var viewModel: SearchViewModel
     @Binding var searchText: String
+    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
@@ -19,7 +19,7 @@ struct UserListView: View {
                         ? viewModel.users
                         : viewModel.filteredUsers(searchText)) { user in
                     NavigationLink {
-                        LazyView(ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user), vmFactory: vmFactory))
+                        LazyView(viewModel.router?.showProfileView(user: user))
                     } label: {
                         UserCell(user: user)
                             .padding(.leading)
@@ -28,6 +28,7 @@ struct UserListView: View {
             }
         }
     }
+    
 }
 
 

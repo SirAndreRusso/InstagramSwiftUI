@@ -12,16 +12,16 @@ struct FeedCell: View {
     
     @ObservedObject var viewModel : FeedCellViewModel
     var didLike: Bool { return viewModel.post.didLike ?? false}
-    let vmfactory: VMFactory
     
     var body: some View {
             VStack(alignment: .leading) {
+                // Postowner
                 HStack {
                     NavigationLink {
                         if let user = viewModel.postOwner {
-                            let profileViewModel = vmfactory.makeProfileViewModel(user: user)
-                            ProfileView(viewModel: profileViewModel, vmFactory: vmfactory)
+                            viewModel.router?.showProfileView(user: user)
                         }
+                        Text("")
                     } label: {
                         KFImage(URL(string: viewModel.post.ownerImageURL))
                             .resizable()
@@ -33,19 +33,17 @@ struct FeedCell: View {
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.black)
                     }
-
                 }
                 .padding([.leading, .bottom], 8)
-                
+                // Post
                 KFImage(URL(string: viewModel.post.imageURL))
                     .resizable()
                     .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
                     .clipped()
-                    
-                    
                 
                 HStack(spacing: 16) {
+                    // Like
                     Button {
                         didLike ? viewModel.unLike() : viewModel.like()
                     } label: {
@@ -57,9 +55,9 @@ struct FeedCell: View {
                             .font(.system(size: 20))
                             .padding(4)
                     }
-                    
+                    // Comment
                     NavigationLink {
-                        CommentsView(viewModel: vmfactory.makeCommentsViewModel(user: viewModel.currentUser, post: viewModel.post))
+                        LazyView(viewModel.router?.showCommentsView(user: viewModel.currentUser, post: viewModel.post))
                     } label: {
                         Image(systemName: "bubble.right")
                             .resizable()
@@ -68,8 +66,7 @@ struct FeedCell: View {
                             .font(.system(size: 20))
                             .padding(4)
                     }
-                    
-                    
+                    // Send message
                     Button {
                         
                     } label: {
@@ -83,12 +80,12 @@ struct FeedCell: View {
                 }
                 .padding(.leading, 4)
                 .foregroundColor(.black)
-                
+                // Likes count
                 Text(viewModel.likeString)
                     .font(.system(size: 14, weight: .semibold))
                     .padding(.horizontal, 8)
                     .padding(.bottom, 2)
-                
+                // Caption
                 HStack {
                     Text(viewModel.post.ownerUsername)
                         .font(.system(size: 14, weight: .semibold))
@@ -96,6 +93,7 @@ struct FeedCell: View {
                         .font(.system(size: 15))
                 }
                 .padding(.horizontal, 8)
+                // Timestamp
                 Text(viewModel.timestampString)
                     .font(.system(size: 14))
                     .foregroundColor(.gray)

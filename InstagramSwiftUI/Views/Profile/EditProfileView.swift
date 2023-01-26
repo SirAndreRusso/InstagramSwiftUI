@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditProfileView: View {
     
-    @ObservedObject var viewModel: ProfileViewModel
+    @ObservedObject var viewModel: ProfileHeaderViewModel
     @Environment(\.presentationMode) var mode
     @State private var bio: String = ""
     
@@ -46,7 +46,6 @@ struct EditProfileView: View {
             Divider()
             
             Spacer()
-            
         }
     }
     

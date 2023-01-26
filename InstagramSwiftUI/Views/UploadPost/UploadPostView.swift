@@ -16,10 +16,11 @@ struct UploadPostView: View {
     @State private var postImage: Image?
     @State private var postUIImage: UIImage?
     @State var captionText = ""
+    
     var body: some View {
         VStack {
+            // Image picker
             if postImage == nil {
-                
                 PhotosPicker(
                     selection: $selectedImage,
                     matching: .images,
@@ -51,9 +52,8 @@ struct UploadPostView: View {
                         }
                     }
             } else if let image = postImage {
-                
                 Divider()
-                
+                // Picked image with capture
                 HStack(alignment: .top) {
                     image
                         .resizable()
@@ -69,6 +69,7 @@ struct UploadPostView: View {
                 Divider()
                 
                 HStack(spacing: 16) {
+                    // Share button
                     Button {
                         guard let image = postUIImage else { return }
                         viewModel.uploadPost(caption: captionText, image: image) { error in
@@ -89,7 +90,7 @@ struct UploadPostView: View {
                             .foregroundColor(.white)
                             .cornerRadius(5)
                     }
-                    
+                    // Cancel button
                     Button {
                         captionText = ""
                         postImage = nil
@@ -108,5 +109,6 @@ struct UploadPostView: View {
             }
         }
     }
+    
 }
 

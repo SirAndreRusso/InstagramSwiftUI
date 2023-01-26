@@ -9,7 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct CommentCell: View {
+    
     let comment: Comment
+    
     var body: some View {
         HStack {
             KFImage(URL(string: comment.profileImageURL))
@@ -33,4 +35,5 @@ struct CommentCell: View {
         }
         .padding(.horizontal)
     }
+    
 }

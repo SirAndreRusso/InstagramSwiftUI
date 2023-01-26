@@ -15,7 +15,7 @@ protocol LikeService {
     
 }
 
-class DefaultLikeService: LikeService {
+final class DefaultLikeService: LikeService {
     
     func like(post: Post, completion: @escaping () -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

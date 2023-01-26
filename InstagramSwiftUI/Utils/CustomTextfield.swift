@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct CustomTextfield: View {
+    
     @Binding var text: String
     let placeholder: Text
     let imageName: String
+    
     var body: some View {
         ZStack(alignment: .leading) {
             if text.isEmpty {
@@ -28,6 +30,7 @@ struct CustomTextfield: View {
             }
         }
     }
+    
 }
 
 struct CustomTextfield_Previews: PreviewProvider {

@@ -11,15 +11,13 @@ import SwiftUI
 struct NotificationCell: View {
     
     @ObservedObject var viewModel: NotificationCellViewModel
-    var vmFactory: VMFactory
     var isFollowed: Bool { viewModel.notification.isFollowed ?? false }
     
     var body: some View {
         HStack {
             if let user = viewModel.notification.user {
                 NavigationLink {
-                   ProfileView(viewModel: vmFactory.makeProfileViewModel(user: user),
-                               vmFactory: vmFactory) 
+                    LazyView(viewModel.router?.showProfileView(user: user))
                 } label: {
                     KFImage(URL(string: viewModel.notification.profileImageURL))
                         .resizable()
@@ -34,7 +32,6 @@ struct NotificationCell: View {
                     + Text(" " + viewModel.timestampString)
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
-                        
                 }
             }
 
@@ -43,12 +40,10 @@ struct NotificationCell: View {
             if viewModel.notification.type != .follow {
                 if let post = viewModel.notification.post {
                     NavigationLink {
-                        if let post = viewModel.notification.post {
-                            FeedCell(viewModel: vmFactory
-                                .makeFeedCellViewModel(post: post,
-                                                       likeService: nil,
-                                                       notificationService: nil),
-                                     vmfactory: vmFactory)
+                        if let post = viewModel.notification.post,
+                           let user = viewModel.notification.user {
+                            LazyView(viewModel.router?.showFeedCellView(user: user,
+                                                              post: post))
                         }
                     } label: {
                         KFImage(URL(string: post.imageURL))
@@ -57,11 +52,12 @@ struct NotificationCell: View {
                             .frame(width: 40, height: 40)
                             .clipped()
                     }
-
                 }
             } else {
                 Button {
-                    isFollowed ? viewModel.unFollow() : viewModel.follow()
+                    if let user = viewModel.notification.user {
+                        isFollowed ? viewModel.unFollow() : viewModel.follow(user: user)
+                    }
                 } label: {
                     Text(isFollowed ? "Following" : "Follow")
                         .font(.system(size: 15, weight: .semibold))
