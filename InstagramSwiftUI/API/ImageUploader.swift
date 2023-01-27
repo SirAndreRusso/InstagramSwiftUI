@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-protocol ImageUploader {
+protocol ImageUploader: AnyObject {
     
     func uploadImage(image: UIImage, type: uploadType, completion: @escaping(String) -> Void)
     

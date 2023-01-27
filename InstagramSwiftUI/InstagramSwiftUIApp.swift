@@ -28,10 +28,19 @@ struct InstagramSwiftUIApp: App {
         lazy var router = DefaultRouter(vmFactory: vmFactory, serviceFactory: serviceProvider)
         return vmFactory.makeAuthViewModel(authService: serviceProvider.authService, router: router)
     }()
+    @State var selectedIndex = 0
     
     var body: some Scene {
         WindowGroup {
-            authViewModel.router?.showContentView().environmentObject(authViewModel)
+            if authViewModel.userSession == nil {
+                authViewModel.router?.showLoginView()
+                    .environmentObject(authViewModel)
+            } else {
+                if let _ = authViewModel.currentUser {
+                    authViewModel.router?.showMainTabView(selectedIndex: $selectedIndex)
+                        .environmentObject(authViewModel)
+                }
+            }
         }
     }
     

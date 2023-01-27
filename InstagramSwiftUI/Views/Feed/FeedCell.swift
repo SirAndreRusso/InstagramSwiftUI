@@ -19,7 +19,7 @@ struct FeedCell: View {
                 HStack {
                     NavigationLink {
                         if let user = viewModel.postOwner {
-                            viewModel.router?.showProfileView(user: user)
+                            LazyView(viewModel.router?.showProfileView(user: user))
                         }
                         Text("")
                     } label: {

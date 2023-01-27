@@ -9,7 +9,6 @@ import SwiftUI
 
 protocol Router: AnyObject {
 
-    func showContentView() -> ContentView
     func showLoginView() -> LoginView
     func showRegistrationView() -> RegistrationView
     func showResetPasswordView(email: Binding<String>) -> ResetPasswordView
@@ -36,10 +35,6 @@ class DefaultRouter: Router {
     init(vmFactory: VMFactory, serviceFactory: ServiceProvider) {
         self.vmFactory = vmFactory
         self.serviceProvider = serviceFactory
-    }
-    
-    func showContentView() -> ContentView {
-        return ContentView()
     }
     
     func showLoginView() -> LoginView {

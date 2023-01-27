@@ -28,7 +28,7 @@ protocol AuthService {
 
 final class DefaultAuthService: AuthService {
     
-    private let imageUploader: ImageUploader
+    private weak var imageUploader: ImageUploader?
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader
@@ -77,7 +77,7 @@ final class DefaultAuthService: AuthService {
                   completion: @escaping (Result<FirebaseAuth.User, Error>)
                   -> Void){
         guard let image = image else { return }
-        imageUploader
+        imageUploader?
             .uploadImage(image: image,
                          type: .profileImage) { imageUrl in
             Auth.auth().createUser(withEmail: email,

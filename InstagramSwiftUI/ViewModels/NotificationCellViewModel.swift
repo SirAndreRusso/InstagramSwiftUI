@@ -29,6 +29,7 @@ class NotificationCellViewModel: ObservableObject {
         checkIfUserIsfollowed()
         fetchNotificationPost()
         fetchNotificationUser()
+        getTimestampString()
     }
     
     func getTimestampString() {

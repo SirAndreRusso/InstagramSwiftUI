@@ -6,7 +6,6 @@
 //
 
 protocol UserService {
-    
     func fetchUser(uid: String,
                    completion: @escaping (Result<User, Error>) -> Void)
     func fetchUsers(completion: @escaping ([User]) -> Void)
