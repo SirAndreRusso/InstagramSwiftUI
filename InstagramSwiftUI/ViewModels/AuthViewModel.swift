@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import Combine
 
 class AuthViewModel: ObservableObject {
     
@@ -14,6 +15,7 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var didSendResetPasswordLink: Bool = false
     private let authService: AuthService
+    private var cancellables: Set<AnyCancellable> = []
     var router: Router?
     
     init(authService: AuthService, router: Router) {
@@ -23,65 +25,95 @@ class AuthViewModel: ObservableObject {
         fetchUser()
     }
     
-    func login(withEmail email: String, password: String) {
-        authService.login(withEmail: email, password: password) { [weak self] result in
-            switch result {
-            case .success(let user):
-                self?.userSession = user
-                self?.fetchUser()
-                print("login")
-            case .failure(let error):
-                print("DEBUG: Login failed \(error.localizedDescription)")
-            }
+    func login(withEmail email: String, password: String)  {
+        Task {
+            await authService.login(withEmail: email, password: password)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Failed to login" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] userSession in
+                    self?.userSession = userSession
+                }
+                .store(in: &cancellables)
         }
     }
-                           
+    
     func register(withEmail email: String,
                   password: String,
                   image: UIImage?,
                   fullname: String,
                   username: String) {
-        authService.register(withEmail: email,
-                             password: password,
-                             image: image,
-                             fullname: fullname,
-                             username: username) { [weak self] result in
-            switch result {
-            case .success(let user):
-                self?.userSession = user
-                self?.fetchUser()
-                print("User data uploaded")
-            case .failure(let error):
-                print("DEBUG: Can't upload user data to firestore"
-                      + error.localizedDescription)
-            }
+        Task {
+            await authService.register(withEmail: email, password: password, image: image, fullname: fullname, username: username)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Failed to register" +  error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] userSession in
+                    self?.userSession = userSession
+                }
+                .store(in: &cancellables)
         }
+        
     }
-                           
+    
     func signOut() {
-        authService.signOut { [weak self] in
-            self?.userSession = nil
-            print("Signed out")
+        Task {
+            await authService.signOut()
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Failed to sign out" +  error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] didSignedOut in
+                    
+                    self?.userSession = nil
+                }
+                .store(in: &cancellables)
         }
     }
     
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
-        authService.fetchUser(uid: uid) { [weak self] result in
-            switch result {
-            case .success(let user):
-                self?.currentUser = user
-                print("User fetched")
-            case .failure(let error):
-                print("DEBUG: failed to fetch user"
-                      + "\(error.localizedDescription)")
-            }
+        Task {
+            await authService.fetchUser(uid: uid)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Failed to fetch user" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] user in
+                    self?.currentUser = user
+                }
+                .store(in: &cancellables)
         }
     }
     
     func resetPassword(withEmail email: String) {
-        authService.resetPassword(withEmail: email) { [weak self] didSendResetPasswordLink in
-            self?.didSendResetPasswordLink = didSendResetPasswordLink
+        Task {
+            await authService.resetPassword(withEmail: email)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Failed send reset password link" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] didSendResetPasswordLink in
+                    self?.didSendResetPasswordLink = didSendResetPasswordLink
+                }
+                .store(in: &cancellables)
         }
     }
     

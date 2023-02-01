@@ -4,10 +4,10 @@
 //
 //  Created by Андрей Русин on 15.01.2023.
 //
+import Combine
 
 protocol UserService {
-    func fetchUser(uid: String,
-                   completion: @escaping (Result<User, Error>) -> Void)
+    func fetchUser(uid: String) -> AnyPublisher<User, Error>
     func fetchUsers(completion: @escaping ([User]) -> Void)
     func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void)
     func filteredUsers(users: [User], _ query: String) -> [User]
@@ -18,24 +18,26 @@ protocol UserService {
 
 final class DefaultUserService: UserService {
     
-    func fetchUser(uid: String,
-                   completion: @escaping (Result<User, Error>) -> Void) {
-        COLLECTION_USERS
-            .document(uid)
-            .getDocument { snapShot, error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            do {
-                guard let user = try snapShot?.data(as: User.self) else {
-                    return
+    func fetchUser(uid: String) -> AnyPublisher<User, Error> {
+        Future<User, Error> { promise in
+            COLLECTION_USERS
+                .document(uid)
+                .getDocument { snapShot, error in
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    do {
+                        guard let user = try snapShot?.data(as: User.self) else {
+                            return
+                        }
+                        promise(.success(user))
+                    } catch {
+                        print("DEBUG: Failed to decode user"
+                              + "\(error.localizedDescription)")
+                    }
                 }
-                completion(.success(user))
-            } catch {
-                print("DEBUG: Failed to decode user"
-                      + "\(error.localizedDescription)")
-            }
         }
+        .eraseToAnyPublisher()
     }
     
     func  fetchUsers(completion: @escaping ([User]) -> Void) {

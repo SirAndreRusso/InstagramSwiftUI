@@ -36,8 +36,7 @@ final class DefaultNotificationService: NotificationService {
             
             guard let documents = snapshot?.documents else { return }
             let notifications = documents.compactMap({ try? $0.data(as: Notification.self)})
-//            let uniqueNotifications = Set<Notification>(notifications)
-//            completion(Array<Notification>(uniqueNotifications))
+            
             completion(notifications)
         }
     }

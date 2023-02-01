@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class ProfileHeaderViewModel: ObservableObject {
     
@@ -16,6 +17,7 @@ class ProfileHeaderViewModel: ObservableObject {
     private let followingService: FollowingService
     private let notificationService: NotificationService
     private let userService: UserService
+    private var cancellables: Set<AnyCancellable> = []
     
     init(user: User,
          router: Router,
@@ -82,15 +84,19 @@ class ProfileHeaderViewModel: ObservableObject {
     
     func fetchUser() {
         guard let uid = user.id else { return }
-        userService.fetchUser(uid: uid) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let user):
+        userService.fetchUser(uid: uid)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("DEBUG: Failed to fetch user" + error.localizedDescription)
+                }
+            } receiveValue: { user in
                 self.user = user
-            case .failure(let error):
-                print("DEBUG: Failed to fetch user" + error.localizedDescription)
             }
-        }
+            .store(in: &cancellables)
+
     }
     
     func saveUserData(bio: String) {

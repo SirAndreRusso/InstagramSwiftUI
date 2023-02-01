@@ -7,26 +7,24 @@
 
 import UIKit
 import Firebase
+import Combine
 
-protocol AuthService {
+protocol AuthService: Actor {
     
-    func fetchUser(uid: String, completion: @escaping (Result<User, Error>) -> Void)
+    func fetchUser(uid: String) -> AnyPublisher<User, Error>
     func login(withEmail email: String,
-               password: String,
-               completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
+               password: String) -> AnyPublisher<Firebase.User, Error>
     func register(withEmail email: String,
                   password: String,
                   image: UIImage?,
                   fullname: String,
-                  username: String,
-                  completion: @escaping (Result<FirebaseAuth.User, Error>) -> Void)
-    func resetPassword(withEmail email: String,
-                       didSendPasswordResetLink: @escaping (Bool) -> Void)
-    func signOut(completion: @escaping () -> Void)
-
+                  username: String) -> AnyPublisher<Firebase.User, Error>
+    func resetPassword(withEmail email: String) -> AnyPublisher<Bool, Error>
+    func signOut() -> AnyPublisher<Bool, Error> 
+    
 }
 
-final class DefaultAuthService: AuthService {
+final actor DefaultAuthService: AuthService {
     
     private weak var imageUploader: ImageUploader?
     
@@ -34,97 +32,107 @@ final class DefaultAuthService: AuthService {
         self.imageUploader = imageUploader
     }
     
-    func fetchUser(uid: String,
-                   completion: @escaping (Result<User, Error>) -> Void) {
-        COLLECTION_USERS
-            .document(uid)
-            .getDocument { snapShot, error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            do {
-                guard let user = try snapShot?.data(as: User.self) else {
-                    return
+    func fetchUser(uid: String) -> AnyPublisher<User, Error> {
+        Future<User, Error> { promise in
+            COLLECTION_USERS
+                .document(uid)
+                .getDocument { snapShot, error in
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    do {
+                        guard let user = try snapShot?.data(as: User.self) else {
+                            return
+                        }
+                        promise(.success(user))
+                    } catch {
+                        print("DEBUG: Failed to decode user"
+                              + "\(error.localizedDescription)")
+                    }
                 }
-                completion(.success(user))
-            } catch {
-                print("DEBUG: Failed to decode user"
-                      + "\(error.localizedDescription)")
-            }
         }
+        .eraseToAnyPublisher()
     }
     
     func login(withEmail email: String,
-               password: String,
-               completion: @escaping (Result<FirebaseAuth.User, Error>)
-               -> Void) {
-        Auth.auth().signIn(withEmail: email,
-                           password: password,
-                           completion: { result, error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            guard let user = result?.user else { return }
-            completion(.success(user))
-        })
+               password: String) -> AnyPublisher<Firebase.User, Error> {
+        Future<Firebase.User, Error> { promise in
+            Auth.auth().signIn(withEmail: email,
+                               password: password,
+                               completion: { result, error in
+                if let error = error {
+                    promise(.failure(error))
+                }
+                guard let user = result?.user else { return }
+                promise(.success(user))
+            })
+        }
+        .eraseToAnyPublisher()
     }
-                           
+    
     func register(withEmail email: String,
                   password: String,
                   image: UIImage?,
                   fullname: String,
-                  username: String,
-                  completion: @escaping (Result<FirebaseAuth.User, Error>)
-                  -> Void){
-        guard let image = image else { return }
-        imageUploader?
-            .uploadImage(image: image,
-                         type: .profileImage) { imageUrl in
-            Auth.auth().createUser(withEmail: email,
-                                   password: password) { result, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                guard let user = result?.user else { return }
-                let data = ["email" : email,
-                            "username" : username,
-                            "fullname" : fullname,
-                            "profileImageURL" : imageUrl,
-                            "uid" : user.uid]
-                
-                COLLECTION_USERS
-                    .document(user.uid)
-                    .setData(data) { error in
-                    if let error = error {
-                        completion(.failure(error))
+                  username: String) -> AnyPublisher<Firebase.User, Error> {
+        Future<Firebase.User, Error> { [weak self] promise in
+            guard let image = image else { return }
+            guard let self = self else { return }
+            Task {
+                await self.imageUploader?
+                    .uploadImage(image: image,
+                                 type: .profileImage) { imageUrl in
+                        Auth.auth().createUser(withEmail: email,
+                                               password: password) { result, error in
+                            if let error = error {
+                                promise(.failure(error))
+                            }
+                            guard let user = result?.user else { return }
+                            let data = ["email" : email,
+                                        "username" : username,
+                                        "fullname" : fullname,
+                                        "profileImageURL" : imageUrl,
+                                        "uid" : user.uid]
+                            
+                            COLLECTION_USERS
+                                .document(user.uid)
+                                .setData(data) { error in
+                                    if let error = error {
+                                        promise(.failure(error))
+                                    }
+                                    promise(.success(user))
+                                }
+                        }
                     }
-                    completion(.success(user))
-                }
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    func resetPassword(withEmail email: String,
-                       didSendPasswordResetLink: @escaping (Bool) -> Void) {
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-            if let error = error {
-                print("DEBUG: Failed to send password reset link to \(email)"
-                      + error.localizedDescription)
+    func resetPassword(withEmail email: String) -> AnyPublisher<Bool, Error> {
+        Future<Bool, Error> { promise in
+            Auth.auth().sendPasswordReset(withEmail: email) { error in
+                if let error = error {
+                    promise(.failure(error))
+                }
+                let didSentResetPassworlLink = true
+                promise(.success(didSentResetPassworlLink))
             }
-            didSendPasswordResetLink(true)
         }
+        .eraseToAnyPublisher()
     }
-                           
-    func signOut(completion: @escaping () -> Void) {
-        do {
-            try Auth.auth().signOut()
-            completion()
-        } catch {
-            print("DEBUG: Failed to sign out"
-                  + error.localizedDescription)
+    
+    func signOut() -> AnyPublisher<Bool, Error> {
+        Future { promise in
+            do {
+                try Auth.auth().signOut()
+                let didSignedOut = true
+                promise(.success(didSignedOut))
+            } catch {
+                promise(.failure(error))
+            }
         }
+        .eraseToAnyPublisher()
     }
     
 }

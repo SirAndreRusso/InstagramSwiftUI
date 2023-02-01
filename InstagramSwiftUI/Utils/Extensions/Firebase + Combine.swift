@@ -10,16 +10,17 @@ import Combine
 import Firebase
 
 extension DocumentReference {
-    func toAnyPublisher<T: Decodable>() -> AnyPublisher<T?, Error> {
+    func toAnyPublisher<T: Decodable>(decodeAs type: T.Type) -> AnyPublisher<T?, Error> {
         let subject = CurrentValueSubject<T?, Error>(nil)
         
         let listener = addSnapshotListener { documentSnapshot, error in
+            
             guard let document = documentSnapshot else {
                 subject.send(completion: .failure(error!))
                 return
             }
             
-            guard let data = try? document.data(as: T.self) else {
+            guard let data = try? document.data(as: type.self) else {
                 subject.send(nil)
                 return
             }
