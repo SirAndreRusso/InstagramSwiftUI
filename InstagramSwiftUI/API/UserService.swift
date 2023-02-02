@@ -6,17 +6,17 @@
 //
 import Combine
 
-protocol UserService {
+protocol UserService: Actor {
     func fetchUser(uid: String) -> AnyPublisher<User, Error>
-    func fetchUsers(completion: @escaping ([User]) -> Void)
-    func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void)
-    func filteredUsers(users: [User], _ query: String) -> [User]
-    func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void)
-    func saveUserData(uid: String, bio: String, completion: @escaping () -> Void)
+    func fetchUsers() -> AnyPublisher<[User], Error>
+    func fetchUserStats(uid: String) -> AnyPublisher<UserStats, Error>
+    func fetchPostOwner(uid: String) -> AnyPublisher<User?, Error>
+    nonisolated func filteredUsers(users: [User], _ query: String) -> [User]
+    func saveUserData(uid: String, bio: String) -> AnyPublisher<Bool, Error>
     
 }
 
-final class DefaultUserService: UserService {
+final actor DefaultUserService: UserService {
     
     func fetchUser(uid: String) -> AnyPublisher<User, Error> {
         Future<User, Error> { promise in
@@ -32,97 +32,102 @@ final class DefaultUserService: UserService {
                         }
                         promise(.success(user))
                     } catch {
-                        print("DEBUG: Failed to decode user"
-                              + "\(error.localizedDescription)")
+                        promise(.failure(error))
                     }
                 }
         }
         .eraseToAnyPublisher()
     }
     
-    func  fetchUsers(completion: @escaping ([User]) -> Void) {
-        COLLECTION_USERS.getDocuments { snapShot, error in
-            if let error = error {
-                print("DEBUG: Failed to fetch users \(error.localizedDescription)")
-                return
+    func fetchUsers() -> AnyPublisher<[User], Error> {
+        Future { promise in
+            COLLECTION_USERS.getDocuments { snapShot, error in
+                if let error = error {
+                    promise(.failure(error))
+                }
+                guard let documents = snapShot?.documents else { return }
+                let users = documents.compactMap({ try? $0.data(as: User.self)})
+                
+                promise(.success(users))
             }
-            guard let documents = snapShot?.documents else { return }
-            let users = documents.compactMap({ try? $0.data(as: User.self)})
-            
-            completion(users)
         }
+        .eraseToAnyPublisher()
+        
     }
     
-    func fetchUserStats(uid: String, completion: @escaping (UserStats) -> Void) {
-        COLLECTION_FOLLOWING
-            .document(uid)
-            .collection("user-following")
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("DEBUG: Failed to fetch user-following documents"
-                          + error.localizedDescription)
-                }
-                guard let following = snapshot?.documents.count else { return }
-                
-                COLLECTION_FOLLOWERS
-                    .document(uid)
-                    .collection("user-followers")
-                    .getDocuments { snapshot, error in
-                        if let error = error {
-                            print("DEBUG: Failed to fetch user-followers documents"
-                                  + error.localizedDescription)
-                        }
-                        guard let followers = snapshot?.documents.count else { return }
-                        
-                        COLLECTION_POSTS
-                            .whereField("ownerUid", isEqualTo: uid)
-                            .getDocuments { snapshot, error in
-                                if let error = error {
-                                    print("DEBUG: Failed to fetch posts by uid"
-                                          + error.localizedDescription)
-                                }
-                                guard let posts = snapshot?.documents.count else { return }
-                                let userStats = UserStats(following: following,
-                                                          followers: followers,
-                                                          posts: posts)
-                                
-                                completion(userStats)
-                            }
+    func fetchUserStats(uid: String) -> AnyPublisher<UserStats, Error> {
+        Future { promise in
+            COLLECTION_FOLLOWING
+                .document(uid)
+                .collection("user-following")
+                .getDocuments { snapshot, error in
+                    if let error = error {
+                        promise(.failure(error))
                     }
-            }
+                    guard let following = snapshot?.documents.count else { return }
+                    
+                    COLLECTION_FOLLOWERS
+                        .document(uid)
+                        .collection("user-followers")
+                        .getDocuments { snapshot, error in
+                            if let error = error {
+                                promise(.failure(error))
+                            }
+                            guard let followers = snapshot?.documents.count else { return }
+                            
+                            COLLECTION_POSTS
+                                .whereField("ownerUid", isEqualTo: uid)
+                                .getDocuments { snapshot, error in
+                                    if let error = error {
+                                        promise(.failure(error))
+                                    }
+                                    guard let posts = snapshot?.documents.count else { return }
+                                    let userStats = UserStats(following: following,
+                                                              followers: followers,
+                                                              posts: posts)
+                                    
+                                    promise(.success(userStats))
+                                }
+                        }
+                }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetchPostOwner(uid: String) -> AnyPublisher<User?, Error> {
+        Future<User?, Error> { promise in
+            COLLECTION_USERS
+                .document(uid)
+                .getDocument { snapshot, error in
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    let postOwner = try? snapshot?.data(as: User.self)
+                    promise(.success(postOwner))
+                }
+        }
+        .eraseToAnyPublisher()
     }
 
-    func filteredUsers(users: [User], _ query: String) -> [User] {
+    nonisolated func filteredUsers(users: [User], _ query: String) -> [User] {
         let lowercasedQuery = query.lowercased()
         return users.filter({ $0.fullname.lowercased().contains(lowercasedQuery)
             ||  $0.username.contains(lowercasedQuery)})
     }
     
-    func fetchPostOwner(uid: String, completion: @escaping (User?) -> Void) {
-        COLLECTION_USERS
-            .document(uid)
-            .getDocument { snapshot, error in
-                if let error = error {
-                    print("DEBUG: Failed to fetch post owner"
-                          + error.localizedDescription)
+    func saveUserData(uid: String, bio: String) -> AnyPublisher<Bool, Error> {
+        Future { promise in
+            COLLECTION_USERS
+                .document(uid)
+                .updateData(["bio": bio]) { error in
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    let didSaveUserData = true
+                    promise(.success(didSaveUserData))
                 }
-                let postOwner = try? snapshot?.data(as: User.self)
-                
-                completion(postOwner)
-            }
-    }
-    
-    func saveUserData(uid: String, bio: String, completion: @escaping () -> Void) {
-        COLLECTION_USERS
-            .document(uid)
-            .updateData(["bio": bio]) { error in
-                if let error = error {
-                    print("DEBUG: Failed to save user data"
-                          + error.localizedDescription)
-                    return
-                }
-                completion()
-            }
+        }
+        .eraseToAnyPublisher()
     }
     
 }

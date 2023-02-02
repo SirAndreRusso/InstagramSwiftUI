@@ -76,36 +76,56 @@ class ProfileHeaderViewModel: ObservableObject {
     
     func fetchUserStats() {
         guard let uid = user.id else { return }
-        userService.fetchUserStats(uid: uid) { [weak self] userStats in
-            guard let self = self else { return }
-            self.userStats = userStats
+        Task {
+            await userService.fetchUserStats(uid: uid)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to fetch user" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] userStats in
+                    self?.userStats = userStats
+                }
+                .store(in: &cancellables)
         }
     }
     
     func fetchUser() {
         guard let uid = user.id else { return }
-        userService.fetchUser(uid: uid)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("DEBUG: Failed to fetch user" + error.localizedDescription)
+        Task {
+            await userService.fetchUser(uid: uid)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to fetch user" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] user in
+                    self?.user = user
                 }
-            } receiveValue: { user in
-                self.user = user
-            }
-            .store(in: &cancellables)
-
+                .store(in: &cancellables)
+        }
     }
     
     func saveUserData(bio: String) {
         guard let uid = user.id else { return }
-        userService.saveUserData(uid: uid, bio: bio) { [weak self] in
-            guard let self = self else { return }
-            self.user.bio = bio
-            self.saveDataComplete = true
-            print(self.saveDataComplete)
+        Task {
+            await userService.saveUserData(uid: uid, bio: bio)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to save user data" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] saveDataComplete in
+                    self?.user.bio = bio
+                    self?.saveDataComplete = saveDataComplete
+                }
+                .store(in: &cancellables)
         }
     }
     

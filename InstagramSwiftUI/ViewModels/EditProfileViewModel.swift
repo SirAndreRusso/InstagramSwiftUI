@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 class EditProfileViewModel: ObservableObject {
     
     @Published var saveDataComplete: Bool = false
     private var user: User
+    private var cancellables: Set<AnyCancellable> = []
     private let userService: UserService
     weak var router: Router?
     
@@ -22,9 +24,20 @@ class EditProfileViewModel: ObservableObject {
     
     func saveUserData(bio: String) {
         guard let uid = user.id else { return }
-        userService.saveUserData(uid: uid, bio: bio) { [weak self] in
-            self?.user.bio = bio
-            self?.saveDataComplete = true
+        Task {
+            await userService.saveUserData(uid: uid, bio: bio)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to save user's data" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] saveDataComplete in
+                    self?.user.bio = bio
+                    self?.saveDataComplete = saveDataComplete
+                }
+                .store(in: &cancellables)
         }
     }
     

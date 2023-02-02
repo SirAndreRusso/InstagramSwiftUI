@@ -21,22 +21,48 @@ class AuthViewModel: ObservableObject {
     init(authService: AuthService, router: Router) {
         self.authService = authService
         self.router = router
-        userSession = Auth.auth().currentUser
+        fetchCurrentUserSession()
         fetchUser()
     }
     
-    func login(withEmail email: String, password: String)  {
+    func fetchUser() {
+        guard let uid = userSession?.uid else { return }
         Task {
-            await authService.login(withEmail: email, password: password)
+            await authService.fetchUser(uid: uid)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Failed to login" + error.localizedDescription)
+                        print("DEBUG: Failed to fetch user" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] user in
+                    self?.currentUser = user
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    func fetchCurrentUserSession() {
+        authService.fetchCurrentUserSession()
+            .assign(to: &$userSession)
+    }
+    
+    func login(withEmail email: String, password: String)  {
+        Task {
+            await authService.login(withEmail: email, password: password)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to login" + error.localizedDescription)
                     }
                 } receiveValue: { [weak self] userSession in
                     self?.userSession = userSession
+                    self?.fetchUser()
                 }
                 .store(in: &cancellables)
         }
@@ -49,15 +75,17 @@ class AuthViewModel: ObservableObject {
                   username: String) {
         Task {
             await authService.register(withEmail: email, password: password, image: image, fullname: fullname, username: username)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Failed to register" +  error.localizedDescription)
+                        print("DEBUG: Failed to register" +  error.localizedDescription)
                     }
                 } receiveValue: { [weak self] userSession in
                     self?.userSession = userSession
+                    self?.fetchUser()
                 }
                 .store(in: &cancellables)
         }
@@ -67,34 +95,17 @@ class AuthViewModel: ObservableObject {
     func signOut() {
         Task {
             await authService.signOut()
-                .sink { completion in
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
                     switch completion {
                     case .finished:
-                        break
+                        self?.userSession = nil
+                        self?.currentUser = nil
                     case .failure(let error):
-                        print("Failed to sign out" +  error.localizedDescription)
+                        print("DEBUG: Failed to sign out" +  error.localizedDescription)
                     }
-                } receiveValue: { [weak self] didSignedOut in
-                    
-                    self?.userSession = nil
-                }
-                .store(in: &cancellables)
-        }
-    }
-    
-    func fetchUser() {
-        guard let uid = userSession?.uid else { return }
-        Task {
-            await authService.fetchUser(uid: uid)
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        print("Failed to fetch user" + error.localizedDescription)
-                    }
-                } receiveValue: { [weak self] user in
-                    self?.currentUser = user
+                } receiveValue: { _ in
+                        
                 }
                 .store(in: &cancellables)
         }
@@ -103,12 +114,13 @@ class AuthViewModel: ObservableObject {
     func resetPassword(withEmail email: String) {
         Task {
             await authService.resetPassword(withEmail: email)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     switch completion {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Failed send reset password link" + error.localizedDescription)
+                        print("DEBUG: Failed send reset password link" + error.localizedDescription)
                     }
                 } receiveValue: { [weak self] didSendResetPasswordLink in
                     self?.didSendResetPasswordLink = didSendResetPasswordLink

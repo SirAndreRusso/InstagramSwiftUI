@@ -12,6 +12,7 @@ import Combine
 protocol AuthService: Actor {
     
     func fetchUser(uid: String) -> AnyPublisher<User, Error>
+    nonisolated func fetchCurrentUserSession() -> AnyPublisher<FirebaseAuth.User?, Never>
     func login(withEmail email: String,
                password: String) -> AnyPublisher<Firebase.User, Error>
     func register(withEmail email: String,
@@ -52,6 +53,11 @@ final actor DefaultAuthService: AuthService {
                 }
         }
         .eraseToAnyPublisher()
+    }
+    
+    nonisolated func fetchCurrentUserSession() -> AnyPublisher<FirebaseAuth.User?, Never> {
+        Just(Auth.auth().currentUser)
+            .eraseToAnyPublisher()
     }
     
     func login(withEmail email: String,
@@ -128,6 +134,7 @@ final actor DefaultAuthService: AuthService {
                 try Auth.auth().signOut()
                 let didSignedOut = true
                 promise(.success(didSignedOut))
+                print("Signed out")
             } catch {
                 promise(.failure(error))
             }

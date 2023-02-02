@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class FeedCellViewModel: ObservableObject {
     
@@ -17,6 +18,7 @@ class FeedCellViewModel: ObservableObject {
     private let notificationService: NotificationService
     private let likeService: LikeService
     private let userService: UserService
+    private var cancellables: Set<AnyCancellable> = []
     weak var router: Router?
     
     
@@ -84,9 +86,19 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func fetchPostOwner() {
-        userService.fetchPostOwner(uid: post.ownerUid) { [weak self] postOwner in
-            guard let self = self else { return }
-            self.postOwner = postOwner
+        Task {
+            await userService.fetchPostOwner(uid: post.ownerUid)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("DEBUG: Failed to fetch post owner" + error.localizedDescription)
+                    }
+                } receiveValue: { [weak self] postOwner in
+                    self?.postOwner = postOwner
+                }
+                .store(in: &cancellables)
         }
     }
     
