@@ -9,69 +9,82 @@ import UIKit
 import Firebase
 import Combine
 
-protocol AuthService: Actor {
+protocol AuthService {
     
-    func fetchUser(uid: String) -> AnyPublisher<User, Error>
-    nonisolated func fetchCurrentUserSession() -> AnyPublisher<FirebaseAuth.User?, Never>
-    func login(withEmail email: String,
-               password: String) -> AnyPublisher<Firebase.User, Error>
+    func fetchUser() -> AnyPublisher<User, Error>
+    func fetchCurrentUserSession()
+    func login(withEmail email: String, password: String) -> AnyPublisher<Bool, Error>
     func register(withEmail email: String,
                   password: String,
                   image: UIImage?,
                   fullname: String,
-                  username: String) -> AnyPublisher<Firebase.User, Error>
+                  username: String) -> AnyPublisher<Bool, Error>
     func resetPassword(withEmail email: String) -> AnyPublisher<Bool, Error>
-    func signOut() -> AnyPublisher<Bool, Error> 
+    func signOut() -> AnyPublisher<Bool, Error>
     
 }
 
-final actor DefaultAuthService: AuthService {
+final class DefaultAuthService: AuthService {
     
     private weak var imageUploader: ImageUploader?
+    private var userSession: FirebaseAuth.User? = nil
+    let authServiceQueue = DispatchQueue.global(qos: .userInitiated)
     
     init(imageUploader: ImageUploader) {
         self.imageUploader = imageUploader
+        fetchCurrentUserSession()
     }
     
-    func fetchUser(uid: String) -> AnyPublisher<User, Error> {
-        Future<User, Error> { promise in
-            COLLECTION_USERS
-                .document(uid)
-                .getDocument { snapShot, error in
+    func fetchUser() -> AnyPublisher<User, Error> {
+        if let uid = userSession?.uid {
+           
+            return Future<User, Error> { [weak self] promise in
+                self?.authServiceQueue.async {
+                    COLLECTION_USERS
+                        .document(uid)
+                        .getDocument { snapShot, error in
+                            if let error = error {
+                                promise(.failure(error))
+                            }
+                            do {
+                                guard let user = try snapShot?.data(as: User.self) else {
+                                    return
+                                }
+                                promise(.success(user))
+                            } catch {
+                                print("DEBUG: Failed to decode user"
+                                      + "\(error.localizedDescription)")
+                            }
+                        }
+                }
+            }
+            .eraseToAnyPublisher()
+        } else {
+            return Future<User, Error> { promise in
+                promise(.failure(CustomErrors.currentUserIsNil))
+            }
+            .eraseToAnyPublisher()
+        }
+    }
+    
+    func fetchCurrentUserSession() {
+        userSession = Auth.auth().currentUser
+    }
+    
+    func login(withEmail email: String, password: String) -> AnyPublisher<Bool, Error> {
+        Future<Bool, Error> { [weak self] promise in
+            self?.authServiceQueue.async {
+                Auth.auth().signIn(withEmail: email,
+                                   password: password,
+                                   completion: { result, error in
                     if let error = error {
                         promise(.failure(error))
                     }
-                    do {
-                        guard let user = try snapShot?.data(as: User.self) else {
-                            return
-                        }
-                        promise(.success(user))
-                    } catch {
-                        print("DEBUG: Failed to decode user"
-                              + "\(error.localizedDescription)")
-                    }
-                }
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    nonisolated func fetchCurrentUserSession() -> AnyPublisher<FirebaseAuth.User?, Never> {
-        Just(Auth.auth().currentUser)
-            .eraseToAnyPublisher()
-    }
-    
-    func login(withEmail email: String,
-               password: String) -> AnyPublisher<Firebase.User, Error> {
-        Future<Firebase.User, Error> { promise in
-            Auth.auth().signIn(withEmail: email,
-                               password: password,
-                               completion: { result, error in
-                if let error = error {
-                    promise(.failure(error))
-                }
-                guard let user = result?.user else { return }
-                promise(.success(user))
-            })
+                    guard let user = result?.user else { return }
+                    self?.userSession = user
+                    promise(.success(true))
+                })
+            }
         }
         .eraseToAnyPublisher()
     }
@@ -80,12 +93,12 @@ final actor DefaultAuthService: AuthService {
                   password: String,
                   image: UIImage?,
                   fullname: String,
-                  username: String) -> AnyPublisher<Firebase.User, Error> {
-        Future<Firebase.User, Error> { [weak self] promise in
-            guard let image = image else { return }
-            guard let self = self else { return }
-            Task {
-                await self.imageUploader?
+                  username: String) -> AnyPublisher<Bool, Error> {
+        Future<Bool, Error> {  [weak self] promise in
+            self?.authServiceQueue.async {
+                guard let image = image else { return }
+                guard let self = self else { return }
+                self.imageUploader?
                     .uploadImage(image: image,
                                  type: .profileImage) { imageUrl in
                         Auth.auth().createUser(withEmail: email,
@@ -94,6 +107,9 @@ final actor DefaultAuthService: AuthService {
                                 promise(.failure(error))
                             }
                             guard let user = result?.user else { return }
+                            
+                            self.userSession = user
+                            
                             let data = ["email" : email,
                                         "username" : username,
                                         "fullname" : fullname,
@@ -106,7 +122,7 @@ final actor DefaultAuthService: AuthService {
                                     if let error = error {
                                         promise(.failure(error))
                                     }
-                                    promise(.success(user))
+                                    promise(.success(true))
                                 }
                         }
                     }
@@ -116,30 +132,38 @@ final actor DefaultAuthService: AuthService {
     }
     
     func resetPassword(withEmail email: String) -> AnyPublisher<Bool, Error> {
-        Future<Bool, Error> { promise in
-            Auth.auth().sendPasswordReset(withEmail: email) { error in
-                if let error = error {
-                    promise(.failure(error))
+        Future<Bool, Error> { [weak self] promise in
+            self?.authServiceQueue.async {
+                Auth.auth().sendPasswordReset(withEmail: email) { error in
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    let didSentResetPassworlLink = true
+                    promise(.success(didSentResetPassworlLink))
                 }
-                let didSentResetPassworlLink = true
-                promise(.success(didSentResetPassworlLink))
             }
         }
         .eraseToAnyPublisher()
     }
     
     func signOut() -> AnyPublisher<Bool, Error> {
-        Future { promise in
-            do {
-                try Auth.auth().signOut()
-                let didSignedOut = true
-                promise(.success(didSignedOut))
-                print("Signed out")
-            } catch {
-                promise(.failure(error))
+        Future { [weak self] promise in
+            self?.authServiceQueue.async {
+                do {
+                    try Auth.auth().signOut()
+                    let didSignedOut = true
+                    promise(.success(didSignedOut))
+                    print("Signed out")
+                } catch {
+                    promise(.failure(error))
+                }
             }
         }
         .eraseToAnyPublisher()
     }
     
+}
+
+enum CustomErrors: Error {
+    case currentUserIsNil
 }

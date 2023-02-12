@@ -11,7 +11,8 @@ import Firebase
 class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions:
+                     [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         return true
     }
@@ -22,24 +23,24 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct InstagramSwiftUIApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State var selectedIndex = 0
     @StateObject private var authViewModel = {
         let serviceProvider: ServiceProvider = DefaultServiceProvider()
-        lazy var vmFactory: VMFactory = DefaultVMFactory(serviceFactory: serviceProvider)
-        lazy var router = DefaultRouter(vmFactory: vmFactory, serviceFactory: serviceProvider)
+        let vmFactory: VMFactory = DefaultVMFactory(serviceFactory: serviceProvider)
+        let router = DefaultRouter(vmFactory: vmFactory, serviceFactory: serviceProvider)
         return vmFactory.makeAuthViewModel(authService: serviceProvider.authService, router: router)
     }()
-    @State var selectedIndex = 0
     
     var body: some Scene {
         WindowGroup {
-            if authViewModel.userSession == nil {
+            if let _ = authViewModel.currentUser {
+                authViewModel.router?.showMainTabView(selectedIndex: $selectedIndex)
+                    .environmentObject(authViewModel)
+            } else if authViewModel.isLoadig {
+                Text("LOADING")
+            } else {
                 authViewModel.router?.showLoginView()
                     .environmentObject(authViewModel)
-            } else {
-                if let _ = authViewModel.currentUser {
-                    authViewModel.router?.showMainTabView(selectedIndex: $selectedIndex)
-                        .environmentObject(authViewModel)
-                }
             }
         }
     }
